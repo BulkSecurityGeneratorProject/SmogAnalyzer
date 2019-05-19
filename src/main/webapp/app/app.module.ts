@@ -2,7 +2,7 @@ import './vendor.ts';
 
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { NgbDatepickerConfig } from '@ng-bootstrap/ng-bootstrap';
 import { Ng2Webstorage } from 'ngx-webstorage';
 import { NgJhipsterModule } from 'ng-jhipster';
@@ -38,7 +38,8 @@ import { JhiMainComponent, NavbarComponent, FooterComponent, PageRibbonComponent
         SmogAnalyzerAccountModule,
         // jhipster-needle-angular-add-module JHipster will add new module here
         SmogAnalyzerEntityModule,
-        SmogAnalyzerAppRoutingModule
+        SmogAnalyzerAppRoutingModule,
+        HttpClientModule
     ],
     declarations: [JhiMainComponent, NavbarComponent, ErrorComponent, PageRibbonComponent, ActiveMenuDirective, FooterComponent],
     providers: [

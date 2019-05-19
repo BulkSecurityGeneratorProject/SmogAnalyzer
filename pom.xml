@@ -20,8 +20,9 @@
 
     <properties>
         <!-- Build properties -->
-        <maven.version>3.0.0</maven.version>
+        <maven.version>3.6.0</maven.version>
         <java.version>1.8</java.version>
+        <start-class>com.agh.smoganalyzer.SmogAnalyzerApp</start-class>
         <scala.version>2.12.6</scala.version>
         <node.version>v10.15.0</node.version>
         <npm.version>6.4.1</npm.version>
@@ -647,7 +648,7 @@
                         <!-- Fixes a bug which will be solved in next version after 2.22.1 then this can be removed -->
                         <!-- see: https://issues.apache.org/jira/browse/SUREFIRE-1588 -->
                         <useSystemClassLoader>false</useSystemClassLoader>
-                        <outputDirectory>${sonar.junit.reportsPath}</outputDirectory>
+                        <reportsDirectory>${sonar.junit.reportsPath}</reportsDirectory>
                     </configuration>
                 </plugin>
                 <plugin>

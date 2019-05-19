@@ -1,0 +1,22 @@
+{
+    "smogAnalyzerApp": {
+        "weatherApiKey": {
+            "home": {
+                "title": "Weather Api Key",
+                "createLabel": "Dodaj Weather Api Key",
+                "createOrEditLabel": "Dodaj lub edytuj: Weather Api Key"
+            },
+            "created": "Utworzono nowy obiekt typu Weather Api Key z identyfikatorem {{ param }}",
+            "updated": "Uaktualniono obiekt typu Weather Api Key z identyfikatorem {{ param }}",
+            "deleted": "Usunięto obiekt typu Weather Api Key z identyfikatorem {{ param }}",
+            "delete": {
+                "question": "Czy na pewno chcesz usunąć Weather Api Key {{ id }}?"
+            },
+            "detail": {
+                "title": "Weather Api Key"
+            },
+            "apiKey": "Api Key",
+            "baseUrl": "Base Url"
+        }
+    }
+}

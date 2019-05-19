@@ -1,0 +1,31 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="weatherApiKey">
+            <h2><span jhiTranslate="smogAnalyzerApp.weatherApiKey.detail.title">Weather Api Key</span> {{weatherApiKey.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="smogAnalyzerApp.weatherApiKey.apiKey">Api Key</span></dt>
+                <dd>
+                    <span>{{weatherApiKey.apiKey}}</span>
+                </dd>
+                <dt><span jhiTranslate="smogAnalyzerApp.weatherApiKey.baseUrl">Base Url</span></dt>
+                <dd>
+                    <span>{{weatherApiKey.baseUrl}}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/weather-api-key', weatherApiKey.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

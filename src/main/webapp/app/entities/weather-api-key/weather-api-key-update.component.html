@@ -1,0 +1,46 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+            <h2 id="jhi-weather-api-key-heading" jhiTranslate="smogAnalyzerApp.weatherApiKey.home.createOrEditLabel">Create or edit a Weather Api Key</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!weatherApiKey.id">
+                    <label for="id" jhiTranslate="global.field.id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id"
+                        [(ngModel)]="weatherApiKey.id" readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="smogAnalyzerApp.weatherApiKey.apiKey" for="field_apiKey">Api Key</label>
+                    <input type="text" class="form-control" name="apiKey" id="field_apiKey"
+                        [(ngModel)]="weatherApiKey.apiKey" required/>
+                    <div [hidden]="!(editForm.controls.apiKey?.dirty && editForm.controls.apiKey?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.apiKey?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="smogAnalyzerApp.weatherApiKey.baseUrl" for="field_baseUrl">Base Url</label>
+                    <input type="text" class="form-control" name="baseUrl" id="field_baseUrl"
+                        [(ngModel)]="weatherApiKey.baseUrl" required/>
+                    <div [hidden]="!(editForm.controls.baseUrl?.dirty && editForm.controls.baseUrl?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.baseUrl?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
