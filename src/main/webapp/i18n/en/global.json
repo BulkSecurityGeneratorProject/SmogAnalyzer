@@ -8,6 +8,8 @@
             "entities": {
                 "main": "Entities",
                 "weatherApiKey": "Weather Api Key",
+                "airPollutionData": "Air Pollution Data",
+                "weatherData": "Weather Data",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

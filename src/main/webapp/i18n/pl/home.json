@@ -3,6 +3,17 @@
         "title": "Witaj w SmogAnalyzer!",
         "logged": {
             "message": "Jesteś zalogowany jako użytkownik \"{{username}}\"."
+        },
+        "weatherApiKeyLengthErrorMessage": "Uwaga! WeatherApiKey Entity zawiera więcej niż jeden element!",
+        "weather": {
+            "wind-speed": "Prędkość wiatru",
+            "cloudiness": "Zachmurzenie",
+            "pressure": "Ciśnienie",
+            "humidity": "Wilgotność",
+            "sunrise": "Wschód słońca",
+            "sunset": "Zachód słońca",
+            "temp-min": "Temp. min.",
+            "temp-max": "Temp. max."
         }
     }
 }

@@ -33,7 +33,7 @@ export const weatherApiKeyRoute: Routes = [
         path: '',
         component: WeatherApiKeyComponent,
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: [],
             pageTitle: 'smogAnalyzerApp.weatherApiKey.home.title'
         },
         canActivate: [UserRouteAccessService]
@@ -45,7 +45,7 @@ export const weatherApiKeyRoute: Routes = [
             weatherApiKey: WeatherApiKeyResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'smogAnalyzerApp.weatherApiKey.home.title'
         },
         canActivate: [UserRouteAccessService]
@@ -57,7 +57,7 @@ export const weatherApiKeyRoute: Routes = [
             weatherApiKey: WeatherApiKeyResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'smogAnalyzerApp.weatherApiKey.home.title'
         },
         canActivate: [UserRouteAccessService]
@@ -69,7 +69,7 @@ export const weatherApiKeyRoute: Routes = [
             weatherApiKey: WeatherApiKeyResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'smogAnalyzerApp.weatherApiKey.home.title'
         },
         canActivate: [UserRouteAccessService]
@@ -84,7 +84,7 @@ export const weatherApiKeyPopupRoute: Routes = [
             weatherApiKey: WeatherApiKeyResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'smogAnalyzerApp.weatherApiKey.home.title'
         },
         canActivate: [UserRouteAccessService],

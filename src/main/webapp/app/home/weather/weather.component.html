@@ -1,3 +1,46 @@
-<p>
-  weather works!
-</p>
+<div *ngIf="isWeatherDataReceived" style="margin-top: 40px">
+    <hr>
+    <div class="container">
+        <div class="row">
+            <table class="table table-striped table-bordered" style="width: 250px">
+                <tr>
+                    <td jhiTranslate="home.weather.wind-speed">Wind</td>
+                    <td><span>{{weather.wind.speed}} m/s</span></td>
+                </tr>
+                <tr class="w-8">
+                    <td jhiTranslate="home.weather.cloudiness">Cloudiness</td>
+                    <td><span>{{weather.clouds.all}}%</span></td>
+                </tr>
+                <tr class="w-8">
+                    <td jhiTranslate="home.weather.pressure">Pressure</td>
+                    <td><span>{{weather.main.pressure}} hPa</span></td>
+                </tr>
+                <tr class="w-8">
+                    <td jhiTranslate="home.weather.humidity">Humidity</td>
+                    <td><span>{{weather.main.humidity}}%</span></td>
+                </tr>
+                <tr class="w-8">
+                    <td jhiTranslate="home.weather.temp-min">Temp. min.</td>
+                    <td><span>{{(weather.main.temp_min - 272) | number: '2.1-1'}} &#778;C</span></td>
+                </tr>
+                <tr class="w-8">
+                    <td jhiTranslate="home.weather.temp-max">Temp. max.</td>
+                    <td><span>{{(weather.main.temp_max - 272) | number: '2.1-1'}} &#778;C</span></td>
+                </tr>
+                <tr class="w-8">
+                    <td jhiTranslate="home.weather.sunrise">Sunrise</td>
+                    <td><span>{{weatherService.convertTimestampToDateTime(weather.sys.sunrise)}}</span></td>
+                </tr>
+                <tr class="w-8">
+                    <td jhiTranslate="home.weather.sunset">Sunset</td>
+                    <td><span>{{weatherService.convertTimestampToDateTime(weather.sys.sunset)}}</span></td>
+                </tr>
+            </table>
+            <h1 style="font-size: 60px; font-weight: 600; margin-left: 100px">{{weather.name}}<br>
+                <img src={{weather.weather.icon}} style="width:60px; height: 60px">
+                {{(weather.main.temp - 272) | number: '2.1-1'}} &#778;C
+            </h1>
+
+        </div>
+    </div>
+</div>

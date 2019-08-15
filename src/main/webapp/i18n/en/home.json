@@ -3,6 +3,17 @@
         "title": "Welcome in SmogAnalyzer",
         "logged": {
             "message": "You are logged in as user \"{{username}}\"."
+        },
+        "weatherApiKeyLengthErrorMessage": "Warning! WeatherApiKey Entity contains more than one element!",
+        "weather": {
+            "wind-speed": "Wind speed",
+            "cloudiness": "Cloudiness",
+            "pressure": "Pressure",
+            "humidity": "Humidity",
+            "sunrise": "Sunrise",
+            "sunset": "Sunset",
+            "temp-min": "Temp. min.",
+            "temp-max": "Temp. max."
         }
     }
 }
