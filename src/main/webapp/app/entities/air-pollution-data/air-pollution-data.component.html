@@ -1,0 +1,85 @@
+<div>
+    <h2 id="page-heading">
+        <span jhiTranslate="smogAnalyzerApp.airPollutionData.home.title">Air Pollution Data</span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-air-pollution-data" [routerLink]="['/air-pollution-data/new']">
+            <fa-icon [icon]="'plus'"></fa-icon>
+            <span  jhiTranslate="smogAnalyzerApp.airPollutionData.home.createLabel">
+            Create new Air Pollution Data
+            </span>
+        </button>
+    </h2>
+    <div class="input-group" style="float: right; width: 400px">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
+        </div>
+        <div class="custom-file">
+            <input type="file" class="custom-file-input" id="inputGroupFile01"
+                   aria-describedby="inputGroupFileAddon01">
+            <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+        </div>
+    </div>
+    <br/>
+    <jhi-alert></jhi-alert>
+    <br/>
+    <div class="table-responsive" *ngIf="airPollutionData">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
+            <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="pm25"><span jhiTranslate="smogAnalyzerApp.airPollutionData.pm25">Pm 25</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="pm10"><span jhiTranslate="smogAnalyzerApp.airPollutionData.pm10">Pm 10</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="temperature"><span jhiTranslate="smogAnalyzerApp.airPollutionData.temperature">Temperature</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="humidity"><span jhiTranslate="smogAnalyzerApp.airPollutionData.humidity">Humidity</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="latitude"><span jhiTranslate="smogAnalyzerApp.airPollutionData.latitude">Latitude</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="longitude"><span jhiTranslate="smogAnalyzerApp.airPollutionData.longitude">Longitude</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="date"><span jhiTranslate="smogAnalyzerApp.airPollutionData.date">Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let airPollutionData of airPollutionData ;trackBy: trackId">
+                <td><a [routerLink]="['/air-pollution-data', airPollutionData.id, 'view' ]">{{airPollutionData.id}}</a></td>
+                <td>{{airPollutionData.pm25}}</td>
+                <td>{{airPollutionData.pm10}}</td>
+                <td>{{airPollutionData.temperature}}</td>
+                <td>{{airPollutionData.humidity}}</td>
+                <td>{{airPollutionData.latitude}}</td>
+                <td>{{airPollutionData.longitude}}</td>
+                <td>{{airPollutionData.date | date:'mediumDate'}}</td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['/air-pollution-data', airPollutionData.id, 'view' ]"
+                                class="btn btn-info btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/air-pollution-data', airPollutionData.id, 'edit']"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', 'air-pollution-data', { outlets: { popup: airPollutionData.id + '/delete'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div *ngIf="airPollutionData && airPollutionData.length">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="totalItems" [maxSize]="5" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
+        </div>
+    </div>
+</div>

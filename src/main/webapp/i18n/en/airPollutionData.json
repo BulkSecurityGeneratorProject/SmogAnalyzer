@@ -1,0 +1,27 @@
+{
+    "smogAnalyzerApp": {
+        "airPollutionData": {
+            "home": {
+                "title": "Air Pollution Data",
+                "createLabel": "Create a new Air Pollution Data",
+                "createOrEditLabel": "Create or edit a Air Pollution Data"
+            },
+            "created": "A new Air Pollution Data is created with identifier {{ param }}",
+            "updated": "A Air Pollution Data is updated with identifier {{ param }}",
+            "deleted": "A Air Pollution Data is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Air Pollution Data {{ id }}?"
+            },
+            "detail": {
+                "title": "Air Pollution Data"
+            },
+            "pm25": "Pm 25",
+            "pm10": "Pm 10",
+            "temperature": "Temperature",
+            "humidity": "Humidity",
+            "latitude": "Latitude",
+            "longitude": "Longitude",
+            "date": "Date"
+        }
+    }
+}

@@ -1,0 +1,79 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+            <h2 id="jhi-weather-data-heading" jhiTranslate="smogAnalyzerApp.weatherData.home.createOrEditLabel">Create or edit a Weather Data</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!weatherData.id">
+                    <label for="id" jhiTranslate="global.field.id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id"
+                        [(ngModel)]="weatherData.id" readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="smogAnalyzerApp.weatherData.city" for="field_city">City</label>
+                    <input type="text" class="form-control" name="city" id="field_city"
+                        [(ngModel)]="weatherData.city" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="smogAnalyzerApp.weatherData.icon" for="field_icon">Icon</label>
+                    <input type="text" class="form-control" name="icon" id="field_icon"
+                        [(ngModel)]="weatherData.icon" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="smogAnalyzerApp.weatherData.pressure" for="field_pressure">Pressure</label>
+                    <input type="number" class="form-control" name="pressure" id="field_pressure"
+                        [(ngModel)]="weatherData.pressure" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="smogAnalyzerApp.weatherData.humidity" for="field_humidity">Humidity</label>
+                    <input type="number" class="form-control" name="humidity" id="field_humidity"
+                        [(ngModel)]="weatherData.humidity" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="smogAnalyzerApp.weatherData.windSpeed" for="field_windSpeed">Wind Speed</label>
+                    <input type="number" class="form-control" name="windSpeed" id="field_windSpeed"
+                        [(ngModel)]="weatherData.windSpeed" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="smogAnalyzerApp.weatherData.windDeg" for="field_windDeg">Wind Deg</label>
+                    <input type="number" class="form-control" name="windDeg" id="field_windDeg"
+                        [(ngModel)]="weatherData.windDeg" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="smogAnalyzerApp.weatherData.tempMin" for="field_tempMin">Temp Min</label>
+                    <input type="number" class="form-control" name="tempMin" id="field_tempMin"
+                        [(ngModel)]="weatherData.tempMin" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="smogAnalyzerApp.weatherData.tempMax" for="field_tempMax">Temp Max</label>
+                    <input type="number" class="form-control" name="tempMax" id="field_tempMax"
+                        [(ngModel)]="weatherData.tempMax" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="smogAnalyzerApp.weatherData.sunset" for="field_sunset">Sunset</label>
+                    <input type="number" class="form-control" name="sunset" id="field_sunset"
+                        [(ngModel)]="weatherData.sunset" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="smogAnalyzerApp.weatherData.sunrise" for="field_sunrise">Sunrise</label>
+                    <input type="number" class="form-control" name="sunrise" id="field_sunrise"
+                        [(ngModel)]="weatherData.sunrise" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="smogAnalyzerApp.weatherData.cloudiness" for="field_cloudiness">Cloudiness</label>
+                    <input type="number" class="form-control" name="cloudiness" id="field_cloudiness"
+                        [(ngModel)]="weatherData.cloudiness" />
+                </div>
+
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

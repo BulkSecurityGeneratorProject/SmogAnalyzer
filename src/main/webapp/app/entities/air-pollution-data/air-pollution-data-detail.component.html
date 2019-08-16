@@ -1,0 +1,51 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="airPollutionData">
+            <h2><span jhiTranslate="smogAnalyzerApp.airPollutionData.detail.title">Air Pollution Data</span> {{airPollutionData.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="smogAnalyzerApp.airPollutionData.pm25">Pm 25</span></dt>
+                <dd>
+                    <span>{{airPollutionData.pm25}}</span>
+                </dd>
+                <dt><span jhiTranslate="smogAnalyzerApp.airPollutionData.pm10">Pm 10</span></dt>
+                <dd>
+                    <span>{{airPollutionData.pm10}}</span>
+                </dd>
+                <dt><span jhiTranslate="smogAnalyzerApp.airPollutionData.temperature">Temperature</span></dt>
+                <dd>
+                    <span>{{airPollutionData.temperature}}</span>
+                </dd>
+                <dt><span jhiTranslate="smogAnalyzerApp.airPollutionData.humidity">Humidity</span></dt>
+                <dd>
+                    <span>{{airPollutionData.humidity}}</span>
+                </dd>
+                <dt><span jhiTranslate="smogAnalyzerApp.airPollutionData.latitude">Latitude</span></dt>
+                <dd>
+                    <span>{{airPollutionData.latitude}}</span>
+                </dd>
+                <dt><span jhiTranslate="smogAnalyzerApp.airPollutionData.longitude">Longitude</span></dt>
+                <dd>
+                    <span>{{airPollutionData.longitude}}</span>
+                </dd>
+                <dt><span jhiTranslate="smogAnalyzerApp.airPollutionData.date">Date</span></dt>
+                <dd>
+                    <span>{{airPollutionData.date}}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/air-pollution-data', airPollutionData.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

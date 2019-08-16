@@ -1,0 +1,31 @@
+{
+    "smogAnalyzerApp": {
+        "weatherData": {
+            "home": {
+                "title": "Weather Data",
+                "createLabel": "Dodaj Weather Data",
+                "createOrEditLabel": "Dodaj lub edytuj: Weather Data"
+            },
+            "created": "Utworzono nowy obiekt typu Weather Data z identyfikatorem {{ param }}",
+            "updated": "Uaktualniono obiekt typu Weather Data z identyfikatorem {{ param }}",
+            "deleted": "Usunięto obiekt typu Weather Data z identyfikatorem {{ param }}",
+            "delete": {
+                "question": "Czy na pewno chcesz usunąć Weather Data {{ id }}?"
+            },
+            "detail": {
+                "title": "Weather Data"
+            },
+            "city": "City",
+            "icon": "Icon",
+            "pressure": "Pressure",
+            "humidity": "Humidity",
+            "windSpeed": "Wind Speed",
+            "windDeg": "Wind Deg",
+            "tempMin": "Temp Min",
+            "tempMax": "Temp Max",
+            "sunset": "Sunset",
+            "sunrise": "Sunrise",
+            "cloudiness": "Cloudiness"
+        }
+    }
+}

@@ -1,0 +1,67 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="weatherData">
+            <h2><span jhiTranslate="smogAnalyzerApp.weatherData.detail.title">Weather Data</span> {{weatherData.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="smogAnalyzerApp.weatherData.city">City</span></dt>
+                <dd>
+                    <span>{{weatherData.city}}</span>
+                </dd>
+                <dt><span jhiTranslate="smogAnalyzerApp.weatherData.icon">Icon</span></dt>
+                <dd>
+                    <span>{{weatherData.icon}}</span>
+                </dd>
+                <dt><span jhiTranslate="smogAnalyzerApp.weatherData.pressure">Pressure</span></dt>
+                <dd>
+                    <span>{{weatherData.pressure}}</span>
+                </dd>
+                <dt><span jhiTranslate="smogAnalyzerApp.weatherData.humidity">Humidity</span></dt>
+                <dd>
+                    <span>{{weatherData.humidity}}</span>
+                </dd>
+                <dt><span jhiTranslate="smogAnalyzerApp.weatherData.windSpeed">Wind Speed</span></dt>
+                <dd>
+                    <span>{{weatherData.windSpeed}}</span>
+                </dd>
+                <dt><span jhiTranslate="smogAnalyzerApp.weatherData.windDeg">Wind Deg</span></dt>
+                <dd>
+                    <span>{{weatherData.windDeg}}</span>
+                </dd>
+                <dt><span jhiTranslate="smogAnalyzerApp.weatherData.tempMin">Temp Min</span></dt>
+                <dd>
+                    <span>{{weatherData.tempMin}}</span>
+                </dd>
+                <dt><span jhiTranslate="smogAnalyzerApp.weatherData.tempMax">Temp Max</span></dt>
+                <dd>
+                    <span>{{weatherData.tempMax}}</span>
+                </dd>
+                <dt><span jhiTranslate="smogAnalyzerApp.weatherData.sunset">Sunset</span></dt>
+                <dd>
+                    <span>{{weatherData.sunset}}</span>
+                </dd>
+                <dt><span jhiTranslate="smogAnalyzerApp.weatherData.sunrise">Sunrise</span></dt>
+                <dd>
+                    <span>{{weatherData.sunrise}}</span>
+                </dd>
+                <dt><span jhiTranslate="smogAnalyzerApp.weatherData.cloudiness">Cloudiness</span></dt>
+                <dd>
+                    <span>{{weatherData.cloudiness}}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/weather-data', weatherData.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>
