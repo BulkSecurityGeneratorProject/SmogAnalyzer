@@ -1,0 +1,67 @@
+{
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "relationships": [],
+    "fields": [
+        {
+            "fieldName": "city",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "icon",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "pressure",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "humidity",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "windSpeed",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "windDeg",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "tempMin",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "tempMax",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "sunset",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "sunrise",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "cloudiness",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "tempMain",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "name",
+            "fieldType": "String"
+        }
+    ],
+    "changelogDate": "20190813173041",
+    "dto": "no",
+    "searchEngine": false,
+    "service": "no",
+    "entityTableName": "weather_data",
+    "databaseType": "sql",
+    "jpaMetamodelFiltering": false,
+    "pagination": "no"
+}

@@ -11,6 +11,8 @@ export interface IWeatherData {
     sunset?: number;
     sunrise?: number;
     cloudiness?: number;
+    tempMain?: number;
+    name?: string;
 }
 
 export class WeatherData implements IWeatherData {
@@ -26,6 +28,8 @@ export class WeatherData implements IWeatherData {
         public tempMax?: number,
         public sunset?: number,
         public sunrise?: number,
-        public cloudiness?: number
+        public cloudiness?: number,
+        public tempMain?: number,
+        public name?: string
     ) {}
 }

@@ -1,0 +1,50 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <changeSet author="Radopopulos (generated)" id="1566240076328-1">
+        <createTable tableName="air_pollution_data">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="air_pollution_dataPK"/>
+            </column>
+            <column name="jhi_date" type="BINARY(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="humidity" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="latitude" type="DOUBLE"/>
+            <column name="longitude" type="DOUBLE"/>
+            <column name="pm_10" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="pm_25" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="temperature" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Radopopulos (generated)" id="1566240076328-2">
+        <createTable tableName="weather_data">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="weather_dataPK"/>
+            </column>
+            <column name="city" type="VARCHAR(255)"/>
+            <column name="cloudiness" type="INT"/>
+            <column name="humidity" type="DOUBLE"/>
+            <column name="icon" type="VARCHAR(255)"/>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="pressure" type="DOUBLE"/>
+            <column name="sunrise" type="INT"/>
+            <column name="sunset" type="INT"/>
+            <column name="temp_main" type="DOUBLE"/>
+            <column name="temp_max" type="DOUBLE"/>
+            <column name="temp_min" type="DOUBLE"/>
+            <column name="wind_deg" type="DOUBLE"/>
+            <column name="wind_speed" type="DOUBLE"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Radopopulos (generated)" id="1566240076328-3">
+        <dropTable tableName="JHI_DATE_TIME_WRAPPER"/>
+    </changeSet>
+</databaseChangeLog>

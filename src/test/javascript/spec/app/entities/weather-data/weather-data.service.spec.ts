@@ -21,7 +21,7 @@ describe('Service Tests', () => {
             service = injector.get(WeatherDataService);
             httpMock = injector.get(HttpTestingController);
 
-            elemDefault = new WeatherData(0, 'AAAAAAA', 'AAAAAAA', 0, 0, 0, 0, 0, 0, 0, 0, 0);
+            elemDefault = new WeatherData(0, 'AAAAAAA', 'AAAAAAA', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'AAAAAAA');
         });
 
         describe('Service methods', async () => {
@@ -65,7 +65,9 @@ describe('Service Tests', () => {
                         tempMax: 1,
                         sunset: 1,
                         sunrise: 1,
-                        cloudiness: 1
+                        cloudiness: 1,
+                        tempMain: 1,
+                        name: 'BBBBBB'
                     },
                     elemDefault
                 );
@@ -92,7 +94,9 @@ describe('Service Tests', () => {
                         tempMax: 1,
                         sunset: 1,
                         sunrise: 1,
-                        cloudiness: 1
+                        cloudiness: 1,
+                        tempMain: 1,
+                        name: 'BBBBBB'
                     },
                     elemDefault
                 );

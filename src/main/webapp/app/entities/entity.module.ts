@@ -27,6 +27,10 @@ import { RouterModule } from '@angular/router';
             {
                 path: 'weather-data',
                 loadChildren: './weather-data/weather-data.module#SmogAnalyzerWeatherDataModule'
+            },
+            {
+                path: 'weather-data',
+                loadChildren: './weather-data/weather-data.module#SmogAnalyzerWeatherDataModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])

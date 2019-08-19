@@ -25,7 +25,9 @@
             "tempMax": "Temp Max",
             "sunset": "Sunset",
             "sunrise": "Sunrise",
-            "cloudiness": "Cloudiness"
+            "cloudiness": "Cloudiness",
+            "tempMain": "Temp Main",
+            "name": "Name"
         }
     }
 }

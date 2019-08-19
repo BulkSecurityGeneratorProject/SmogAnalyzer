@@ -57,6 +57,12 @@ public class WeatherData implements Serializable {
     @Column(name = "cloudiness")
     private Integer cloudiness;
 
+    @Column(name = "temp_main")
+    private Double tempMain;
+
+    @Column(name = "name")
+    private String name;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -208,6 +214,32 @@ public class WeatherData implements Serializable {
     public void setCloudiness(Integer cloudiness) {
         this.cloudiness = cloudiness;
     }
+
+    public Double getTempMain() {
+        return tempMain;
+    }
+
+    public WeatherData tempMain(Double tempMain) {
+        this.tempMain = tempMain;
+        return this;
+    }
+
+    public void setTempMain(Double tempMain) {
+        this.tempMain = tempMain;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public WeatherData name(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
@@ -245,6 +277,8 @@ public class WeatherData implements Serializable {
             ", sunset=" + getSunset() +
             ", sunrise=" + getSunrise() +
             ", cloudiness=" + getCloudiness() +
+            ", tempMain=" + getTempMain() +
+            ", name='" + getName() + "'" +
             "}";
     }
 }

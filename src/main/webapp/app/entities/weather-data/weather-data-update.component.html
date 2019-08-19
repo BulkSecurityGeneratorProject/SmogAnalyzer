@@ -64,6 +64,16 @@
                     <input type="number" class="form-control" name="cloudiness" id="field_cloudiness"
                         [(ngModel)]="weatherData.cloudiness" />
                 </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="smogAnalyzerApp.weatherData.tempMain" for="field_tempMain">Temp Main</label>
+                    <input type="number" class="form-control" name="tempMain" id="field_tempMain"
+                        [(ngModel)]="weatherData.tempMain" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="smogAnalyzerApp.weatherData.name" for="field_name">Name</label>
+                    <input type="text" class="form-control" name="name" id="field_name"
+                        [(ngModel)]="weatherData.name" />
+                </div>
 
             </div>
             <div>

@@ -73,6 +73,12 @@ public class WeatherDataResourceIntTest {
     private static final Integer DEFAULT_CLOUDINESS = 1;
     private static final Integer UPDATED_CLOUDINESS = 2;
 
+    private static final Double DEFAULT_TEMP_MAIN = 1D;
+    private static final Double UPDATED_TEMP_MAIN = 2D;
+
+    private static final String DEFAULT_NAME = "AAAAAAAAAA";
+    private static final String UPDATED_NAME = "BBBBBBBBBB";
+
     @Autowired
     private WeatherDataRepository weatherDataRepository;
 
@@ -125,7 +131,9 @@ public class WeatherDataResourceIntTest {
             .tempMax(DEFAULT_TEMP_MAX)
             .sunset(DEFAULT_SUNSET)
             .sunrise(DEFAULT_SUNRISE)
-            .cloudiness(DEFAULT_CLOUDINESS);
+            .cloudiness(DEFAULT_CLOUDINESS)
+            .tempMain(DEFAULT_TEMP_MAIN)
+            .name(DEFAULT_NAME);
         return weatherData;
     }
 
@@ -160,6 +168,8 @@ public class WeatherDataResourceIntTest {
         assertThat(testWeatherData.getSunset()).isEqualTo(DEFAULT_SUNSET);
         assertThat(testWeatherData.getSunrise()).isEqualTo(DEFAULT_SUNRISE);
         assertThat(testWeatherData.getCloudiness()).isEqualTo(DEFAULT_CLOUDINESS);
+        assertThat(testWeatherData.getTempMain()).isEqualTo(DEFAULT_TEMP_MAIN);
+        assertThat(testWeatherData.getName()).isEqualTo(DEFAULT_NAME);
     }
 
     @Test
@@ -202,7 +212,9 @@ public class WeatherDataResourceIntTest {
             .andExpect(jsonPath("$.[*].tempMax").value(hasItem(DEFAULT_TEMP_MAX.doubleValue())))
             .andExpect(jsonPath("$.[*].sunset").value(hasItem(DEFAULT_SUNSET)))
             .andExpect(jsonPath("$.[*].sunrise").value(hasItem(DEFAULT_SUNRISE)))
-            .andExpect(jsonPath("$.[*].cloudiness").value(hasItem(DEFAULT_CLOUDINESS)));
+            .andExpect(jsonPath("$.[*].cloudiness").value(hasItem(DEFAULT_CLOUDINESS)))
+            .andExpect(jsonPath("$.[*].tempMain").value(hasItem(DEFAULT_TEMP_MAIN.doubleValue())))
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())));
     }
     
     @Test
@@ -226,7 +238,9 @@ public class WeatherDataResourceIntTest {
             .andExpect(jsonPath("$.tempMax").value(DEFAULT_TEMP_MAX.doubleValue()))
             .andExpect(jsonPath("$.sunset").value(DEFAULT_SUNSET))
             .andExpect(jsonPath("$.sunrise").value(DEFAULT_SUNRISE))
-            .andExpect(jsonPath("$.cloudiness").value(DEFAULT_CLOUDINESS));
+            .andExpect(jsonPath("$.cloudiness").value(DEFAULT_CLOUDINESS))
+            .andExpect(jsonPath("$.tempMain").value(DEFAULT_TEMP_MAIN.doubleValue()))
+            .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()));
     }
 
     @Test
@@ -260,7 +274,9 @@ public class WeatherDataResourceIntTest {
             .tempMax(UPDATED_TEMP_MAX)
             .sunset(UPDATED_SUNSET)
             .sunrise(UPDATED_SUNRISE)
-            .cloudiness(UPDATED_CLOUDINESS);
+            .cloudiness(UPDATED_CLOUDINESS)
+            .tempMain(UPDATED_TEMP_MAIN)
+            .name(UPDATED_NAME);
 
         restWeatherDataMockMvc.perform(put("/api/weather-data")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -282,6 +298,8 @@ public class WeatherDataResourceIntTest {
         assertThat(testWeatherData.getSunset()).isEqualTo(UPDATED_SUNSET);
         assertThat(testWeatherData.getSunrise()).isEqualTo(UPDATED_SUNRISE);
         assertThat(testWeatherData.getCloudiness()).isEqualTo(UPDATED_CLOUDINESS);
+        assertThat(testWeatherData.getTempMain()).isEqualTo(UPDATED_TEMP_MAIN);
+        assertThat(testWeatherData.getName()).isEqualTo(UPDATED_NAME);
     }
 
     @Test
