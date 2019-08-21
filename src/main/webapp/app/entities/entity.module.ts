@@ -9,24 +9,8 @@ import { RouterModule } from '@angular/router';
                 loadChildren: './weather-api-key/weather-api-key.module#SmogAnalyzerWeatherApiKeyModule'
             },
             {
-                path: 'weather-api-key',
-                loadChildren: './weather-api-key/weather-api-key.module#SmogAnalyzerWeatherApiKeyModule'
-            },
-            {
                 path: 'air-pollution-data',
                 loadChildren: './air-pollution-data/air-pollution-data.module#SmogAnalyzerAirPollutionDataModule'
-            },
-            {
-                path: 'weather-data',
-                loadChildren: './weather-data/weather-data.module#SmogAnalyzerWeatherDataModule'
-            },
-            {
-                path: 'weather-data',
-                loadChildren: './weather-data/weather-data.module#SmogAnalyzerWeatherDataModule'
-            },
-            {
-                path: 'weather-data',
-                loadChildren: './weather-data/weather-data.module#SmogAnalyzerWeatherDataModule'
             },
             {
                 path: 'weather-data',

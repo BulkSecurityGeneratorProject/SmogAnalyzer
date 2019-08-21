@@ -58,12 +58,7 @@ export class WeatherService {
     }
 
     public getWeatherByCityNameAndCountryCode(city: string, countryCode: string): Observable<Object> {
-        return this.httpClient.get(
-            this._baseUrl +
-                WeatherService.createRequestUrlFromParameters(city, countryCode) +
-                WeatherService.API_ID_STRING_NAME +
-                this._apiKey
-        );
+        return this.httpClient.get(this.getWeatherApiUrl(city, countryCode));
     }
 
     public convertTimestampToDateTime(timestamp: number): string {
@@ -71,5 +66,16 @@ export class WeatherService {
         const hours = date.getHours();
         const minutes = date.getMinutes();
         return hours + ':' + minutes;
+    }
+
+    private getWeatherApiUrl(city: string, countryCode: string): string {
+        let url: string;
+        url =
+            this._baseUrl +
+            WeatherService.createRequestUrlFromParameters(city, countryCode) +
+            WeatherService.API_ID_STRING_NAME +
+            this._apiKey;
+        console.log('weatherApiUrl: ' + url);
+        return url;
     }
 }
