@@ -33,7 +33,7 @@ export const weatherDataRoute: Routes = [
         path: '',
         component: WeatherDataComponent,
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: [],
             pageTitle: 'smogAnalyzerApp.weatherData.home.title'
         },
         canActivate: [UserRouteAccessService]
@@ -45,7 +45,7 @@ export const weatherDataRoute: Routes = [
             weatherData: WeatherDataResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: [],
             pageTitle: 'smogAnalyzerApp.weatherData.home.title'
         },
         canActivate: [UserRouteAccessService]
@@ -57,7 +57,7 @@ export const weatherDataRoute: Routes = [
             weatherData: WeatherDataResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: [],
             pageTitle: 'smogAnalyzerApp.weatherData.home.title'
         },
         canActivate: [UserRouteAccessService]
@@ -69,7 +69,7 @@ export const weatherDataRoute: Routes = [
             weatherData: WeatherDataResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: [],
             pageTitle: 'smogAnalyzerApp.weatherData.home.title'
         },
         canActivate: [UserRouteAccessService]
@@ -84,7 +84,7 @@ export const weatherDataPopupRoute: Routes = [
             weatherData: WeatherDataResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: [],
             pageTitle: 'smogAnalyzerApp.weatherData.home.title'
         },
         canActivate: [UserRouteAccessService],

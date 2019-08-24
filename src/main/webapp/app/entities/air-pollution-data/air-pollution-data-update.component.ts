@@ -4,8 +4,10 @@ import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import * as moment from 'moment';
+import { JhiAlertService } from 'ng-jhipster';
 import { IAirPollutionData } from 'app/shared/model/air-pollution-data.model';
 import { AirPollutionDataService } from './air-pollution-data.service';
+import { IUser, UserService } from 'app/core';
 
 @Component({
     selector: 'jhi-air-pollution-data-update',
@@ -14,15 +16,29 @@ import { AirPollutionDataService } from './air-pollution-data.service';
 export class AirPollutionDataUpdateComponent implements OnInit {
     airPollutionData: IAirPollutionData;
     isSaving: boolean;
+
+    users: IUser[];
     dateDp: any;
 
-    constructor(protected airPollutionDataService: AirPollutionDataService, protected activatedRoute: ActivatedRoute) {}
+    constructor(
+        protected jhiAlertService: JhiAlertService,
+        protected airPollutionDataService: AirPollutionDataService,
+        protected userService: UserService,
+        protected activatedRoute: ActivatedRoute
+    ) {}
 
     ngOnInit() {
         this.isSaving = false;
         this.activatedRoute.data.subscribe(({ airPollutionData }) => {
             this.airPollutionData = airPollutionData;
         });
+        this.userService
+            .query()
+            .pipe(
+                filter((mayBeOk: HttpResponse<IUser[]>) => mayBeOk.ok),
+                map((response: HttpResponse<IUser[]>) => response.body)
+            )
+            .subscribe((res: IUser[]) => (this.users = res), (res: HttpErrorResponse) => this.onError(res.message));
     }
 
     previousState() {
@@ -49,5 +65,13 @@ export class AirPollutionDataUpdateComponent implements OnInit {
 
     protected onSaveError() {
         this.isSaving = false;
+    }
+
+    protected onError(errorMessage: string) {
+        this.jhiAlertService.error(errorMessage, null, null);
+    }
+
+    trackUserById(index: number, item: IUser) {
+        return item.id;
     }
 }

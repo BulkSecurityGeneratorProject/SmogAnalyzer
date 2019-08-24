@@ -30,6 +30,26 @@ public class AirPollutionDataDTO implements Serializable {
     @NotNull
     private LocalDate date;
 
+    private Long ownerId;
+
+    private String ownerLogin;
+
+    public AirPollutionDataDTO(@NotNull Integer pm25, @NotNull Integer pm10, @NotNull Double temperature,
+                               @NotNull Double humidity, Double latitude, Double longitude, @NotNull LocalDate date,
+                               Long ownerId, String ownerLogin) {
+        this.pm25 = pm25;
+        this.pm10 = pm10;
+        this.temperature = temperature;
+        this.humidity = humidity;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.date = date;
+        this.ownerId = ownerId;
+        this.ownerLogin = ownerLogin;
+    }
+
+    public AirPollutionDataDTO() {
+    }
 
     public Long getId() {
         return id;
@@ -95,6 +115,22 @@ public class AirPollutionDataDTO implements Serializable {
         this.date = date;
     }
 
+    public Long getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(Long userId) {
+        this.ownerId = userId;
+    }
+
+    public String getOwnerLogin() {
+        return ownerLogin;
+    }
+
+    public void setOwnerLogin(String userLogin) {
+        this.ownerLogin = userLogin;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -127,6 +163,8 @@ public class AirPollutionDataDTO implements Serializable {
             ", latitude=" + getLatitude() +
             ", longitude=" + getLongitude() +
             ", date='" + getDate() + "'" +
+            ", owner=" + getOwnerId() +
+            ", owner='" + getOwnerLogin() + "'" +
             "}";
     }
 }

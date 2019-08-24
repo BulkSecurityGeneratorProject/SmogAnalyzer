@@ -3,6 +3,7 @@ package com.agh.smoganalyzer.web.rest;
 import com.agh.smoganalyzer.SmogAnalyzerApp;
 
 import com.agh.smoganalyzer.domain.AirPollutionData;
+import com.agh.smoganalyzer.domain.User;
 import com.agh.smoganalyzer.repository.AirPollutionDataRepository;
 import com.agh.smoganalyzer.service.AirPollutionDataService;
 import com.agh.smoganalyzer.service.dto.AirPollutionDataDTO;
@@ -121,6 +122,11 @@ public class AirPollutionDataResourceIntTest {
             .latitude(DEFAULT_LATITUDE)
             .longitude(DEFAULT_LONGITUDE)
             .date(DEFAULT_DATE);
+        // Add required entity
+        User user = UserResourceIntTest.createEntity(em);
+        em.persist(user);
+        em.flush();
+        airPollutionData.setOwner(user);
         return airPollutionData;
     }
 

@@ -10,12 +10,13 @@
     </h2>
     <div class="input-group" style="float: right; width: 400px">
         <div class="input-group-prepend">
-            <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
+            <button class="input-group-text" id="uploadButton" [disabled]="!isFileLoaded"
+                    (click)="uploadAirPollutionData()">Upload</button>
         </div>
         <div class="custom-file">
-            <input type="file" class="custom-file-input" id="inputGroupFile01"
-                   aria-describedby="inputGroupFileAddon01">
-            <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+            <input type="file" class="custom-file-input" id="airPollutionInputFile"
+                   aria-describedby="uploadButton" (change)="onUploadFile($event)" accept=".csv">
+            <label class="custom-file-label" for="airPollutionInputFile">{{fileName}}</label>
         </div>
     </div>
     <br/>
@@ -33,6 +34,7 @@
             <th jhiSortBy="latitude"><span jhiTranslate="smogAnalyzerApp.airPollutionData.latitude">Latitude</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="longitude"><span jhiTranslate="smogAnalyzerApp.airPollutionData.longitude">Longitude</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="date"><span jhiTranslate="smogAnalyzerApp.airPollutionData.date">Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="ownerLogin"><span jhiTranslate="smogAnalyzerApp.airPollutionData.owner">Owner</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
             </thead>
@@ -46,6 +48,9 @@
                 <td>{{airPollutionData.latitude}}</td>
                 <td>{{airPollutionData.longitude}}</td>
                 <td>{{airPollutionData.date | date:'mediumDate'}}</td>
+                <td>
+                    {{airPollutionData.ownerLogin}}
+                </td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"

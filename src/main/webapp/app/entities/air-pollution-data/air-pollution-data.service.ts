@@ -15,6 +15,7 @@ type EntityArrayResponseType = HttpResponse<IAirPollutionData[]>;
 @Injectable({ providedIn: 'root' })
 export class AirPollutionDataService {
     public resourceUrl = SERVER_API_URL + 'api/air-pollution-data';
+    public fileUploadUrl = this.resourceUrl + '/file-upload';
 
     constructor(protected http: HttpClient) {}
 
@@ -47,6 +48,10 @@ export class AirPollutionDataService {
 
     delete(id: number): Observable<HttpResponse<any>> {
         return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response' });
+    }
+
+    uploadAirPollutionDataFile(formData: FormData): Observable<any> {
+        return this.http.post<any>(`${this.fileUploadUrl}`, formData);
     }
 
     protected convertDateFromClient(airPollutionData: IAirPollutionData): IAirPollutionData {

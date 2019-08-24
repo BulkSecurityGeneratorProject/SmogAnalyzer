@@ -21,7 +21,8 @@
             "humidity": "Humidity",
             "latitude": "Latitude",
             "longitude": "Longitude",
-            "date": "Date"
+            "date": "Date",
+            "owner": "Owner"
         }
     }
 }

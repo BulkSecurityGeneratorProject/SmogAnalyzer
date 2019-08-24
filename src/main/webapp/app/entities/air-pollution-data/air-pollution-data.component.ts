@@ -1,9 +1,8 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
-import { JhiEventManager, JhiParseLinks, JhiAlertService } from 'ng-jhipster';
+import { JhiAlertService, JhiEventManager, JhiParseLinks } from 'ng-jhipster';
 
 import { IAirPollutionData } from 'app/shared/model/air-pollution-data.model';
 import { AccountService } from 'app/core';
@@ -29,6 +28,9 @@ export class AirPollutionDataComponent implements OnInit, OnDestroy {
     predicate: any;
     previousPage: any;
     reverse: any;
+    private file: File;
+    private fileName = 'No file chosen';
+    private isFileLoaded = false;
 
     constructor(
         protected airPollutionDataService: AirPollutionDataService,
@@ -127,5 +129,24 @@ export class AirPollutionDataComponent implements OnInit, OnDestroy {
 
     protected onError(errorMessage: string) {
         this.jhiAlertService.error(errorMessage, null, null);
+    }
+
+    onUploadFile(event) {
+        this.file = event.target.files[0];
+        this.fileName = this.file.name;
+        this.isFileLoaded = true;
+    }
+
+    uploadAirPollutionData() {
+        const formData = new FormData();
+        formData.append('file', this.file);
+        this.airPollutionDataService.uploadAirPollutionDataFile(formData).subscribe(
+            response => {
+                this.jhiAlertService.addAlert({ type: 'success', msg: 'File was successfully saved!', timeout: 1000 }, []);
+            },
+            (response: HttpErrorResponse) => {
+                this.onError(response.message);
+            }
+        );
     }
 }

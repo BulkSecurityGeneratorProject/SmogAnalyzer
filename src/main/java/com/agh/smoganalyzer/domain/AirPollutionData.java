@@ -1,6 +1,7 @@
 package com.agh.smoganalyzer.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -51,6 +52,11 @@ public class AirPollutionData implements Serializable {
     @NotNull
     @Column(name = "jhi_date", nullable = false)
     private LocalDate date;
+
+    @ManyToOne(optional = false)
+    @NotNull
+    @JsonIgnoreProperties("airPollutionData")
+    private User owner;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -150,6 +156,19 @@ public class AirPollutionData implements Serializable {
 
     public void setDate(LocalDate date) {
         this.date = date;
+    }
+
+    public User getOwner() {
+        return owner;
+    }
+
+    public AirPollutionData owner(User user) {
+        this.owner = user;
+        return this;
+    }
+
+    public void setOwner(User user) {
+        this.owner = user;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

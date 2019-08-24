@@ -13,6 +13,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.net.URI;
@@ -116,5 +117,14 @@ public class AirPollutionDataResource {
         log.debug("REST request to delete AirPollutionData : {}", id);
         airPollutionDataService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
+    }
+
+    @PostMapping("/air-pollution-data/file-upload")
+    public ResponseEntity<String> createAirPollutionDataFromFile(@RequestParam("file") MultipartFile file) {
+        log.debug("REST request to create AirPollutionData from file: ", file.getName());
+        airPollutionDataService.saveDataFromFile(file);
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME,
+            "File successfully saved in database!")).build();
+
     }
 }

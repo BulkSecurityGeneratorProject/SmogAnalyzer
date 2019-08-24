@@ -12,5 +12,6 @@
     <!--<include file="config/liquibase/changelog/20190519101156_changelog.xml" />-->
     <!--<include file="config/liquibase/changelog/20190519103222_changelog.xml" />-->
     <!--<include file="config/liquibase/changelog/20190519104136_changelog.xml" />-->
+    <include file="config/liquibase/changelog/20190526152012_added_entity_constraints_AirPollutionData.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 </databaseChangeLog>

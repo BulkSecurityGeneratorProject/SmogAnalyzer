@@ -2,16 +2,23 @@ package com.agh.smoganalyzer.service;
 
 import com.agh.smoganalyzer.domain.AirPollutionData;
 import com.agh.smoganalyzer.repository.AirPollutionDataRepository;
+import com.agh.smoganalyzer.repository.UserRepository;
+import com.agh.smoganalyzer.security.SecurityUtils;
 import com.agh.smoganalyzer.service.dto.AirPollutionDataDTO;
 import com.agh.smoganalyzer.service.mapper.AirPollutionDataMapper;
+import org.apache.commons.csv.CSVFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+import org.apache.commons.csv.CSVParser;
 
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.time.LocalDate;
 import java.util.Optional;
 
 /**
@@ -27,9 +34,17 @@ public class AirPollutionDataService {
 
     private final AirPollutionDataMapper airPollutionDataMapper;
 
-    public AirPollutionDataService(AirPollutionDataRepository airPollutionDataRepository, AirPollutionDataMapper airPollutionDataMapper) {
+    private final UserRepository userRepository;
+
+    private String currentUserLogin;
+    private Long currentUserId;
+
+
+    public AirPollutionDataService(AirPollutionDataRepository airPollutionDataRepository, AirPollutionDataMapper airPollutionDataMapper,
+    UserRepository userRepository) {
         this.airPollutionDataRepository = airPollutionDataRepository;
         this.airPollutionDataMapper = airPollutionDataMapper;
+        this.userRepository = userRepository;
     }
 
     /**
@@ -80,5 +95,36 @@ public class AirPollutionDataService {
     public void delete(Long id) {
         log.debug("Request to delete AirPollutionData : {}", id);
         airPollutionDataRepository.deleteById(id);
+    }
+
+    public void saveDataFromFile(MultipartFile file) {
+        try {
+            CSVParser parser = CSVFormat.EXCEL.withHeader().parse(new InputStreamReader(file.getInputStream()));
+            SecurityUtils.getCurrentUserLogin()
+                .flatMap(userRepository::findOneByLogin)
+                .ifPresent(user -> {
+                    this.currentUserLogin = user.getLogin();
+                    this.currentUserId = user.getId();
+                });
+
+            parser.forEach(record -> {
+                AirPollutionDataDTO airPollutionDataDTO = new AirPollutionDataDTO(
+                    Integer.parseInt(record.get(0)),
+                    Integer.parseInt(record.get(1)),
+                    Double.parseDouble(record.get(2)),
+                    Double.parseDouble(record.get(3)),
+                    Double.parseDouble(record.get(4)),
+                    Double.parseDouble(record.get(5)),
+                    LocalDate.parse(record.get(6)),
+                    this.currentUserId,
+                    this.currentUserLogin
+                );
+;
+                save(airPollutionDataDTO);
+            });
+        } catch (IOException e) {
+            log.error("Could not properly save AirPollutionData from file! Exception: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 }

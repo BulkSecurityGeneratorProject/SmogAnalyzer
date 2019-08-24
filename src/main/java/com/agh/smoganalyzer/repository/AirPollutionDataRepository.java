@@ -4,6 +4,7 @@ import com.agh.smoganalyzer.domain.AirPollutionData;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 
 /**
  * Spring Data  repository for the AirPollutionData entity.
@@ -11,5 +12,8 @@ import org.springframework.stereotype.Repository;
 @SuppressWarnings("unused")
 @Repository
 public interface AirPollutionDataRepository extends JpaRepository<AirPollutionData, Long> {
+
+    @Query("select air_pollution_data from AirPollutionData air_pollution_data where air_pollution_data.owner.login = ?#{principal.username}")
+    List<AirPollutionData> findByOwnerIsCurrentUser();
 
 }
