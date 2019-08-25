@@ -138,11 +138,14 @@ export class AirPollutionDataComponent implements OnInit, OnDestroy {
     }
 
     uploadAirPollutionData() {
+        console.log('Upload button was clicked!');
         const formData = new FormData();
         formData.append('file', this.file);
         this.airPollutionDataService.uploadAirPollutionDataFile(formData).subscribe(
             response => {
-                this.jhiAlertService.addAlert({ type: 'success', msg: 'File was successfully saved!', timeout: 1000 }, []);
+                console.log('uploadAirPollutionDataFile response:' + response);
+                this.loadAll();
+                // this.jhiAlertService.addAlert({ type: 'success', msg: 'File was successfully saved!', timeout: 5000 }, []);
             },
             (response: HttpErrorResponse) => {
                 this.onError(response.message);

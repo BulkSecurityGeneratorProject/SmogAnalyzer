@@ -19,6 +19,8 @@ import org.apache.commons.csv.CSVParser;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 /**
@@ -115,7 +117,7 @@ public class AirPollutionDataService {
                     Double.parseDouble(record.get(3)),
                     Double.parseDouble(record.get(4)),
                     Double.parseDouble(record.get(5)),
-                    LocalDate.parse(record.get(6)),
+                    getLocalDate(record.get(6)),
                     this.currentUserId,
                     this.currentUserLogin
                 );
@@ -126,5 +128,11 @@ public class AirPollutionDataService {
             log.error("Could not properly save AirPollutionData from file! Exception: " + e.getMessage());
             e.printStackTrace();
         }
+    }
+
+    private LocalDate getLocalDate(String dateTime) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss Z");
+        LocalDateTime localDateTime = LocalDateTime.parse(dateTime, formatter);
+        return localDateTime.toLocalDate();
     }
 }
