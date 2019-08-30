@@ -9,7 +9,7 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.util.Objects;
 
 /**
@@ -51,7 +51,7 @@ public class AirPollutionData implements Serializable {
 
     @NotNull
     @Column(name = "jhi_date", nullable = false)
-    private LocalDate date;
+    private ZonedDateTime date;
 
     @ManyToOne(optional = false)
     @NotNull
@@ -145,16 +145,16 @@ public class AirPollutionData implements Serializable {
         this.longitude = longitude;
     }
 
-    public LocalDate getDate() {
+    public ZonedDateTime getDate() {
         return date;
     }
 
-    public AirPollutionData date(LocalDate date) {
+    public AirPollutionData date(ZonedDateTime date) {
         this.date = date;
         return this;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(ZonedDateTime date) {
         this.date = date;
     }
 

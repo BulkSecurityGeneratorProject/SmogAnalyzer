@@ -1,5 +1,5 @@
 package com.agh.smoganalyzer.service.dto;
-import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Objects;
@@ -28,14 +28,14 @@ public class AirPollutionDataDTO implements Serializable {
     private Double longitude;
 
     @NotNull
-    private LocalDate date;
+    private ZonedDateTime date;
 
     private Long ownerId;
 
     private String ownerLogin;
 
     public AirPollutionDataDTO(@NotNull Integer pm25, @NotNull Integer pm10, @NotNull Double temperature,
-                               @NotNull Double humidity, Double latitude, Double longitude, @NotNull LocalDate date,
+                               @NotNull Double humidity, Double latitude, Double longitude, @NotNull ZonedDateTime date,
                                Long ownerId, String ownerLogin) {
         this.pm25 = pm25;
         this.pm10 = pm10;
@@ -107,11 +107,11 @@ public class AirPollutionDataDTO implements Serializable {
         this.longitude = longitude;
     }
 
-    public LocalDate getDate() {
+    public ZonedDateTime getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(ZonedDateTime date) {
         this.date = date;
     }
 

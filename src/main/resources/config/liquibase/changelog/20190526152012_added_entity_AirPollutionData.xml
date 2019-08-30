@@ -45,7 +45,7 @@
                 <constraints nullable="true" />
             </column>
 
-            <column name="jhi_date" type="date">
+            <column name="jhi_date" type="datetime">
                 <constraints nullable="false" />
             </column>
 
@@ -55,6 +55,7 @@
 
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
+        <dropDefaultValue tableName="air_pollution_data" columnName="jhi_date" columnDataType="datetime"/>
         
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->

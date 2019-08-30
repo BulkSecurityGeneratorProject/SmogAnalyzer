@@ -4,6 +4,7 @@ import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import * as moment from 'moment';
+import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { JhiAlertService } from 'ng-jhipster';
 import { IAirPollutionData } from 'app/shared/model/air-pollution-data.model';
 import { AirPollutionDataService } from './air-pollution-data.service';
@@ -18,7 +19,7 @@ export class AirPollutionDataUpdateComponent implements OnInit {
     isSaving: boolean;
 
     users: IUser[];
-    dateDp: any;
+    date: string;
 
     constructor(
         protected jhiAlertService: JhiAlertService,
@@ -31,6 +32,7 @@ export class AirPollutionDataUpdateComponent implements OnInit {
         this.isSaving = false;
         this.activatedRoute.data.subscribe(({ airPollutionData }) => {
             this.airPollutionData = airPollutionData;
+            this.date = this.airPollutionData.date != null ? this.airPollutionData.date.format(DATE_TIME_FORMAT) : null;
         });
         this.userService
             .query()
@@ -47,6 +49,7 @@ export class AirPollutionDataUpdateComponent implements OnInit {
 
     save() {
         this.isSaving = true;
+        this.airPollutionData.date = this.date != null ? moment(this.date, DATE_TIME_FORMAT) : null;
         if (this.airPollutionData.id !== undefined) {
             this.subscribeToSaveResponse(this.airPollutionDataService.update(this.airPollutionData));
         } else {

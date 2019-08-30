@@ -56,7 +56,7 @@ export class AirPollutionDataService {
 
     protected convertDateFromClient(airPollutionData: IAirPollutionData): IAirPollutionData {
         const copy: IAirPollutionData = Object.assign({}, airPollutionData, {
-            date: airPollutionData.date != null && airPollutionData.date.isValid() ? airPollutionData.date.format(DATE_FORMAT) : null
+            date: airPollutionData.date != null && airPollutionData.date.isValid() ? airPollutionData.date.toJSON() : null
         });
         return copy;
     }

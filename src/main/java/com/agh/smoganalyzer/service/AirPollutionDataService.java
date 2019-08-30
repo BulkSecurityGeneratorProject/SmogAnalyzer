@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
@@ -130,9 +131,9 @@ public class AirPollutionDataService {
         }
     }
 
-    private LocalDate getLocalDate(String dateTime) {
+    private ZonedDateTime getLocalDate(String dateTime) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss Z");
-        LocalDateTime localDateTime = LocalDateTime.parse(dateTime, formatter);
-        return localDateTime.toLocalDate();
+        ZonedDateTime zonedDateTime = ZonedDateTime.parse(dateTime, formatter);
+        return zonedDateTime;
     }
 }
