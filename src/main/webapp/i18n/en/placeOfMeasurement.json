@@ -1,0 +1,21 @@
+{
+    "smogAnalyzerApp": {
+        "placeOfMeasurement": {
+            "home": {
+                "title": "Place Of Measurements",
+                "createLabel": "Create a new Place Of Measurement",
+                "createOrEditLabel": "Create or edit a Place Of Measurement"
+            },
+            "created": "A new Place Of Measurement is created with identifier {{ param }}",
+            "updated": "A Place Of Measurement is updated with identifier {{ param }}",
+            "deleted": "A Place Of Measurement is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Place Of Measurement {{ id }}?"
+            },
+            "detail": {
+                "title": "Place Of Measurement"
+            },
+            "name": "Name"
+        }
+    }
+}
