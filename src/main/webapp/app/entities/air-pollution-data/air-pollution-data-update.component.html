@@ -110,6 +110,19 @@
                         This field is required.
                     </small>
                 </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="smogAnalyzerApp.airPollutionData.placeOfMeasurement" for="field_placeOfMeasurement">Place Of Measurement</label>
+                    <select class="form-control" id="field_placeOfMeasurement" name="placeOfMeasurement" [(ngModel)]="airPollutionData.placeOfMeasurementId"  required>
+                        <option *ngIf="!editForm.value.placeOfMeasurement" [ngValue]="null" selected></option>
+                        <option [ngValue]="placeOfMeasurementOption.id" *ngFor="let placeOfMeasurementOption of placeofmeasurements; trackBy: trackPlaceOfMeasurementById">{{placeOfMeasurementOption.name}}</option>
+                    </select>
+                </div>
+                <div [hidden]="!(editForm.controls.placeOfMeasurement?.dirty && editForm.controls.placeOfMeasurement?.invalid)">
+                    <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.placeOfMeasurement?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                    </small>
+                </div>
             </div>
             <div>
                 <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">

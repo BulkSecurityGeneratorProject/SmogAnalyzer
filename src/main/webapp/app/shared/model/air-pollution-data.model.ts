@@ -11,6 +11,8 @@ export interface IAirPollutionData {
     date?: Moment;
     ownerLogin?: string;
     ownerId?: number;
+    placeOfMeasurementName?: string;
+    placeOfMeasurementId?: number;
 }
 
 export class AirPollutionData implements IAirPollutionData {
@@ -24,6 +26,8 @@ export class AirPollutionData implements IAirPollutionData {
         public longitude?: number,
         public date?: Moment,
         public ownerLogin?: string,
-        public ownerId?: number
+        public ownerId?: number,
+        public placeOfMeasurementName?: string,
+        public placeOfMeasurementId?: number
     ) {}
 }

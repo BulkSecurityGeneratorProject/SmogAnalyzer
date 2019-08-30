@@ -58,6 +58,11 @@ public class AirPollutionData implements Serializable {
     @JsonIgnoreProperties("airPollutionData")
     private User owner;
 
+    @ManyToOne(optional = false)
+    @NotNull
+    @JsonIgnoreProperties("airPollutionData")
+    private PlaceOfMeasurement placeOfMeasurement;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -169,6 +174,19 @@ public class AirPollutionData implements Serializable {
 
     public void setOwner(User user) {
         this.owner = user;
+    }
+
+    public PlaceOfMeasurement getPlaceOfMeasurement() {
+        return placeOfMeasurement;
+    }
+
+    public AirPollutionData placeOfMeasurement(PlaceOfMeasurement placeOfMeasurement) {
+        this.placeOfMeasurement = placeOfMeasurement;
+        return this;
+    }
+
+    public void setPlaceOfMeasurement(PlaceOfMeasurement placeOfMeasurement) {
+        this.placeOfMeasurement = placeOfMeasurement;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

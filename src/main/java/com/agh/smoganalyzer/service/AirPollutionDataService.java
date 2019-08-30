@@ -7,19 +7,18 @@ import com.agh.smoganalyzer.security.SecurityUtils;
 import com.agh.smoganalyzer.service.dto.AirPollutionDataDTO;
 import com.agh.smoganalyzer.service.mapper.AirPollutionDataMapper;
 import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-import org.apache.commons.csv.CSVParser;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
@@ -35,16 +34,15 @@ public class AirPollutionDataService {
 
     private final AirPollutionDataRepository airPollutionDataRepository;
 
-    private final AirPollutionDataMapper airPollutionDataMapper;
-
     private final UserRepository userRepository;
+
+    private final AirPollutionDataMapper airPollutionDataMapper;
 
     private String currentUserLogin;
     private Long currentUserId;
 
-
     public AirPollutionDataService(AirPollutionDataRepository airPollutionDataRepository, AirPollutionDataMapper airPollutionDataMapper,
-    UserRepository userRepository) {
+                                   UserRepository userRepository) {
         this.airPollutionDataRepository = airPollutionDataRepository;
         this.airPollutionDataMapper = airPollutionDataMapper;
         this.userRepository = userRepository;
@@ -122,7 +120,7 @@ public class AirPollutionDataService {
                     this.currentUserId,
                     this.currentUserLogin
                 );
-;
+                ;
                 save(airPollutionDataDTO);
             });
         } catch (IOException e) {
@@ -133,7 +131,6 @@ public class AirPollutionDataService {
 
     private ZonedDateTime getLocalDate(String dateTime) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss Z");
-        ZonedDateTime zonedDateTime = ZonedDateTime.parse(dateTime, formatter);
-        return zonedDateTime;
+        return ZonedDateTime.parse(dateTime, formatter);
     }
 }

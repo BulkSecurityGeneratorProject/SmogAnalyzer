@@ -14,5 +14,11 @@
                                  referencedColumnNames="id"
                                  referencedTableName="jhi_user"/>
 
+        <addForeignKeyConstraint baseColumnNames="place_of_measurement_id"
+                                 baseTableName="air_pollution_data"
+                                 constraintName="fk_air_pollution_data_place_of_measurement_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="place_of_measurement"/>
+
     </changeSet>
 </databaseChangeLog>

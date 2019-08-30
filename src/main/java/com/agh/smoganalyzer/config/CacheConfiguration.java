@@ -41,6 +41,7 @@ public class CacheConfiguration {
             cm.createCache(com.agh.smoganalyzer.domain.WeatherApiKey.class.getName(), jcacheConfiguration);
             cm.createCache(com.agh.smoganalyzer.domain.AirPollutionData.class.getName(), jcacheConfiguration);
             cm.createCache(com.agh.smoganalyzer.domain.WeatherData.class.getName(), jcacheConfiguration);
+            cm.createCache(com.agh.smoganalyzer.domain.PlaceOfMeasurement.class.getName(), jcacheConfiguration);
             // jhipster-needle-ehcache-add-entry
         };
     }

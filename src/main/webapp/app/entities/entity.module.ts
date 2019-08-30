@@ -21,12 +21,8 @@ import { RouterModule } from '@angular/router';
                 loadChildren: './air-pollution-data/air-pollution-data.module#SmogAnalyzerAirPollutionDataModule'
             },
             {
-                path: 'air-pollution-data',
-                loadChildren: './air-pollution-data/air-pollution-data.module#SmogAnalyzerAirPollutionDataModule'
-            },
-            {
-                path: 'air-pollution-data',
-                loadChildren: './air-pollution-data/air-pollution-data.module#SmogAnalyzerAirPollutionDataModule'
+                path: 'place-of-measurement',
+                loadChildren: './place-of-measurement/place-of-measurement.module#SmogAnalyzerPlaceOfMeasurementModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])

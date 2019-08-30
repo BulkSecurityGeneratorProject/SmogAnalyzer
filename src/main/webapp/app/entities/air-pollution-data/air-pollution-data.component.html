@@ -37,6 +37,7 @@
             <th jhiSortBy="longitude"><span jhiTranslate="smogAnalyzerApp.airPollutionData.longitude">Longitude</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="date"><span jhiTranslate="smogAnalyzerApp.airPollutionData.date">Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="ownerLogin"><span jhiTranslate="smogAnalyzerApp.airPollutionData.owner">Owner</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="placeOfMeasurement"><span jhiTranslate="smogAnalyzerApp.airPollutionData.placeOfMeasurement">Place of measurement</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
             </thead>
@@ -53,6 +54,7 @@
                 <td>
                     {{airPollutionData.ownerLogin}}
                 </td>
+                <td>{{airPollutionData.placeOfMeasurementName}}</td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"

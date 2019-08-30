@@ -4,6 +4,7 @@ import com.agh.smoganalyzer.SmogAnalyzerApp;
 
 import com.agh.smoganalyzer.domain.AirPollutionData;
 import com.agh.smoganalyzer.domain.User;
+import com.agh.smoganalyzer.domain.PlaceOfMeasurement;
 import com.agh.smoganalyzer.repository.AirPollutionDataRepository;
 import com.agh.smoganalyzer.service.AirPollutionDataService;
 import com.agh.smoganalyzer.service.dto.AirPollutionDataDTO;
@@ -130,6 +131,11 @@ public class AirPollutionDataResourceIntTest {
         em.persist(user);
         em.flush();
         airPollutionData.setOwner(user);
+        // Add required entity
+        PlaceOfMeasurement placeOfMeasurement = PlaceOfMeasurementResourceIntTest.createEntity(em);
+        em.persist(placeOfMeasurement);
+        em.flush();
+        airPollutionData.setPlaceOfMeasurement(placeOfMeasurement);
         return airPollutionData;
     }
 

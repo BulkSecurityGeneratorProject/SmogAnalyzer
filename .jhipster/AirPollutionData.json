@@ -13,6 +13,17 @@
             "ownerSide": true,
             "otherEntityRelationshipName": "airPollutionData",
             "otherEntityRelationshipNameUndefined": false
+        },
+        {
+            "relationshipName": "placeOfMeasurement",
+            "otherEntityName": "placeOfMeasurement",
+            "relationshipType": "many-to-one",
+            "relationshipValidateRules": [
+                "required"
+            ],
+            "otherEntityField": "name",
+            "otherEntityRelationshipName": "airPollutionData",
+            "otherEntityRelationshipNameUndefined": true
         }
     ],
     "fields": [

@@ -9,6 +9,8 @@ import { JhiAlertService } from 'ng-jhipster';
 import { IAirPollutionData } from 'app/shared/model/air-pollution-data.model';
 import { AirPollutionDataService } from './air-pollution-data.service';
 import { IUser, UserService } from 'app/core';
+import { IPlaceOfMeasurement } from 'app/shared/model/place-of-measurement.model';
+import { PlaceOfMeasurementService } from 'app/entities/place-of-measurement';
 
 @Component({
     selector: 'jhi-air-pollution-data-update',
@@ -19,12 +21,15 @@ export class AirPollutionDataUpdateComponent implements OnInit {
     isSaving: boolean;
 
     users: IUser[];
+
+    placeofmeasurements: IPlaceOfMeasurement[];
     date: string;
 
     constructor(
         protected jhiAlertService: JhiAlertService,
         protected airPollutionDataService: AirPollutionDataService,
         protected userService: UserService,
+        protected placeOfMeasurementService: PlaceOfMeasurementService,
         protected activatedRoute: ActivatedRoute
     ) {}
 
@@ -41,6 +46,16 @@ export class AirPollutionDataUpdateComponent implements OnInit {
                 map((response: HttpResponse<IUser[]>) => response.body)
             )
             .subscribe((res: IUser[]) => (this.users = res), (res: HttpErrorResponse) => this.onError(res.message));
+        this.placeOfMeasurementService
+            .query()
+            .pipe(
+                filter((mayBeOk: HttpResponse<IPlaceOfMeasurement[]>) => mayBeOk.ok),
+                map((response: HttpResponse<IPlaceOfMeasurement[]>) => response.body)
+            )
+            .subscribe(
+                (res: IPlaceOfMeasurement[]) => (this.placeofmeasurements = res),
+                (res: HttpErrorResponse) => this.onError(res.message)
+            );
     }
 
     previousState() {
@@ -75,6 +90,10 @@ export class AirPollutionDataUpdateComponent implements OnInit {
     }
 
     trackUserById(index: number, item: IUser) {
+        return item.id;
+    }
+
+    trackPlaceOfMeasurementById(index: number, item: IPlaceOfMeasurement) {
         return item.id;
     }
 }
