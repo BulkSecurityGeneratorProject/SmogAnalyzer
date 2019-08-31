@@ -23,6 +23,10 @@ import { RouterModule } from '@angular/router';
             {
                 path: 'place-of-measurement',
                 loadChildren: './place-of-measurement/place-of-measurement.module#SmogAnalyzerPlaceOfMeasurementModule'
+            },
+            {
+                path: 'airly-data',
+                loadChildren: './airly-data/airly-data.module#SmogAnalyzerAirlyDataModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])

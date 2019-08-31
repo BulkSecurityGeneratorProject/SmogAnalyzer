@@ -1,0 +1,27 @@
+{
+    "smogAnalyzerApp": {
+        "airlyData": {
+            "home": {
+                "title": "Airly Data",
+                "createLabel": "Dodaj Airly Data",
+                "createOrEditLabel": "Dodaj lub edytuj: Airly Data"
+            },
+            "created": "Utworzono nowy obiekt typu Airly Data z identyfikatorem {{ param }}",
+            "updated": "Uaktualniono obiekt typu Airly Data z identyfikatorem {{ param }}",
+            "deleted": "Usunięto obiekt typu Airly Data z identyfikatorem {{ param }}",
+            "delete": {
+                "question": "Czy na pewno chcesz usunąć Airly Data {{ id }}?"
+            },
+            "detail": {
+                "title": "Airly Data"
+            },
+            "pm25": "Pm 25",
+            "pm10": "Pm 10",
+            "temperature": "Temperature",
+            "humidity": "Humidity",
+            "latitude": "Latitude",
+            "longitude": "Longitude",
+            "date": "Date"
+        }
+    }
+}

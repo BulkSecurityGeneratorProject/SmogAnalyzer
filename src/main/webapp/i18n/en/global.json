@@ -11,6 +11,7 @@
                 "airPollutionData": "Air Pollution Data",
                 "weatherData": "Weather Data",
                 "placeOfMeasurement": "Place Of Measurement",
+                "airlyData": "Airly Data",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

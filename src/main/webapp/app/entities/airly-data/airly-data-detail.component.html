@@ -1,0 +1,51 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="airlyData">
+            <h2><span jhiTranslate="smogAnalyzerApp.airlyData.detail.title">Airly Data</span> {{airlyData.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="smogAnalyzerApp.airlyData.pm25">Pm 25</span></dt>
+                <dd>
+                    <span>{{airlyData.pm25}}</span>
+                </dd>
+                <dt><span jhiTranslate="smogAnalyzerApp.airlyData.pm10">Pm 10</span></dt>
+                <dd>
+                    <span>{{airlyData.pm10}}</span>
+                </dd>
+                <dt><span jhiTranslate="smogAnalyzerApp.airlyData.temperature">Temperature</span></dt>
+                <dd>
+                    <span>{{airlyData.temperature}}</span>
+                </dd>
+                <dt><span jhiTranslate="smogAnalyzerApp.airlyData.humidity">Humidity</span></dt>
+                <dd>
+                    <span>{{airlyData.humidity}}</span>
+                </dd>
+                <dt><span jhiTranslate="smogAnalyzerApp.airlyData.latitude">Latitude</span></dt>
+                <dd>
+                    <span>{{airlyData.latitude}}</span>
+                </dd>
+                <dt><span jhiTranslate="smogAnalyzerApp.airlyData.longitude">Longitude</span></dt>
+                <dd>
+                    <span>{{airlyData.longitude}}</span>
+                </dd>
+                <dt><span jhiTranslate="smogAnalyzerApp.airlyData.date">Date</span></dt>
+                <dd>
+                    <span>{{airlyData.date}}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/airly-data', airlyData.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

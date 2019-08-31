@@ -9,6 +9,7 @@
     <include file="config/liquibase/changelog/20190526152012_added_entity_AirPollutionData.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190813173041_added_entity_WeatherData.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190830181623_added_entity_PlaceOfMeasurement.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190831075316_added_entity_AirlyData.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <!--<include file="config/liquibase/changelog/20190519101156_changelog.xml" />-->
     <!--<include file="config/liquibase/changelog/20190519103222_changelog.xml" />-->

@@ -1,0 +1,111 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+            <h2 id="jhi-airly-data-heading" jhiTranslate="smogAnalyzerApp.airlyData.home.createOrEditLabel">Create or edit a Airly Data</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!airlyData.id">
+                    <label for="id" jhiTranslate="global.field.id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id"
+                        [(ngModel)]="airlyData.id" readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="smogAnalyzerApp.airlyData.pm25" for="field_pm25">Pm 25</label>
+                    <input type="number" class="form-control" name="pm25" id="field_pm25"
+                        [(ngModel)]="airlyData.pm25" required/>
+                    <div [hidden]="!(editForm.controls.pm25?.dirty && editForm.controls.pm25?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.pm25?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.controls.pm25?.errors?.number" jhiTranslate="entity.validation.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="smogAnalyzerApp.airlyData.pm10" for="field_pm10">Pm 10</label>
+                    <input type="number" class="form-control" name="pm10" id="field_pm10"
+                        [(ngModel)]="airlyData.pm10" required/>
+                    <div [hidden]="!(editForm.controls.pm10?.dirty && editForm.controls.pm10?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.pm10?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.controls.pm10?.errors?.number" jhiTranslate="entity.validation.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="smogAnalyzerApp.airlyData.temperature" for="field_temperature">Temperature</label>
+                    <input type="number" class="form-control" name="temperature" id="field_temperature"
+                        [(ngModel)]="airlyData.temperature" required/>
+                    <div [hidden]="!(editForm.controls.temperature?.dirty && editForm.controls.temperature?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.temperature?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.controls.temperature?.errors?.number" jhiTranslate="entity.validation.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="smogAnalyzerApp.airlyData.humidity" for="field_humidity">Humidity</label>
+                    <input type="number" class="form-control" name="humidity" id="field_humidity"
+                        [(ngModel)]="airlyData.humidity" required/>
+                    <div [hidden]="!(editForm.controls.humidity?.dirty && editForm.controls.humidity?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.humidity?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.controls.humidity?.errors?.number" jhiTranslate="entity.validation.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="smogAnalyzerApp.airlyData.latitude" for="field_latitude">Latitude</label>
+                    <input type="number" class="form-control" name="latitude" id="field_latitude"
+                        [(ngModel)]="airlyData.latitude" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="smogAnalyzerApp.airlyData.longitude" for="field_longitude">Longitude</label>
+                    <input type="number" class="form-control" name="longitude" id="field_longitude"
+                        [(ngModel)]="airlyData.longitude" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="smogAnalyzerApp.airlyData.date" for="field_date">Date</label>
+                    <div class="d-flex">
+                        <input id="field_date" type="datetime-local" class="form-control" name="date" [(ngModel)]="date" placeholder="YYYY-MM-DD HH:mm"
+                        required/>
+                    </div>
+                    <div [hidden]="!(editForm.controls.date?.dirty && editForm.controls.date?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.date?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.controls.date?.errors?.ZonedDateTimelocal" jhiTranslate="entity.validation.ZonedDateTimelocal">
+                            This field should be a date and time.
+                        </small>
+                    </div>
+                </div>
+
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
