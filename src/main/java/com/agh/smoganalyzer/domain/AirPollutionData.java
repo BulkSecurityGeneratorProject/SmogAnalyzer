@@ -63,6 +63,10 @@ public class AirPollutionData implements Serializable {
     @JsonIgnoreProperties("airPollutionData")
     private PlaceOfMeasurement placeOfMeasurement;
 
+    @OneToOne
+    @JoinColumn(unique = true)
+    private AirlyData airlyData;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -187,6 +191,19 @@ public class AirPollutionData implements Serializable {
 
     public void setPlaceOfMeasurement(PlaceOfMeasurement placeOfMeasurement) {
         this.placeOfMeasurement = placeOfMeasurement;
+    }
+
+    public AirlyData getAirlyData() {
+        return airlyData;
+    }
+
+    public AirPollutionData airlyData(AirlyData airlyData) {
+        this.airlyData = airlyData;
+        return this;
+    }
+
+    public void setAirlyData(AirlyData airlyData) {
+        this.airlyData = airlyData;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

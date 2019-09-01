@@ -37,7 +37,8 @@
             <th jhiSortBy="longitude"><span jhiTranslate="smogAnalyzerApp.airPollutionData.longitude">Longitude</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="date"><span jhiTranslate="smogAnalyzerApp.airPollutionData.date">Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="ownerLogin"><span jhiTranslate="smogAnalyzerApp.airPollutionData.owner">Owner</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="placeOfMeasurement"><span jhiTranslate="smogAnalyzerApp.airPollutionData.placeOfMeasurement">Place of measurement</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="placeOfMeasurementName"><span jhiTranslate="smogAnalyzerApp.airPollutionData.placeOfMeasurement">Place Of Measurement</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="airlyDataId"><span jhiTranslate="smogAnalyzerApp.airPollutionData.airlyData">Airly Data</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
             </thead>
@@ -54,7 +55,16 @@
                 <td>
                     {{airPollutionData.ownerLogin}}
                 </td>
-                <td>{{airPollutionData.placeOfMeasurementName}}</td>
+                <td>
+                    <div *ngIf="airPollutionData.placeOfMeasurementId">
+                        <a [routerLink]="['../place-of-measurement', airPollutionData.placeOfMeasurementId , 'view' ]" >{{airPollutionData.placeOfMeasurementName}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="airPollutionData.airlyDataId">
+                        <a [routerLink]="['../airly-data', airPollutionData.airlyDataId , 'view' ]" >{{airPollutionData.airlyDataId}}</a>
+                    </div>
+                </td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"

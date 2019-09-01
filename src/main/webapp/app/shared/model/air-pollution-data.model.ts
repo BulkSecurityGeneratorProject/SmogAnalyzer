@@ -13,6 +13,7 @@ export interface IAirPollutionData {
     ownerId?: number;
     placeOfMeasurementName?: string;
     placeOfMeasurementId?: number;
+    airlyDataId?: number;
 }
 
 export class AirPollutionData implements IAirPollutionData {
@@ -28,6 +29,7 @@ export class AirPollutionData implements IAirPollutionData {
         public ownerLogin?: string,
         public ownerId?: number,
         public placeOfMeasurementName?: string,
-        public placeOfMeasurementId?: number
+        public placeOfMeasurementId?: number,
+        public airlyDataId?: number
     ) {}
 }

@@ -8,17 +8,19 @@ import org.mapstruct.*;
 /**
  * Mapper for the entity AirPollutionData and its DTO AirPollutionDataDTO.
  */
-@Mapper(componentModel = "spring", uses = {UserMapper.class, PlaceOfMeasurementMapper.class})
+@Mapper(componentModel = "spring", uses = {UserMapper.class, PlaceOfMeasurementMapper.class, AirlyDataMapper.class})
 public interface AirPollutionDataMapper extends EntityMapper<AirPollutionDataDTO, AirPollutionData> {
 
     @Mapping(source = "owner.id", target = "ownerId")
     @Mapping(source = "owner.login", target = "ownerLogin")
     @Mapping(source = "placeOfMeasurement.id", target = "placeOfMeasurementId")
     @Mapping(source = "placeOfMeasurement.name", target = "placeOfMeasurementName")
+    @Mapping(source = "airlyData.id", target = "airlyDataId")
     AirPollutionDataDTO toDto(AirPollutionData airPollutionData);
 
     @Mapping(source = "ownerId", target = "owner")
     @Mapping(source = "placeOfMeasurementId", target = "placeOfMeasurement")
+    @Mapping(source = "airlyDataId", target = "airlyData")
     AirPollutionData toEntity(AirPollutionDataDTO airPollutionDataDTO);
 
     default AirPollutionData fromId(Long id) {

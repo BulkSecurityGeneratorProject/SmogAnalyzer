@@ -20,5 +20,11 @@
                                  referencedColumnNames="id"
                                  referencedTableName="place_of_measurement"/>
 
+        <addForeignKeyConstraint baseColumnNames="airly_data_id"
+                                 baseTableName="air_pollution_data"
+                                 constraintName="fk_air_pollution_data_airly_data_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="airly_data"/>
+
     </changeSet>
 </databaseChangeLog>

@@ -23,7 +23,17 @@
             ],
             "otherEntityField": "name",
             "otherEntityRelationshipName": "airPollutionData",
-            "otherEntityRelationshipNameUndefined": true
+            "otherEntityRelationshipNameUndefined": false
+        },
+        {
+            "relationshipName": "airlyData",
+            "otherEntityName": "airlyData",
+            "relationshipType": "one-to-one",
+            "otherEntityField": "id",
+            "ownerSide": true,
+            "useJPADerivedIdentifier": false,
+            "otherEntityRelationshipName": "airPollutionData",
+            "otherEntityRelationshipNameUndefined": false
         }
     ],
     "fields": [

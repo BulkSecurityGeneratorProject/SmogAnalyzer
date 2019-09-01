@@ -39,6 +39,8 @@ public class AirPollutionDataDTO implements Serializable {
 
     private String placeOfMeasurementName;
 
+    private Long airlyDataId;
+
     public AirPollutionDataDTO(@NotNull Integer pm25, @NotNull Integer pm10, @NotNull Double temperature,
                                @NotNull Double humidity, Double latitude, Double longitude, @NotNull ZonedDateTime date,
                                Long ownerId, String ownerLogin) {
@@ -152,6 +154,14 @@ public class AirPollutionDataDTO implements Serializable {
         this.placeOfMeasurementName = placeOfMeasurementName;
     }
 
+    public Long getAirlyDataId() {
+        return airlyDataId;
+    }
+
+    public void setAirlyDataId(Long airlyDataId) {
+        this.airlyDataId = airlyDataId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -188,6 +198,7 @@ public class AirPollutionDataDTO implements Serializable {
             ", owner='" + getOwnerLogin() + "'" +
             ", placeOfMeasurement=" + getPlaceOfMeasurementId() +
             ", placeOfMeasurement='" + getPlaceOfMeasurementName() + "'" +
+            ", airlyData=" + getAirlyDataId() +
             "}";
     }
 }

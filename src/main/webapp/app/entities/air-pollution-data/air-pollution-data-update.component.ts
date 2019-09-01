@@ -11,6 +11,8 @@ import { AirPollutionDataService } from './air-pollution-data.service';
 import { IUser, UserService } from 'app/core';
 import { IPlaceOfMeasurement } from 'app/shared/model/place-of-measurement.model';
 import { PlaceOfMeasurementService } from 'app/entities/place-of-measurement';
+import { IAirlyData } from 'app/shared/model/airly-data.model';
+import { AirlyDataService } from 'app/entities/airly-data';
 
 @Component({
     selector: 'jhi-air-pollution-data-update',
@@ -23,6 +25,8 @@ export class AirPollutionDataUpdateComponent implements OnInit {
     users: IUser[];
 
     placeofmeasurements: IPlaceOfMeasurement[];
+
+    airlydata: IAirlyData[];
     date: string;
 
     constructor(
@@ -30,6 +34,7 @@ export class AirPollutionDataUpdateComponent implements OnInit {
         protected airPollutionDataService: AirPollutionDataService,
         protected userService: UserService,
         protected placeOfMeasurementService: PlaceOfMeasurementService,
+        protected airlyDataService: AirlyDataService,
         protected activatedRoute: ActivatedRoute
     ) {}
 
@@ -54,6 +59,31 @@ export class AirPollutionDataUpdateComponent implements OnInit {
             )
             .subscribe(
                 (res: IPlaceOfMeasurement[]) => (this.placeofmeasurements = res),
+                (res: HttpErrorResponse) => this.onError(res.message)
+            );
+        this.airlyDataService
+            .query({ filter: 'airpollutiondata-is-null' })
+            .pipe(
+                filter((mayBeOk: HttpResponse<IAirlyData[]>) => mayBeOk.ok),
+                map((response: HttpResponse<IAirlyData[]>) => response.body)
+            )
+            .subscribe(
+                (res: IAirlyData[]) => {
+                    if (!this.airPollutionData.airlyDataId) {
+                        this.airlydata = res;
+                    } else {
+                        this.airlyDataService
+                            .find(this.airPollutionData.airlyDataId)
+                            .pipe(
+                                filter((subResMayBeOk: HttpResponse<IAirlyData>) => subResMayBeOk.ok),
+                                map((subResponse: HttpResponse<IAirlyData>) => subResponse.body)
+                            )
+                            .subscribe(
+                                (subRes: IAirlyData) => (this.airlydata = [subRes].concat(res)),
+                                (subRes: HttpErrorResponse) => this.onError(subRes.message)
+                            );
+                    }
+                },
                 (res: HttpErrorResponse) => this.onError(res.message)
             );
     }
@@ -94,6 +124,10 @@ export class AirPollutionDataUpdateComponent implements OnInit {
     }
 
     trackPlaceOfMeasurementById(index: number, item: IPlaceOfMeasurement) {
+        return item.id;
+    }
+
+    trackAirlyDataById(index: number, item: IAirlyData) {
         return item.id;
     }
 }

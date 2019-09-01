@@ -44,6 +44,12 @@
                             <a [routerLink]="['/place-of-measurement', airPollutionData.placeOfMeasurementId, 'view']">{{airPollutionData.placeOfMeasurementName}}</a>
                         </div>
                     </dd>
+                    <dt><span jhiTranslate="smogAnalyzerApp.airPollutionData.airlyData">Airly Data</span></dt>
+                    <dd>
+                        <div *ngIf="airPollutionData.airlyDataId">
+                            <a [routerLink]="['/airly-data', airPollutionData.airlyDataId, 'view']">{{airPollutionData.airlyDataId}}</a>
+                        </div>
+                    </dd>
                 </dl>
 
                 <button type="submit"

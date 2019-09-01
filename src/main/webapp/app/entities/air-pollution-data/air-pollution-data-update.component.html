@@ -123,6 +123,13 @@
                         This field is required.
                     </small>
                 </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="smogAnalyzerApp.airPollutionData.airlyData" for="field_airlyData">Airly Data</label>
+                    <select class="form-control" id="field_airlyData" name="airlyData" [(ngModel)]="airPollutionData.airlyDataId">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="airlyDataOption.id" *ngFor="let airlyDataOption of airlydata; trackBy: trackAirlyDataById">{{airlyDataOption.id}}</option>
+                    </select>
+                </div>
             </div>
             <div>
                 <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
