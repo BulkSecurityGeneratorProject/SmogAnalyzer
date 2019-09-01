@@ -25,7 +25,8 @@
             "date": "Date",
             "owner": "Owner",
             "placeOfMeasurement": "Place Of Measurement",
-            "airlyData": "Airly Data"
+            "airlyData": "Airly Data",
+            "getDataAutomatically": "Pobierz dane automatycznie"
         }
     }
 }

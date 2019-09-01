@@ -1,7 +1,9 @@
 package com.agh.smoganalyzer.service;
 
 import com.agh.smoganalyzer.domain.AirPollutionData;
+import com.agh.smoganalyzer.domain.PlaceOfMeasurement;
 import com.agh.smoganalyzer.repository.AirPollutionDataRepository;
+import com.agh.smoganalyzer.repository.PlaceOfMeasurementRepository;
 import com.agh.smoganalyzer.repository.UserRepository;
 import com.agh.smoganalyzer.security.SecurityUtils;
 import com.agh.smoganalyzer.service.dto.AirPollutionDataDTO;
@@ -31,21 +33,40 @@ import java.util.Optional;
 public class AirPollutionDataService {
 
     private final Logger log = LoggerFactory.getLogger(AirPollutionDataService.class);
+    private static final String INSIDE = "Inside";
+    private static final String OUTSIDE = "Outside";
 
     private final AirPollutionDataRepository airPollutionDataRepository;
-
     private final UserRepository userRepository;
+    private final PlaceOfMeasurementRepository placeOfMeasurementRepository;
 
     private final AirPollutionDataMapper airPollutionDataMapper;
 
     private String currentUserLogin;
+    private String placeOfMeasurementInsideName;
+    private String placeOfMeasurementOutsideName;
     private Long currentUserId;
+    private Long placeOfMeasurementInsideId;
+    private Long placeOfMeasurementOutsideId;
 
     public AirPollutionDataService(AirPollutionDataRepository airPollutionDataRepository, AirPollutionDataMapper airPollutionDataMapper,
-                                   UserRepository userRepository) {
+                                   UserRepository userRepository, PlaceOfMeasurementRepository placeOfMeasurementRepository) {
         this.airPollutionDataRepository = airPollutionDataRepository;
         this.airPollutionDataMapper = airPollutionDataMapper;
         this.userRepository = userRepository;
+        this.placeOfMeasurementRepository = placeOfMeasurementRepository;
+
+        Optional<PlaceOfMeasurement> inside = this.placeOfMeasurementRepository.findOneByName(INSIDE);
+        inside.ifPresent(in -> {
+            this.placeOfMeasurementInsideId = in.getId();
+            this.placeOfMeasurementInsideName = in.getName();
+        });
+
+        Optional<PlaceOfMeasurement> outside = this.placeOfMeasurementRepository.findOneByName(OUTSIDE);
+        outside.ifPresent(out -> {
+            this.placeOfMeasurementOutsideId = out.getId();
+            this.placeOfMeasurementOutsideName = out.getName();
+        });
     }
 
     /**
@@ -108,6 +129,8 @@ public class AirPollutionDataService {
                     this.currentUserId = user.getId();
                 });
 
+
+
             parser.forEach(record -> {
                 AirPollutionDataDTO airPollutionDataDTO = new AirPollutionDataDTO(
                     Integer.parseInt(record.get(0)),
@@ -118,9 +141,10 @@ public class AirPollutionDataService {
                     Double.parseDouble(record.get(5)),
                     getLocalDate(record.get(6)),
                     this.currentUserId,
-                    this.currentUserLogin
+                    this.currentUserLogin,
+                    getPlaceOfMeasurementId(record.get(7)),
+                    getPlaceOfMeasurementName(record.get(7))
                 );
-                ;
                 save(airPollutionDataDTO);
             });
         } catch (IOException e) {
@@ -132,5 +156,27 @@ public class AirPollutionDataService {
     private ZonedDateTime getLocalDate(String dateTime) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss Z");
         return ZonedDateTime.parse(dateTime, formatter);
+    }
+
+    private Long getPlaceOfMeasurementId(String name) {
+        switch (name) {
+            case INSIDE:
+                return this.placeOfMeasurementInsideId;
+            case OUTSIDE:
+                return this.placeOfMeasurementOutsideId;
+            default:
+                return null;
+        }
+    }
+
+    private String getPlaceOfMeasurementName(String name) {
+        switch (name) {
+            case INSIDE:
+                return this.placeOfMeasurementInsideName;
+            case OUTSIDE:
+                return this.placeOfMeasurementOutsideName;
+            default:
+                return null;
+        }
     }
 }

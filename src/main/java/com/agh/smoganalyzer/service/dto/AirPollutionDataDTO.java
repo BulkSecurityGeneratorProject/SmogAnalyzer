@@ -43,7 +43,7 @@ public class AirPollutionDataDTO implements Serializable {
 
     public AirPollutionDataDTO(@NotNull Integer pm25, @NotNull Integer pm10, @NotNull Double temperature,
                                @NotNull Double humidity, Double latitude, Double longitude, @NotNull ZonedDateTime date,
-                               Long ownerId, String ownerLogin) {
+                               Long ownerId, String ownerLogin, Long placeOfMeasurementId, String placeOfMeasurementName) {
         this.pm25 = pm25;
         this.pm10 = pm10;
         this.temperature = temperature;
@@ -53,6 +53,8 @@ public class AirPollutionDataDTO implements Serializable {
         this.date = date;
         this.ownerId = ownerId;
         this.ownerLogin = ownerLogin;
+        this.placeOfMeasurementId = placeOfMeasurementId;
+        this.placeOfMeasurementName = placeOfMeasurementName;
     }
 
     public AirPollutionDataDTO() {
