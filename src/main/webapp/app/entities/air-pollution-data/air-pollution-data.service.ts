@@ -16,6 +16,9 @@ type EntityArrayResponseType = HttpResponse<IAirPollutionData[]>;
 export class AirPollutionDataService {
     public resourceUrl = SERVER_API_URL + 'api/air-pollution-data';
     public fileUploadUrl = this.resourceUrl + '/file-upload';
+    public airlyNearestResourceUrl = 'https://airapi.airly.eu/v2/measurements/point?';
+
+    private airlyApiKey = '4NUgCD1laoaAuB5ipwAFzB5jMQRFHF5N';
 
     constructor(protected http: HttpClient) {}
 
@@ -75,5 +78,13 @@ export class AirPollutionDataService {
             });
         }
         return res;
+    }
+
+    getNearestAirlyDataForCoordinates(lat: number, lng: number): Observable<Object> {
+        return this.http.get(this.generateAirlyNearestRequestUrl(this.airlyNearestResourceUrl, this.airlyApiKey, lat, lng));
+    }
+
+    private generateAirlyNearestRequestUrl(nearestUrl: string, apiKey: string, lat: number, lng: number): string {
+        return nearestUrl + 'apikey=' + apiKey + '&' + 'lat=' + lat.toString() + '&' + 'lng=' + lng.toString();
     }
 }

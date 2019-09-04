@@ -14,7 +14,8 @@
             },
             "detail": {
                 "title": "Air Pollution Data",
-                "subtitle": "Airly Data"
+                "subtitle": "Airly Data",
+                "noSensors": "Our sensors are not yet available in this area :("
             },
             "pm25": "Pm 25",
             "pm10": "Pm 10",
