@@ -1,0 +1,15 @@
+<div class="modal-header">
+    <h4 class="modal-title" jhiTranslate="smogAnalyzerApp.airPollutionData.placeOfMeasurement">Test Modal</h4>
+    <button type="button" class="close" aria-label="Close" (click)="onDismiss('Cross click')">
+        <span aria-hidden="true">x</span>
+    </button>
+</div>
+
+<div class="modal-body">
+    <div class="map" id="map" style="width: 468px; height: 322px"></div>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-info" jhiTranslate="smogAnalyzerApp.airPollutionData.close"
+            type="button" (click)="onClose()">Close</button>
+</div>

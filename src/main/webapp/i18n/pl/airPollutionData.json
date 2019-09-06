@@ -25,9 +25,11 @@
             "longitude": "Longitude",
             "date": "Date",
             "owner": "Owner",
-            "placeOfMeasurement": "Place Of Measurement",
+            "placeOfMeasurement": "Miejsce pomiaru",
             "airlyData": "Airly Data",
-            "getDataAutomatically": "Pobierz dane automatycznie"
+            "getDataAutomatically": "Pobierz dane automatycznie",
+            "showOnMap": "Wyświetl na mapie",
+            "close": "Zamknij"
         }
     }
 }

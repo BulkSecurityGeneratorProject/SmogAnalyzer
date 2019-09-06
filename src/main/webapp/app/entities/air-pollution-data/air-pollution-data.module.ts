@@ -13,6 +13,7 @@ import {
     airPollutionDataRoute,
     airPollutionDataPopupRoute
 } from './';
+import { MapPopupComponent } from './map-popup/map-popup.component';
 
 const ENTITY_STATES = [...airPollutionDataRoute, ...airPollutionDataPopupRoute];
 
@@ -23,13 +24,15 @@ const ENTITY_STATES = [...airPollutionDataRoute, ...airPollutionDataPopupRoute];
         AirPollutionDataDetailComponent,
         AirPollutionDataUpdateComponent,
         AirPollutionDataDeleteDialogComponent,
-        AirPollutionDataDeletePopupComponent
+        AirPollutionDataDeletePopupComponent,
+        MapPopupComponent
     ],
     entryComponents: [
         AirPollutionDataComponent,
         AirPollutionDataUpdateComponent,
         AirPollutionDataDeleteDialogComponent,
-        AirPollutionDataDeletePopupComponent
+        AirPollutionDataDeletePopupComponent,
+        MapPopupComponent
     ],
     providers: [{ provide: JhiLanguageService, useClass: JhiLanguageService }],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]

@@ -27,7 +27,9 @@
             "owner": "Owner",
             "placeOfMeasurement": "Place Of Measurement",
             "airlyData": "Airly Data",
-            "getDataAutomatically": "Get data automatically"
+            "getDataAutomatically": "Get data automatically",
+            "showOnMap": "Show on map",
+            "close": "Close"
         }
     }
 }

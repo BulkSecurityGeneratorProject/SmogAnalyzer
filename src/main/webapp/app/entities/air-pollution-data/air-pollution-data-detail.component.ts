@@ -6,8 +6,12 @@ import { DatePipe } from '@angular/common';
 import { AirlyData, IAirlyData } from 'app/shared/model/airly-data.model';
 import { AirPollutionDataService } from 'app/entities/air-pollution-data/air-pollution-data.service';
 import { JhiAlertService } from 'ng-jhipster';
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import moment = require('moment');
+import { AirlyDataService } from 'app/entities/airly-data';
+import { filter, map } from 'rxjs/operators';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { MapPopupComponent } from 'app/entities/air-pollution-data/map-popup/map-popup.component';
 
 @Component({
     selector: 'jhi-air-pollution-data-detail',
@@ -22,13 +26,38 @@ export class AirPollutionDataDetailComponent implements OnInit {
         protected activatedRoute: ActivatedRoute,
         private datePipe: DatePipe,
         private airPollutionDataService: AirPollutionDataService,
+        private airlyDataService: AirlyDataService,
+        private modalService: NgbModal,
         protected jhiAlertService: JhiAlertService
     ) {}
 
     ngOnInit() {
         this.activatedRoute.data.subscribe(({ airPollutionData }) => {
             this.airPollutionData = airPollutionData;
-            this.airlyData = airPollutionData.airlyData;
+
+            this.airlyDataService
+                .query({ filter: 'airpollutiondata-is-null' })
+                .pipe(
+                    filter((mayBeOk: HttpResponse<IAirlyData[]>) => mayBeOk.ok),
+                    map((response: HttpResponse<IAirlyData[]>) => response.body)
+                )
+                .subscribe(
+                    (res: IAirlyData[]) => {
+                        if (this.airPollutionData.airlyDataId) {
+                            this.airlyDataService
+                                .find(this.airPollutionData.airlyDataId)
+                                .pipe(
+                                    filter((subResMayBeOk: HttpResponse<IAirlyData>) => subResMayBeOk.ok),
+                                    map((subResponse: HttpResponse<IAirlyData>) => subResponse.body)
+                                )
+                                .subscribe(
+                                    (subRes: IAirlyData) => (this.airlyData = [subRes].concat(res)[0]),
+                                    (subRes: HttpErrorResponse) => this.jhiAlertService.error(subRes.message, null, null)
+                                );
+                        }
+                    },
+                    (res: HttpErrorResponse) => this.jhiAlertService.error(res.message, null, null)
+                );
         });
     }
 
@@ -66,6 +95,13 @@ export class AirPollutionDataDetailComponent implements OnInit {
 
                             if (airPollutionDate >= fromDateTime && airPollutionDate <= tillDateTime) {
                                 this.createAirlyDataObject(data);
+                                this.airlyDataService.create(this.airlyData).subscribe(airlyDataResponse => {
+                                    console.log(airlyDataResponse);
+                                    this.airPollutionData.airlyDataId = airlyDataResponse.body.id;
+                                    this.airPollutionDataService.update(this.airPollutionData).subscribe(airPollutionUpdateResponse => {
+                                        console.log(airPollutionUpdateResponse);
+                                    });
+                                });
                             }
                         });
 
@@ -105,5 +141,9 @@ export class AirPollutionDataDetailComponent implements OnInit {
                 }
             }
         });
+    }
+
+    onMapModalRequest(): void {
+        const modalRef = this.modalService.open(MapPopupComponent);
     }
 }
