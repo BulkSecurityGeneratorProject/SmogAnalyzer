@@ -12,6 +12,7 @@ import { AirlyDataService } from 'app/entities/airly-data';
 import { filter, map } from 'rxjs/operators';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MapPopupComponent } from 'app/entities/air-pollution-data/map-popup/map-popup.component';
+import { MapPopupService } from 'app/entities/air-pollution-data/map-popup/map-popup-service';
 
 @Component({
     selector: 'jhi-air-pollution-data-detail',
@@ -27,6 +28,7 @@ export class AirPollutionDataDetailComponent implements OnInit {
         private datePipe: DatePipe,
         private airPollutionDataService: AirPollutionDataService,
         private airlyDataService: AirlyDataService,
+        private mapPopupService: MapPopupService,
         private modalService: NgbModal,
         protected jhiAlertService: JhiAlertService
     ) {}
@@ -34,6 +36,8 @@ export class AirPollutionDataDetailComponent implements OnInit {
     ngOnInit() {
         this.activatedRoute.data.subscribe(({ airPollutionData }) => {
             this.airPollutionData = airPollutionData;
+            this.mapPopupService.lng = this.airPollutionData.longitude;
+            this.mapPopupService.lat = this.airPollutionData.latitude;
 
             this.airlyDataService
                 .query({ filter: 'airpollutiondata-is-null' })

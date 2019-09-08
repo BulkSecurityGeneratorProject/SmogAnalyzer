@@ -18,6 +18,7 @@ import { SmogAnalyzerHomeModule } from './home/home.module';
 import { SmogAnalyzerAccountModule } from './account/account.module';
 import { SmogAnalyzerEntityModule } from './entities/entity.module';
 import * as moment from 'moment';
+import { SmogAnalyzerAppAnalysisModule } from './analysis/analysis.module';
 // jhipster-needle-angular-add-module-import JHipster will add new module here
 import { JhiMainComponent, NavbarComponent, FooterComponent, PageRibbonComponent, ActiveMenuDirective, ErrorComponent } from './layouts';
 
@@ -36,6 +37,7 @@ import { JhiMainComponent, NavbarComponent, FooterComponent, PageRibbonComponent
         SmogAnalyzerCoreModule,
         SmogAnalyzerHomeModule,
         SmogAnalyzerAccountModule,
+        SmogAnalyzerAppAnalysisModule,
         // jhipster-needle-angular-add-module JHipster will add new module here
         SmogAnalyzerEntityModule,
         SmogAnalyzerAppRoutingModule,

@@ -1,31 +1,43 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import * as mapboxgl from 'mapbox-gl';
+import { MapPopupService } from 'app/entities/air-pollution-data/map-popup/map-popup-service';
 
 @Component({
     selector: 'jhi-map-popup',
     templateUrl: './map-popup.component.html',
-    styles: ['./map-popup.component.css']
+    styles: []
 })
 export class MapPopupComponent implements OnInit {
     map: mapboxgl.Map;
     style = 'mapbox://styles/mapbox/streets-v11';
-    lat = 37.75;
-    lng = -122.41;
+    lng: number;
+    lat: number;
 
     private accessToken = 'pk.eyJ1IjoicmFkb3NsYXdjaXVwZWsiLCJhIjoiY2swODR4YXhiMDBvNDNpbXF0MzFqbGl2eiJ9.IGCo5dt96_oGVNaGkgJntA';
 
-    constructor(public activeModal: NgbActiveModal) {}
+    constructor(public activeModal: NgbActiveModal, private mapPopupService: MapPopupService) {}
 
     ngOnInit() {
-        mapboxgl.accessToken = this.accessToken;
+        Object.getOwnPropertyDescriptor(mapboxgl, 'accessToken').set(this.accessToken);
+        this.lng = this.mapPopupService.lng;
+        this.lat = this.mapPopupService.lat;
+        this.initializeMap();
+    }
+
+    private initializeMap() {
+        this.buildMap();
+    }
+
+    buildMap() {
         this.map = new mapboxgl.Map({
             container: 'map',
             style: this.style,
             zoom: 13,
             center: [this.lng, this.lat]
         });
-        // Add map controls
-        this.map.addControl(new mapboxgl.NavigationControl());
+
+        let marker = new mapboxgl.Marker().setLngLat([this.lng, this.lat]).addTo(this.map);
     }
 
     onClose(): void {
