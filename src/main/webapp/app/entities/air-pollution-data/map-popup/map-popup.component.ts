@@ -36,8 +36,7 @@ export class MapPopupComponent implements OnInit {
             zoom: 13,
             center: [this.lng, this.lat]
         });
-
-        let marker = new mapboxgl.Marker().setLngLat([this.lng, this.lat]).addTo(this.map);
+        new mapboxgl.Marker().setLngLat([this.lng, this.lat]).addTo(this.map);
     }
 
     onClose(): void {

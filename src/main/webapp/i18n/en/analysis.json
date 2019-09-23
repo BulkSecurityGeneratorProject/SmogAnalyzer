@@ -1,5 +1,6 @@
 {
     "analysis": {
-        "title": "[en] Analysis"
+        "title": "[en] Analysis",
+        "typeOfAnalysis": "Type of analysis"
     }
 }

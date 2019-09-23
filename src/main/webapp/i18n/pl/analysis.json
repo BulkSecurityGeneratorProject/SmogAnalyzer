@@ -1,5 +1,6 @@
 {
     "analysis": {
-        "title": "Analiza"
+        "title": "Analiza",
+        "typeOfAnalysis": "Rodzaj analizy"
     }
 }

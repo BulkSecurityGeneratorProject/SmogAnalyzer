@@ -1,11 +1,19 @@
 <div class="row">
-  <div class="col-md-1"></div>
-  <div class="col-md-10">
-    <h6 class="text-right">{{message}}</h6>
-    <h1 class="text-capitalize text-center" jhiTranslate="analysis.title">Title</h1>
-    <h5 class="text-center" jhiTranslate="analysis.subtitle">Subtitle</h5>
-    <hr/>
-    <router-outlet></router-outlet>
-  </div>
-  <div class="col-md-1"></div>
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+        <h1 class="text-capitalize text-center" jhiTranslate="analysis.title">Title</h1>
+        <hr/>
+        <router-outlet></router-outlet>
+        <form [formGroup]="typesOfAnalysisForm" style="width: 200px;">
+            <label class="form-control-label" jhiTranslate="analysis.typeOfAnalysis" for="field_typeOfAnalysis">Type of analysis</label>
+            <select class="form-control" id="field_typeOfAnalysis" name="typeOfAnalysis" >
+                <option *ngFor="let typeOfAnalysis of typesOfAnalysis; let i = index;" [value]="typesOfAnalysis[i].id">
+                    {{typesOfAnalysis[i].name}}
+                </option>
+            </select>
+            <br/>
+            <br/>
+        </form>
+    </div>
+
 </div>

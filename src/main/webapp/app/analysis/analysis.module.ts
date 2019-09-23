@@ -4,9 +4,10 @@ import { RouterModule } from '@angular/router';
 import { SmogAnalyzerSharedModule } from '../shared';
 
 import { ANALYSIS_ROUTE, AnalysisComponent } from './';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
-    imports: [SmogAnalyzerSharedModule, RouterModule.forRoot([ANALYSIS_ROUTE], { useHash: true })],
+    imports: [SmogAnalyzerSharedModule, ReactiveFormsModule, RouterModule.forRoot([ANALYSIS_ROUTE], { useHash: true })],
     declarations: [AnalysisComponent],
     entryComponents: [],
     providers: [],
