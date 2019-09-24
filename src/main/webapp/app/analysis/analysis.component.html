@@ -1,19 +1,37 @@
-<div class="row">
-    <div class="col-md-1"></div>
-    <div class="col-md-10">
-        <h1 class="text-capitalize text-center" jhiTranslate="analysis.title">Title</h1>
-        <hr/>
-        <router-outlet></router-outlet>
-        <form [formGroup]="typesOfAnalysisForm" style="width: 200px;">
-            <label class="form-control-label" jhiTranslate="analysis.typeOfAnalysis" for="field_typeOfAnalysis">Type of analysis</label>
-            <select class="form-control" id="field_typeOfAnalysis" name="typeOfAnalysis" >
-                <option *ngFor="let typeOfAnalysis of typesOfAnalysis; let i = index;" [value]="typesOfAnalysis[i].id">
-                    {{typesOfAnalysis[i].name}}
-                </option>
-            </select>
-            <br/>
-            <br/>
-        </form>
+<div class="container">
+    <div class="row justify-content-md-center">
+        <div class="col-md-12">
+            <h1 class="text-capitalize text-center" jhiTranslate="analysis.title">Title</h1>
+            <jhi-alert></jhi-alert>
+            <hr/>
+            <router-outlet></router-outlet>
+            <div class="form-group">
+                <label class="form-control-label" jhiTranslate="analysis.typeOfAnalysis" for="typeOfAnalysis">Type of analysis</label>
+                <select id="typeOfAnalysis" name="typeOfAnalysisSelect" [(ngModel)]="selectedType" class="form-control">
+                    <option *ngFor="let type of typesOfAnalysis" [value]="type.id">
+                        {{type.name}}
+                    </option>
+                </select>
+            </div>
+        </div>
     </div>
-
+    <div *ngIf="selectedType==='0'" class="row justify-content-md-center">
+        <h1>Dzien</h1>
+        <div class='input-group date' id='datetimepicker1'>
+            <input type='text' class="form-control" />
+            <span class="input-group-addon">
+                <span class="glyphicon glyphicon-calendar"></span>
+            </span>
+        </div>
+    </div>
+    <div *ngIf="selectedType==='1'" class="row justify-content-md-center">
+        <h1>Miesiac</h1>
+        <div class='input-group date' id='datetimepicker2'>
+            <input type='text' class="form-control" />
+            <span class="input-group-addon">
+                <span class="glyphicon glyphicon-calendar"></span>
+            </span>
+        </div>
+    </div>
 </div>
+

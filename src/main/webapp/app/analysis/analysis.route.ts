@@ -7,7 +7,7 @@ export const ANALYSIS_ROUTE: Route = {
     path: 'analysis',
     component: AnalysisComponent,
     data: {
-        authorities: [],
+        authorities: ['ROLE_USER', 'ROLE_ADMIN'],
         pageTitle: 'analysis.title'
     },
     canActivate: [UserRouteAccessService],

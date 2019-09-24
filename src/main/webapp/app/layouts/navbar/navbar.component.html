@@ -16,8 +16,7 @@
                     </span>
                 </a>
             </li>
-            
-            <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+            <li *jhiHasAnyAuthority="'ROLE_USER'" class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
                 <a class="nav-link" routerLink="analysis" (click)="collapseNavbar()">
                     <fa-icon icon="tasks"></fa-icon>
                     <span jhiTranslate="global.menu.analysis">Analysis</span>
