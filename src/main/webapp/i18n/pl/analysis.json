@@ -1,6 +1,7 @@
 {
     "analysis": {
         "title": "Analiza",
-        "typeOfAnalysis": "Rodzaj analizy"
+        "typeOfAnalysis": "Rodzaj analizy",
+        "selectDate": "Wybierz datę"
     }
 }

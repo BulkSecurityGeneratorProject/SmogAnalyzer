@@ -6,6 +6,7 @@ import { IAirPollutionData } from 'app/shared/model/air-pollution-data.model';
 import { filter, map } from 'rxjs/operators';
 import { JhiAlertService, JhiEventManager } from 'ng-jhipster';
 import { AnalysisTypeModel } from 'app/analysis/analysisType.model';
+import { DatePipe } from '@angular/common';
 
 @Component({
     selector: 'jhi-analysis',
@@ -17,11 +18,15 @@ export class AnalysisComponent implements OnInit {
     airPollutionData: IAirPollutionData[];
     eventSubscriber: Subscription;
     selectedType: string;
+    dailyTypeDateSelected: string;
+    dateDp: any;
+    airPollutonDailyDataFound: IAirPollutionData[];
 
     constructor(
         private airPollutionDataService: AirPollutionDataService,
         private jhiAlertService: JhiAlertService,
-        private eventManager: JhiEventManager
+        private eventManager: JhiEventManager,
+        private datePipe: DatePipe
     ) {}
 
     loadAllAirPollutionData() {
@@ -50,5 +55,13 @@ export class AnalysisComponent implements OnInit {
 
     registerChangeInAirPollutionData() {
         this.eventSubscriber = this.eventManager.subscribe('airPollutionDataListModification', response => this.loadAllAirPollutionData());
+    }
+
+    findAirPollutionDataBySelectedDate() {
+        const selectedDate = this.datePipe.transform(new Date(this.dailyTypeDateSelected), 'yyyy-MM-dd');
+
+        let airPollutonDailyDataFound = this.airPollutionData.find(
+            data => this.datePipe.transform(data.date.toDate(), 'yyyy-MM-dd') === selectedDate
+        );
     }
 }

@@ -1,6 +1,7 @@
 {
     "analysis": {
         "title": "[en] Analysis",
-        "typeOfAnalysis": "Type of analysis"
+        "typeOfAnalysis": "Type of analysis",
+        "selectDate": "Select date"
     }
 }

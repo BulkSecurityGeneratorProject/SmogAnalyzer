@@ -5,7 +5,7 @@
             <jhi-alert></jhi-alert>
             <hr/>
             <router-outlet></router-outlet>
-            <div class="form-group">
+            <div class="form-group" style="width: 200px">
                 <label class="form-control-label" jhiTranslate="analysis.typeOfAnalysis" for="typeOfAnalysis">Type of analysis</label>
                 <select id="typeOfAnalysis" name="typeOfAnalysisSelect" [(ngModel)]="selectedType" class="form-control">
                     <option *ngFor="let type of typesOfAnalysis" [value]="type.id">
@@ -13,24 +13,24 @@
                     </option>
                 </select>
             </div>
-        </div>
-    </div>
-    <div *ngIf="selectedType==='0'" class="row justify-content-md-center">
-        <h1>Dzien</h1>
-        <div class='input-group date' id='datetimepicker1'>
-            <input type='text' class="form-control" />
-            <span class="input-group-addon">
-                <span class="glyphicon glyphicon-calendar"></span>
-            </span>
-        </div>
-    </div>
-    <div *ngIf="selectedType==='1'" class="row justify-content-md-center">
-        <h1>Miesiac</h1>
-        <div class='input-group date' id='datetimepicker2'>
-            <input type='text' class="form-control" />
-            <span class="input-group-addon">
-                <span class="glyphicon glyphicon-calendar"></span>
-            </span>
+            <div class="form-group" >
+                <div *ngIf="selectedType==='0'" style="width: 200px">
+                    <label class="form-control-label" jhiTranslate="analysis.selectDate" for="field_date">Date</label>
+                    <div class="input-group">
+                        <input id="field_date" type="text" class="form-control" name="date" ngbDatepicker  #dateDp="ngbDatepicker" [(ngModel)]="dailyTypeDateSelected"
+                               required/>
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="dateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
+                    </div>
+                    <div *ngIf="dailyTypeDateSelected">
+                        <h1>{{findAirPollutionDataBySelectedDate()}}</h1>
+                    </div>
+                </div>
+                <div *ngIf="selectedType==='1'" style="width: 450px">
+
+                </div>
+            </div>
         </div>
     </div>
 </div>
