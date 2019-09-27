@@ -93,6 +93,12 @@ public class AirPollutionDataResource {
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
+    @GetMapping("/air-pollution-data/all")
+    public List<AirPollutionDataDTO> getAllAirPollutionDataNoPagination() {
+        log.debug("REST request to get all of AirPollutionData");
+        return airPollutionDataService.findAllNoPagination();
+    }
+
     /**
      * GET  /air-pollution-data/:id : get the "id" airPollutionData.
      *

@@ -2,6 +2,7 @@
     "analysis": {
         "title": "Analiza",
         "typeOfAnalysis": "Rodzaj analizy",
-        "selectDate": "Wybierz datę"
+        "selectDate": "Wybierz datę",
+        "noMeasurementsFound": "Nie znaleziono pomiarów w wybranym dniu"
     }
 }

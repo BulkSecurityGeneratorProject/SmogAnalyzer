@@ -5,7 +5,7 @@
             <jhi-alert></jhi-alert>
             <hr/>
             <router-outlet></router-outlet>
-            <div class="form-group" style="width: 200px">
+            <div class="form-group" style="width: 250px">
                 <label class="form-control-label" jhiTranslate="analysis.typeOfAnalysis" for="typeOfAnalysis">Type of analysis</label>
                 <select id="typeOfAnalysis" name="typeOfAnalysisSelect" [(ngModel)]="selectedType" class="form-control">
                     <option *ngFor="let type of typesOfAnalysis" [value]="type.id">
@@ -14,20 +14,23 @@
                 </select>
             </div>
             <div class="form-group" >
-                <div *ngIf="selectedType==='0'" style="width: 200px">
+                <div *ngIf="selectedType==='0'" style="width: 250px">
                     <label class="form-control-label" jhiTranslate="analysis.selectDate" for="field_date">Date</label>
                     <div class="input-group">
                         <input id="field_date" type="text" class="form-control" name="date" ngbDatepicker  #dateDp="ngbDatepicker" [(ngModel)]="dailyTypeDateSelected"
-                               required/>
+                               (ngModelChange)="findAirPollutionDataBySelectedDate()" required/>
                         <span class="input-group-append">
                             <button type="button" class="btn btn-secondary" (click)="dateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
                         </span>
                     </div>
                     <div *ngIf="dailyTypeDateSelected">
-                        <h1>{{findAirPollutionDataBySelectedDate()}}</h1>
+                        <small class="form-text text-danger" *ngIf="!isAirPollutionDataFound"
+                               jhiTranslate="analysis.noMeasurementsFound">
+                            No measuremenets found on selected date
+                        </small>
                     </div>
                 </div>
-                <div *ngIf="selectedType==='1'" style="width: 450px">
+                <div *ngIf="selectedType==='1'" style="width: 550px">
 
                 </div>
             </div>

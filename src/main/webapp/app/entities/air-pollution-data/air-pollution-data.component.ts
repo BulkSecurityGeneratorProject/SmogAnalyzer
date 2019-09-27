@@ -126,6 +126,8 @@ export class AirPollutionDataComponent implements OnInit, OnDestroy {
         this.links = this.parseLinks.parse(headers.get('link'));
         this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
         this.airPollutionData = data;
+
+        console.log('this.airPollutionData.length: ' + this.airPollutionData.length);
     }
 
     protected onError(errorMessage: string) {

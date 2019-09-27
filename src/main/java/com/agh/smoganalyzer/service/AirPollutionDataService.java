@@ -23,7 +23,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Service Implementation for managing AirPollutionData.
@@ -95,6 +98,13 @@ public class AirPollutionDataService {
             .map(airPollutionDataMapper::toDto);
     }
 
+    @Transactional(readOnly = true)
+    public List<AirPollutionDataDTO> findAllNoPagination() {
+        log.debug("Request to get all AirPollutionData without pagination");
+        return airPollutionDataRepository.findAll().stream()
+            .map(airPollutionDataMapper::toDto)
+            .collect(Collectors.toCollection(LinkedList::new));
+    }
 
     /**
      * Get one airPollutionData by id.

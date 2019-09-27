@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { AirPollutionDataService } from 'app/entities/air-pollution-data';
-import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { IAirPollutionData } from 'app/shared/model/air-pollution-data.model';
 import { filter, map } from 'rxjs/operators';
 import { JhiAlertService, JhiEventManager } from 'ng-jhipster';
@@ -21,6 +21,8 @@ export class AnalysisComponent implements OnInit {
     dailyTypeDateSelected: string;
     dateDp: any;
     airPollutonDailyDataFound: IAirPollutionData[];
+    isAirPollutionDataFound: boolean;
+    airPollutionDataSize: number;
 
     constructor(
         private airPollutionDataService: AirPollutionDataService,
@@ -30,18 +32,35 @@ export class AnalysisComponent implements OnInit {
     ) {}
 
     loadAllAirPollutionData() {
-        this.airPollutionDataService
-            .query()
-            .pipe(
-                filter((res: HttpResponse<IAirPollutionData[]>) => res.ok),
-                map((res: HttpResponse<IAirPollutionData[]>) => res.body)
-            )
-            .subscribe(
-                (res: IAirPollutionData[]) => {
-                    this.airPollutionData = res;
-                },
-                (res: HttpErrorResponse) => this.onError(res.message)
-            );
+        this.getAirPollutionDataSize()
+            .toPromise()
+            .then(x => {
+                this.airPollutionDataService
+                    .query({
+                        size: this.airPollutionDataSize
+                    })
+                    .pipe(
+                        filter((res: HttpResponse<IAirPollutionData[]>) => res.ok),
+                        map((res: HttpResponse<IAirPollutionData[]>) => res.body)
+                    )
+                    .subscribe(
+                        (res: IAirPollutionData[]) => {
+                            this.airPollutionData = res;
+                        },
+                        (res: HttpErrorResponse) => this.onError(res.message)
+                    );
+            });
+    }
+
+    getAirPollutionDataSize(): Observable<IAirPollutionData[]> {
+        return this.airPollutionDataService.queryAll().pipe(
+            filter((res: HttpResponse<IAirPollutionData[]>) => res.ok),
+            map((res: HttpResponse<IAirPollutionData[]>) => res.body),
+            map((res: IAirPollutionData[]) => {
+                this.airPollutionDataSize = res.length;
+                return res;
+            })
+        );
     }
 
     ngOnInit() {
@@ -60,8 +79,14 @@ export class AnalysisComponent implements OnInit {
     findAirPollutionDataBySelectedDate() {
         const selectedDate = this.datePipe.transform(new Date(this.dailyTypeDateSelected), 'yyyy-MM-dd');
 
-        let airPollutonDailyDataFound = this.airPollutionData.find(
-            data => this.datePipe.transform(data.date.toDate(), 'yyyy-MM-dd') === selectedDate
+        this.airPollutonDailyDataFound = this.airPollutionData.filter(
+            (data: IAirPollutionData) => this.datePipe.transform(data.date.toDate(), 'yyyy-MM-dd') === selectedDate
         );
+
+        this.isAirPollutionDataFound = this.airPollutonDailyDataFound.length > 0;
+    }
+
+    getTotalSize(headers: HttpHeaders) {
+        return parseInt(headers.get('X-Total-Count'), 10);
     }
 }
