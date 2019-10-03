@@ -3,6 +3,9 @@
         "title": "Analiza",
         "typeOfAnalysis": "Rodzaj analizy",
         "selectDate": "Wybierz datę",
-        "noMeasurementsFound": "Nie znaleziono pomiarów w wybranym dniu"
+        "noMeasurementsFound": "Nie znaleziono pomiarów w wybranym dniu",
+        "airPollution": "Zanieczyszczenie powietrza",
+        "chartTitle": "Wykres zanieczyszczenia powietrza",
+        "selectDateFrame": "Wybierz przedział czasowy"
     }
 }

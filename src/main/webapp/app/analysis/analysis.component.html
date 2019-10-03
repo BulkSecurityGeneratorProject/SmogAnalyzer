@@ -5,19 +5,39 @@
             <jhi-alert></jhi-alert>
             <hr/>
             <router-outlet></router-outlet>
-            <div class="form-group" style="width: 250px">
-                <label class="form-control-label" jhiTranslate="analysis.typeOfAnalysis" for="typeOfAnalysis">Type of analysis</label>
-                <select id="typeOfAnalysis" name="typeOfAnalysisSelect" [(ngModel)]="selectedType" class="form-control">
-                    <option *ngFor="let type of typesOfAnalysis" [value]="type.id">
-                        {{type.name}}
-                    </option>
-                </select>
+            <div class="row">
+                <div class="form-group col-md-6" style="width: 250px">
+                    <label class="form-control-label" jhiTranslate="analysis.typeOfAnalysis" for="typeOfAnalysis">Type of analysis</label>
+                    <select id="typeOfAnalysis" name="typeOfAnalysisSelect" [(ngModel)]="selectedType" class="form-control">
+                        <option *ngFor="let type of typesOfAnalysis" [value]="type.id">
+                            {{type.name}}
+                        </option>
+                    </select>
+                </div>
+                <div *ngIf="selectedType==='1'" class="form-group col-md-6">
+                    <label class="form-control-label" jhiTranslate="analysis.selectDateFrame">Select date frame</label>
+                    <ngb-datepicker #dp (select)="onDateSelection($event)" [displayMonths]="2" [dayTemplate]="t" outsideDays="hidden">
+                    </ngb-datepicker>
+
+                    <ng-template #t let-date let-focused="focused">
+                        <span class="custom-day"
+                              [class.focused]="focused"
+                              [class.range]="isRange(date)"
+                              [class.faded]="isHovered(date) || isInside(date)"
+                              (mouseenter)="hoveredDate = date"
+                              (mouseleave)="hoveredDate = null">
+                        {{ date.day }}
+                        </span>
+                    </ng-template>
+                </div>
             </div>
-            <div class="form-group" >
+
+
+            <div class="form-group">
                 <div *ngIf="selectedType==='0'" style="width: 250px">
-                    <label class="form-control-label" jhiTranslate="analysis.selectDate" for="field_date">Date</label>
+                    <label class="form-control-label" jhiTranslate="analysis.selectDate" for="field_date">Select date</label>
                     <div class="input-group">
-                        <input id="field_date" type="text" class="form-control" name="date" ngbDatepicker  #dateDp="ngbDatepicker" [(ngModel)]="dailyTypeDateSelected"
+                        <input id="field_date" type="text" class="form-control" name="date" ngbDatepicker #dateDp="ngbDatepicker" [(ngModel)]="dailyTypeDateSelected"
                                (ngModelChange)="findAirPollutionDataBySelectedDate()" required/>
                         <span class="input-group-append">
                             <button type="button" class="btn btn-secondary" (click)="dateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
@@ -31,10 +51,9 @@
                         <jhi-daily-charts *ngIf="isAirPollutionDataFound" [dailyData]="airPollutonDailyDataFound"></jhi-daily-charts>
                     </div>
                 </div>
-                <div *ngIf="selectedType==='1'" style="width: 550px">
-
-                </div>
             </div>
+
+
         </div>
     </div>
 </div>
