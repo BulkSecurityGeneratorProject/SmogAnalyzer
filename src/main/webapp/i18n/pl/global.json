@@ -4,7 +4,7 @@
         "browsehappy": "Używasz <strong>przestarzałej</strong> przeglądarki. Proszę <a href=\"http://browsehappy.com/\">uaktualnij swoją przeglądarkę</a> aby poprawić wrażenia z użytkowania tej aplikacji.",
         "menu": {
             "home": "Strona domowa",
-            "analysis": "Analysis",
+            "analysis": "Analiza",
             "page-one": "Page One",
             "page-two": "Page Two",
             "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",

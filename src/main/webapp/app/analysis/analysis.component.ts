@@ -31,6 +31,12 @@ export class AnalysisComponent implements OnInit {
         private datePipe: DatePipe
     ) {}
 
+    ngOnInit() {
+        this.loadAllAirPollutionData();
+        this.registerChangeInAirPollutionData();
+        this.selectedType = '0';
+    }
+
     loadAllAirPollutionData() {
         this.getAirPollutionDataSize()
             .toPromise()
@@ -61,11 +67,6 @@ export class AnalysisComponent implements OnInit {
                 return res;
             })
         );
-    }
-
-    ngOnInit() {
-        this.loadAllAirPollutionData();
-        this.registerChangeInAirPollutionData();
     }
 
     protected onError(errorMessage: string) {

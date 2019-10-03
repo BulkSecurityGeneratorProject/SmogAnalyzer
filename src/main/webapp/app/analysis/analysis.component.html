@@ -28,6 +28,7 @@
                                jhiTranslate="analysis.noMeasurementsFound">
                             No measuremenets found on selected date
                         </small>
+                        <jhi-daily-charts *ngIf="isAirPollutionDataFound" [dailyData]="airPollutonDailyDataFound"></jhi-daily-charts>
                     </div>
                 </div>
                 <div *ngIf="selectedType==='1'" style="width: 550px">
