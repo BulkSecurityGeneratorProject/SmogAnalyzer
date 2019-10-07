@@ -6,6 +6,8 @@
         "noMeasurementsFound": "Nie znaleziono pomiarów w wybranym dniu",
         "airPollution": "Zanieczyszczenie powietrza",
         "chartTitle": "Wykres zanieczyszczenia powietrza",
-        "selectDateFrame": "Wybierz przedział czasowy"
+        "selectDateFrame": "Wybierz przedział czasowy",
+        "trendLinePm25": "Linia trendu dla Pm2.5",
+        "trendLinePm10": "Linia trendu dla Pm10"
     }
 }

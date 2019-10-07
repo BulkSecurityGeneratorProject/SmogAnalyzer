@@ -10,11 +10,13 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class DailyChartsComponent implements OnInit {
     @Input() dailyData: IAirPollutionData[];
+    @Input() trendLinePm25Checked: boolean;
+    @Input() trendLinePm10Checked: boolean;
 
     data: [string, number, number][] = [];
     title: string;
     type = 'LineChart';
-    columnNames = ['Pollution', 'Pm25', 'Pm10'];
+    columnNames = ['Pollution', 'Pm2.5', 'Pm10'];
     options: any;
     width = 1000;
     height = 500;
@@ -35,9 +37,27 @@ export class DailyChartsComponent implements OnInit {
             vAxis: {
                 title: this.translateService.instant('analysis.airPollution')
             },
+            // trendlines: {
+            //     1: {
+            //         visibleInLengend: true
+            //     }
+            // },
             pointSize: 5
         };
 
-        this.dailyData.forEach(e => this.data.push([e.date.format('hh:mm').toString(), e.pm25, e.pm10]));
+        // this.trendLinePm25Checked = true;
+
+        if (this.trendLinePm25Checked) {
+            this.options.trendlines = { 1: {} };
+        }
+
+        this.dailyData.sort((a, b) => {
+            const dateA = a.date.toDate();
+            const dateB = b.date.toDate();
+
+            return <any>new Date(dateA) - <any>new Date(dateB);
+        });
+
+        this.dailyData.forEach(e => this.data.push([e.date.format('HH:mm').toString(), e.pm25, e.pm10]));
     }
 }

@@ -3,9 +3,11 @@
         "title": "[en] Analysis",
         "typeOfAnalysis": "Type of analysis",
         "selectDate": "Select date",
-        "noMeasurementsFound": "No measuremenets found on selected date",
+        "noMeasurementsFound": "No measurements found on selected date",
         "airPollution": "Air Pollution",
         "chartTitle": "Air pollution chart",
-        "selectDateFrame": "Select date frame"
+        "selectDateFrame": "Select date frame",
+        "trendLinePm25": "Pm2.5 trend line",
+        "trendLinePm10": "Pm10 trend line"
     }
 }

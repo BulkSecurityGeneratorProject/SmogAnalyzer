@@ -23,6 +23,7 @@ export class AnalysisComponent implements OnInit {
     dateDp: any;
     airPollutonDailyDataFound: IAirPollutionData[];
     isAirPollutionDataFound: boolean;
+    trenlinePm25Checked: boolean;
     airPollutionDataSize: number;
 
     hoveredDate: NgbDate;
