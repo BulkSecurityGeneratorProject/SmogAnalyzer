@@ -28,6 +28,7 @@ export class DailyChartsComponent implements OnInit {
     }
 
     prepareDataToDraw() {
+        console.log('wielkasrakaperparedatadraw');
         this.title = this.translateService.instant('analysis.chartTitle');
         const selectedDate = this.datePipe.transform(new Date(this.dailyData[0].date.toDate()), 'yyyy-MM-dd');
         this.options = {

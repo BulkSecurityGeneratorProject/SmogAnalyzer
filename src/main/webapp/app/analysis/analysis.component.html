@@ -6,7 +6,7 @@
             <hr/>
             <router-outlet></router-outlet>
             <div class="row">
-                <div class="form-group col-md-6" style="width: 250px">
+                <div class="form-group col-md-6">
                     <label class="form-control-label" jhiTranslate="analysis.typeOfAnalysis" for="typeOfAnalysis">Type of analysis</label>
                     <select id="typeOfAnalysis" name="typeOfAnalysisSelect" [(ngModel)]="selectedType" class="form-control">
                         <option *ngFor="let type of typesOfAnalysis" [value]="type.id">
@@ -36,7 +36,7 @@
                     <label class="form-control-label" jhiTranslate="analysis.selectDate" for="field_date">Select date</label>
                     <div class="input-group">
                         <input id="field_date" type="text" class="form-control" name="date" ngbDatepicker #dateDp="ngbDatepicker" [(ngModel)]="dailyTypeDateSelected"
-                               (ngModelChange)="findAirPollutionDataBySelectedDate()" required/>
+                               (ngModelChange)="getAllCitiesForSelectedDate()" required/>
                         <span class="input-group-append">
                             <button type="button" class="btn btn-secondary" (click)="dateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
                         </span>
@@ -47,18 +47,26 @@
                             No measuremenets found on selected date
                         </small>
                         <br/>
+                        <div *ngIf="isCityFound && dailyTypeDateSelected" style="width: 250px">
+                            <label class="form-control-label" for="cities">Select city</label>
+                            <select id="cities" name="citiesSelect" [(ngModel)]="selectedCity" class="form-control" (ngModelChange)="findAirPollutionDataBySelectedCity()">
+                                <option *ngFor="let city of cities" [value]="city.id">
+                                    {{city.name}}
+                                </option>
+                            </select>
+                        </div>
                         <div *ngIf="isAirPollutionDataFound" class="form-check">
                             <label class="form-check-label" for="trendLinePm25">
                                 <input class="form-check-input" type="checkbox" id="trendLinePm25" name="trendLinePm25" [(ngModel)]="trendLinePm25Checked">
                                 <span jhiTranslate="analysis.trendLinePm25">Pm2.5 trend line</span>
                             </label>
                             <label class="form-check-label" for="trendLinePm10">
-                                <input class="form-check-input" type="checkbox" id="trendLinePm10" name="trendLinePm10" [(ngModel)]="trendlinePm10Checked">
+                                <input class="form-check-input" type="checkbox" id="trendLinePm10" name="trendLinePm10" [(ngModel)]="trendLinePm10Checked">
                                 <span jhiTranslate="analysis.trendLinePm10">Pm10 trend line</span>
                             </label>
                         </div>
-                        <jhi-daily-charts *ngIf="isAirPollutionDataFound"
-                                          [dailyData]="airPollutonDailyDataFound"
+                        <jhi-daily-charts *ngIf="isAirPollutionCityDataFound"
+                                          [dailyData]="airPollutonDailyDataFoundByCity"
                                           [trendLinePm25Checked] = "trendLinePm25Checked"
                                           [trendLinePm10Checked] = "trendLinePm10Checked"
                         ></jhi-daily-charts>
