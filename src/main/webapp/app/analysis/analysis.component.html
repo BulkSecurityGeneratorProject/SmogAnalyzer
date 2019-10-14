@@ -47,7 +47,7 @@
                             No measuremenets found on selected date
                         </small>
                         <br/>
-                        <div *ngIf="isCityFound && dailyTypeDateSelected" style="width: 250px">
+                        <div *ngIf="isCityFound" style="width: 250px">
                             <label class="form-control-label" for="cities">Select city</label>
                             <select id="cities" name="citiesSelect" [(ngModel)]="selectedCity" class="form-control" (ngModelChange)="findAirPollutionDataBySelectedCity()">
                                 <option *ngFor="let city of cities" [value]="city.id">
@@ -66,7 +66,7 @@
                             </label>
                         </div>
                         <jhi-daily-charts *ngIf="isAirPollutionCityDataFound"
-                                          [dailyData]="airPollutonDailyDataFoundByCity"
+                                          [dailyData]="airPollutionDailyDataFoundByCity"
                                           [trendLinePm25Checked] = "trendLinePm25Checked"
                                           [trendLinePm10Checked] = "trendLinePm10Checked"
                         ></jhi-daily-charts>

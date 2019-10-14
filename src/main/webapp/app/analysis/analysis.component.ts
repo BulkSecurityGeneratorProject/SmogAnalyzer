@@ -23,8 +23,8 @@ export class AnalysisComponent implements OnInit {
     cities: CityModel[] = [];
     airPollutionData: IAirPollutionData[];
     eventSubscriber: Subscription;
-    airPollutonDailyDataFound: IAirPollutionData[];
-    airPollutonDailyDataFoundByCity: IAirPollutionData[] = [];
+    airPollutionDailyDataFound: IAirPollutionData[];
+    airPollutionDailyDataFoundByCity: IAirPollutionData[] = [];
 
     selectedType: string;
     selectedCity: string;
@@ -107,16 +107,18 @@ export class AnalysisComponent implements OnInit {
     findAirPollutionDataBySelectedDate() {
         const selectedDate = this.datePipe.transform(new Date(this.dailyTypeDateSelected), 'yyyy-MM-dd');
 
-        this.airPollutonDailyDataFound = this.airPollutionData.filter(
+        this.airPollutionDailyDataFound = this.airPollutionData.filter(
             (data: IAirPollutionData) => this.datePipe.transform(data.date.toDate(), 'yyyy-MM-dd') === selectedDate
         );
 
-        this.isAirPollutionDataFound = this.airPollutonDailyDataFound.length > 0;
+        this.isAirPollutionDataFound = this.airPollutionDailyDataFound.length > 0;
 
         if (!this.isAirPollutionDataFound) {
             this.cities = [];
             this.isCityFound = false;
         }
+        this.isAirPollutionCityDataFound = false;
+        this.selectedCity = null;
     }
 
     getTotalSize(headers: HttpHeaders) {
@@ -153,36 +155,31 @@ export class AnalysisComponent implements OnInit {
     }
 
     getAllCitiesForSelectedDate() {
+        console.log('getAllCitiesForSelectedDate before');
         this.findAirPollutionDataBySelectedDate();
-        this.airPollutonDailyDataFound.forEach(data => {
+        this.airPollutionDailyDataFound.forEach(data => {
             this.addCityForCoordinates(data.longitude, data.latitude);
         });
     }
 
-    findAirPollutionDataBySelectedCity() {
-        this.airPollutonDailyDataFound.forEach(data => {
-            this.getCityByCoordinates(data.longitude, data.latitude).pipe(
-                filter((res: HttpResponse<Object>) => res.ok),
-                map((res: HttpResponse<Object>) => res.body),
-                map((x: any) => {
-                    if (x.features[0].text === this.selectedCity) {
-                        console.log('znaleziono gowienko');
-                        this.airPollutonDailyDataFoundByCity.push(data);
-                    }
-                })
-            );
+    async findAirPollutionDataBySelectedCity() {
+        this.airPollutionDailyDataFoundByCity = [];
+        this.isAirPollutionCityDataFound = false;
 
-            // .subscribe((response: any) => {
-            //    if (response.features[0].text === this.selectedCity) {
-            //        console.log('znaleziono gowienko');
-            //        this.airPollutonDailyDataFoundByCity.push(data);
-            //    }
-            // });
-        });
+        for (const data of this.airPollutionDailyDataFound) {
+            const response = <any>await this.getCityByCoordinates(data.longitude, data.latitude);
+            const city = response.features[0].text;
+            if (city === this.cities[this.selectedCity].name) {
+                console.log('pushowanko');
+                this.airPollutionDailyDataFoundByCity.push(data);
+            }
+        }
+
+        this.isAirPollutionCityDataFound = this.airPollutionDailyDataFoundByCity.length > 0;
     }
 
-    private getCityByCoordinates(longitude: number, latitude: number): Observable<Object> {
-        return this.httpClient.get(this.getMapboxReverseGeocodingUrl(longitude, latitude));
+    private getCityByCoordinates(longitude: number, latitude: number) {
+        return this.httpClient.get(this.getMapboxReverseGeocodingUrl(longitude, latitude)).toPromise();
     }
 
     private addCityForCoordinates(longitude: number, latitude: number) {
@@ -191,7 +188,6 @@ export class AnalysisComponent implements OnInit {
             if (!this.isCityAlreadyFound(cityName)) {
                 this.cities.push(new CityModel(this.cities.length.toString(), cityName));
                 this.isCityFound = true;
-                this.selectedCity = '0';
                 this.selectedCityLongitude = longitude;
                 this.selectedCityLatitude = latitude;
             }
