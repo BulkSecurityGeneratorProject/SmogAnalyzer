@@ -155,7 +155,6 @@ export class AnalysisComponent implements OnInit {
     }
 
     getAllCitiesForSelectedDate() {
-        console.log('getAllCitiesForSelectedDate before');
         this.findAirPollutionDataBySelectedDate();
         this.airPollutionDailyDataFound.forEach(data => {
             this.addCityForCoordinates(data.longitude, data.latitude);
@@ -170,7 +169,6 @@ export class AnalysisComponent implements OnInit {
             const response = <any>await this.getCityByCoordinates(data.longitude, data.latitude);
             const city = response.features[0].text;
             if (city === this.cities[this.selectedCity].name) {
-                console.log('pushowanko');
                 this.airPollutionDailyDataFoundByCity.push(data);
             }
         }
@@ -200,5 +198,13 @@ export class AnalysisComponent implements OnInit {
 
     private isCityAlreadyFound(cityName: string): boolean {
         return this.cities.filter(city => city.name === cityName).length > 0;
+    }
+
+    onPm25CheckboxSelect() {
+        this.trendLinePm25Checked = !this.trendLinePm25Checked;
+    }
+
+    onPm10CheckboxSelect() {
+        this.trendLinePm10Checked = !this.trendLinePm10Checked;
     }
 }

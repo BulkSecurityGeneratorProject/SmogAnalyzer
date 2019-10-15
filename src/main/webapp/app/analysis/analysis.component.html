@@ -57,11 +57,11 @@
                         </div>
                         <div *ngIf="isAirPollutionDataFound" class="form-check">
                             <label class="form-check-label" for="trendLinePm25">
-                                <input class="form-check-input" type="checkbox" id="trendLinePm25" name="trendLinePm25" [(ngModel)]="trendLinePm25Checked">
+                                <input class="form-check-input" type="checkbox" id="trendLinePm25" name="trendLinePm25" (change)="onPm25CheckboxSelect()">
                                 <span jhiTranslate="analysis.trendLinePm25">Pm2.5 trend line</span>
                             </label>
                             <label class="form-check-label" for="trendLinePm10">
-                                <input class="form-check-input" type="checkbox" id="trendLinePm10" name="trendLinePm10" [(ngModel)]="trendLinePm10Checked">
+                                <input class="form-check-input" type="checkbox" id="trendLinePm10" name="trendLinePm10" (change)="onPm10CheckboxSelect()">
                                 <span jhiTranslate="analysis.trendLinePm10">Pm10 trend line</span>
                             </label>
                         </div>

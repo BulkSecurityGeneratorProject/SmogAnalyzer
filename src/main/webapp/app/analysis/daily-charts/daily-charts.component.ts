@@ -10,12 +10,14 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class DailyChartsComponent implements OnInit {
     @Input() dailyData: IAirPollutionData[];
-    @Input() trendLinePm25Checked: boolean;
-    @Input() trendLinePm10Checked: boolean;
+    _trendLinePm25Checked: boolean;
+    _trendLinePm10Checked: boolean;
 
-    data: [string, number, number][] = [];
+    // @Input set trendLinePm25Checked(trendLinePm25Checked: boolean)
+
+    data: [Date, number, number][] = [];
     title: string;
-    type = 'LineChart';
+    type = 'ScatterChart';
     columnNames = ['Pollution', 'Pm2.5', 'Pm10'];
     options: any;
     width = 1000;
@@ -28,29 +30,24 @@ export class DailyChartsComponent implements OnInit {
     }
 
     prepareDataToDraw() {
-        console.log('wielkasrakaperparedatadraw');
         this.title = this.translateService.instant('analysis.chartTitle');
         const selectedDate = this.datePipe.transform(new Date(this.dailyData[0].date.toDate()), 'yyyy-MM-dd');
         this.options = {
             hAxis: {
-                title: selectedDate.toString()
+                title: selectedDate.toString(),
+                format: 'HH:mm'
             },
             vAxis: {
                 title: this.translateService.instant('analysis.airPollution')
             },
-            // trendlines: {
-            //     1: {
-            //         visibleInLengend: true
-            //     }
-            // },
             pointSize: 5
         };
 
         // this.trendLinePm25Checked = true;
 
-        if (this.trendLinePm25Checked) {
-            this.options.trendlines = { 1: {} };
-        }
+        // if (this.trendLinePm25Checked) {
+        //     this.options.trendlines = { 0: {} };
+        // }
 
         this.dailyData.sort((a, b) => {
             const dateA = a.date.toDate();
@@ -59,6 +56,6 @@ export class DailyChartsComponent implements OnInit {
             return <any>new Date(dateA) - <any>new Date(dateB);
         });
 
-        this.dailyData.forEach(e => this.data.push([e.date.format('HH:mm').toString(), e.pm25, e.pm10]));
+        this.dailyData.forEach(e => this.data.push([e.date.toDate(), e.pm25, e.pm10]));
     }
 }
