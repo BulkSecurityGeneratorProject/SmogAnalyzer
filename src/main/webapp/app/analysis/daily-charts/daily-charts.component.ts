@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { IAirPollutionData } from 'app/shared/model/air-pollution-data.model';
 import { DatePipe } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
+import { GoogleChartComponent } from 'angular-google-charts';
 
 @Component({
     selector: 'jhi-daily-charts',
@@ -9,11 +10,8 @@ import { TranslateService } from '@ngx-translate/core';
     styles: []
 })
 export class DailyChartsComponent implements OnInit {
-    @Input() dailyData: IAirPollutionData[];
     _trendLinePm25Checked: boolean;
     _trendLinePm10Checked: boolean;
-
-    // @Input set trendLinePm25Checked(trendLinePm25Checked: boolean)
 
     data: [Date, number, number][] = [];
     title: string;
@@ -23,10 +21,40 @@ export class DailyChartsComponent implements OnInit {
     width = 1000;
     height = 500;
 
+    @Input() set trendLinePm25Checked(trendLinePm25Checked: boolean) {
+        this._trendLinePm25Checked = trendLinePm25Checked;
+        this.trendlineCheckboxChanged();
+    }
+    @Input() set trendLinePm10Checked(trendLinePm10Checked: boolean) {
+        this._trendLinePm10Checked = trendLinePm10Checked;
+        this.trendlineCheckboxChanged();
+    }
+
+    @Input() dailyData: IAirPollutionData[];
+
     constructor(private datePipe: DatePipe, private translateService: TranslateService) {}
 
     ngOnInit() {
         this.prepareDataToDraw();
+    }
+
+    trendlineCheckboxChanged() {
+        this.data = Object.assign([], this.data);
+
+        console.log('_trendLinePm25Checked' + this._trendLinePm25Checked);
+        console.log('_trendLinePm10Checked' + this._trendLinePm10Checked);
+
+        if (this.options) {
+            if (this._trendLinePm25Checked && this._trendLinePm10Checked) {
+                this.options.trendlines = { 0: {}, 1: {} };
+            } else if (this._trendLinePm25Checked && !this._trendLinePm10Checked) {
+                this.options.trendlines = { 0: {} };
+            } else if (!this._trendLinePm25Checked && this._trendLinePm10Checked) {
+                this.options.trendlines = { 1: {} };
+            } else {
+                this.options.trendlines = {};
+            }
+        }
     }
 
     prepareDataToDraw() {
@@ -43,11 +71,15 @@ export class DailyChartsComponent implements OnInit {
             pointSize: 5
         };
 
-        // this.trendLinePm25Checked = true;
-
-        // if (this.trendLinePm25Checked) {
-        //     this.options.trendlines = { 0: {} };
-        // }
+        if (this._trendLinePm25Checked && this._trendLinePm10Checked) {
+            this.options.trendlines = { 0: {}, 1: {} };
+        } else if (this._trendLinePm25Checked && !this._trendLinePm10Checked) {
+            this.options.trendlines = { 0: {} };
+        } else if (!this._trendLinePm25Checked && this._trendLinePm10Checked) {
+            this.options.trendlines = { 1: {} };
+        } else {
+            this.options.trendlines = {};
+        }
 
         this.dailyData.sort((a, b) => {
             const dateA = a.date.toDate();
@@ -57,5 +89,6 @@ export class DailyChartsComponent implements OnInit {
         });
 
         this.dailyData.forEach(e => this.data.push([e.date.toDate(), e.pm25, e.pm10]));
+        this.data = Object.assign([], this.data);
     }
 }
