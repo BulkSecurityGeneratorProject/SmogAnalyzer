@@ -88,7 +88,13 @@ export class DailyChartsComponent implements OnInit {
             return <any>new Date(dateA) - <any>new Date(dateB);
         });
 
-        this.dailyData.forEach(e => this.data.push([e.date.toDate(), e.pm25, e.pm10]));
-        this.data = Object.assign([], this.data);
+        if (this.dailyData.length === 1) {
+            this.data.push([this.dailyData[0].date.toDate(), this.dailyData[0].pm25, this.dailyData[0].pm10]);
+            this.options.pointSize = 5;
+        } else {
+            this.dailyData.forEach(e => this.data.push([e.date.toDate(), e.pm25, e.pm10]));
+        }
+
+        console.log(this.data);
     }
 }
