@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { IAirPollutionData } from 'app/shared/model/air-pollution-data.model';
 import { DatePipe } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
-import { GoogleChartComponent } from 'angular-google-charts';
+import moment = require('moment');
 
 @Component({
     selector: 'jhi-daily-charts',
@@ -90,7 +90,10 @@ export class DailyChartsComponent implements OnInit {
 
         if (this.dailyData.length === 1) {
             this.data.push([this.dailyData[0].date.toDate(), this.dailyData[0].pm25, this.dailyData[0].pm10]);
-            this.options.pointSize = 5;
+            this.options.hAxis.viewWindow = {
+                min: new Date(this.dailyData[0].date.toDate().getTime() - 24 * 3600 * 1000),
+                max: new Date(this.dailyData[0].date.toDate().getTime() + 24 * 3600 * 1000)
+            };
         } else {
             this.dailyData.forEach(e => this.data.push([e.date.toDate(), e.pm25, e.pm10]));
         }
