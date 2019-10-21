@@ -41,9 +41,6 @@ export class DailyChartsComponent implements OnInit {
     trendlineCheckboxChanged() {
         this.data = Object.assign([], this.data);
 
-        console.log('_trendLinePm25Checked' + this._trendLinePm25Checked);
-        console.log('_trendLinePm10Checked' + this._trendLinePm10Checked);
-
         if (this.options) {
             if (this._trendLinePm25Checked && this._trendLinePm10Checked) {
                 this.options.trendlines = { 0: {}, 1: {} };

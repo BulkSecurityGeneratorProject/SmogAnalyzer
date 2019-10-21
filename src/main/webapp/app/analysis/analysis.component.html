@@ -8,7 +8,7 @@
             <div class="row">
                 <div class="form-group col-md-6">
                     <label class="form-control-label" jhiTranslate="analysis.typeOfAnalysis" for="typeOfAnalysis">Type of analysis</label>
-                    <select id="typeOfAnalysis" name="typeOfAnalysisSelect" [(ngModel)]="selectedType" class="form-control">
+                    <select id="typeOfAnalysis" name="typeOfAnalysisSelect" [(ngModel)]="selectedType" class="form-control" (ngModelChange)="onTypeOfAnalysisChanged()">
                         <option *ngFor="let type of typesOfAnalysis" [value]="type.id">
                             {{type.name}}
                         </option>

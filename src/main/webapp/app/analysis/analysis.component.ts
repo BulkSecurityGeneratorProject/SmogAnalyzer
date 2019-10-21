@@ -39,8 +39,6 @@ export class AnalysisComponent implements OnInit {
     trendLinePm10Checked: boolean;
 
     airPollutionDataSize: number;
-    selectedCityLongitude: number;
-    selectedCityLatitude: number;
 
     hoveredDate: NgbDate;
     fromDateSelected: NgbDate;
@@ -186,8 +184,6 @@ export class AnalysisComponent implements OnInit {
             if (!this.isCityAlreadyFound(cityName)) {
                 this.cities.push(new CityModel(this.cities.length.toString(), cityName));
                 this.isCityFound = true;
-                this.selectedCityLongitude = longitude;
-                this.selectedCityLatitude = latitude;
             }
         });
     }
@@ -206,5 +202,17 @@ export class AnalysisComponent implements OnInit {
 
     onPm10CheckboxSelect() {
         this.trendLinePm10Checked = !this.trendLinePm10Checked;
+    }
+
+    onTypeOfAnalysisChanged() {
+        this.cities = [];
+        this.trendLinePm25Checked = false;
+        this.trendLinePm10Checked = false;
+        this.selectedCity = null;
+        this.airPollutionDailyDataFoundByCity = [];
+        this.airPollutionDailyDataFound = [];
+        this.dailyTypeDateSelected = null;
+        this.isAirPollutionCityDataFound = false;
+        this.isAirPollutionDataFound = false;
     }
 }
