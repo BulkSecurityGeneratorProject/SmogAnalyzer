@@ -16,7 +16,7 @@
                 </div>
                 <div *ngIf="selectedType==='1'" class="form-group col-md-6">
                     <label class="form-control-label" jhiTranslate="analysis.selectDateFrame">Select date frame</label>
-                    <ngb-datepicker #dp (select)="onDateSelection($event)" [displayMonths]="2" [dayTemplate]="t" outsideDays="hidden">
+                    <ngb-datepicker #dp (select)="onDateSelection($event)" [displayMonths]="2" [dayTemplate]="t" outsideDays="hidden" [(ngModel)]="monthlyTypeDateSelected">
                     </ngb-datepicker>
 
                     <ng-template #t let-date let-focused="focused">
@@ -71,6 +71,37 @@
                                           [trendLinePm10Checked] = "trendLinePm10Checked"
                         ></jhi-daily-charts>
                     </div>
+                </div>
+                <div class="form-group col-md-6" *ngIf="monthlyTypeDateSelected">
+                    <small class="form-text text-danger" *ngIf="!isAirPollutionMonthlyDataFound && toDateSelected"
+                           jhiTranslate="analysis.noMeasurementsFound">
+                        No measuremenets found on selected date
+                    </small>
+                    <br/>
+                    <div *ngIf="isMonthlyCityFound && toDateSelected && fromDateSelected">
+                        <label class="form-control-label" for="monthlyCities">Select city</label>
+                        <select id="monthlyCities" name="monthlyCitiesSelect" [(ngModel)]="selectedCityMonthly" class="form-control" (ngModelChange)="findMonthlyAirPollutionDataBySelectedCity()">
+                            <option *ngFor="let city of monthlyCities" [value]="city.id">
+                                {{city.name}}
+                            </option>
+                        </select>
+                    </div>
+                    <div *ngIf="isAirPollutionMonthlyCityDataFound" class="form-check">
+                        <label class="form-check-label" for="trendLinePm25">
+                            <input class="form-check-input" type="checkbox" id="trendLinePm25Month" name="trendLinePm25" (change)="onPm25CheckboxSelect()">
+                            <span jhiTranslate="analysis.trendLinePm25">Pm2.5 trend line</span>
+                        </label>
+                        <br/>
+                        <label class="form-check-label" for="trendLinePm10">
+                            <input class="form-check-input" type="checkbox" id="trendLinePm10Month" name="trendLinePm10" (change)="onPm10CheckboxSelect()">
+                            <span jhiTranslate="analysis.trendLinePm10">Pm10 trend line</span>
+                        </label>
+                    </div>
+                    <jhi-monthly-charts *ngIf="isAirPollutionMonthlyCityDataFound"
+                                        [monthlyData]="airPollutionMonthlyDataFoundByCity"
+                                        [trendLinePm25Checked] = "trendLinePm25Checked"
+                                        [trendLinePm10Checked] = "trendLinePm10Checked"
+                    ></jhi-monthly-charts>
                 </div>
             </div>
         </div>

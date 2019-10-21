@@ -21,20 +21,28 @@ export class AnalysisComponent implements OnInit {
 
     typesOfAnalysis: AnalysisTypeModel[] = [{ id: '0', name: 'Daily' }, { id: '1', name: 'Time frame' }];
     cities: CityModel[] = [];
+    monthlyCities: CityModel[] = [];
     airPollutionData: IAirPollutionData[];
     eventSubscriber: Subscription;
     airPollutionDailyDataFound: IAirPollutionData[];
+    airPollutionMonthlyDataFound: IAirPollutionData[];
     airPollutionDailyDataFoundByCity: IAirPollutionData[] = [];
+    airPollutionMonthlyDataFoundByCity: IAirPollutionData[] = [];
 
     selectedType: string;
     selectedCity: string;
+    selectedCityMonthly: string;
     dailyTypeDateSelected: string;
+    monthlyTypeDateSelected: string;
 
     dateDp: any;
 
     isAirPollutionDataFound: boolean;
+    isAirPollutionMonthlyDataFound: boolean;
     isAirPollutionCityDataFound: boolean;
+    isAirPollutionMonthlyCityDataFound: boolean;
     isCityFound: boolean;
+    isMonthlyCityFound: boolean;
     trendLinePm25Checked: boolean;
     trendLinePm10Checked: boolean;
 
@@ -60,6 +68,28 @@ export class AnalysisComponent implements OnInit {
         this.loadAllAirPollutionData();
         this.registerChangeInAirPollutionData();
         this.selectedType = '0';
+    }
+
+    getTotalSize(headers: HttpHeaders) {
+        return parseInt(headers.get('X-Total-Count'), 10);
+    }
+
+    isHovered(date: NgbDate) {
+        return (
+            this.fromDateSelected &&
+            !this.toDateSelected &&
+            this.hoveredDate &&
+            date.after(this.fromDateSelected) &&
+            date.before(this.hoveredDate)
+        );
+    }
+
+    isInside(date: NgbDate) {
+        return date.after(this.fromDateSelected) && date.before(this.toDateSelected);
+    }
+
+    isRange(date: NgbDate) {
+        return date.equals(this.fromDateSelected) || date.equals(this.toDateSelected) || this.isInside(date) || this.isHovered(date);
     }
 
     loadAllAirPollutionData() {
@@ -119,8 +149,11 @@ export class AnalysisComponent implements OnInit {
         this.selectedCity = null;
     }
 
-    getTotalSize(headers: HttpHeaders) {
-        return parseInt(headers.get('X-Total-Count'), 10);
+    getAllCitiesForSelectedDate() {
+        this.findAirPollutionDataBySelectedDate();
+        this.airPollutionDailyDataFound.forEach(data => {
+            this.addCityForCoordinates(data.longitude, data.latitude);
+        });
     }
 
     onDateSelection(date: NgbDate) {
@@ -132,36 +165,17 @@ export class AnalysisComponent implements OnInit {
             this.toDateSelected = null;
             this.fromDateSelected = date;
         }
-    }
 
-    isHovered(date: NgbDate) {
-        return (
-            this.fromDateSelected &&
-            !this.toDateSelected &&
-            this.hoveredDate &&
-            date.after(this.fromDateSelected) &&
-            date.before(this.hoveredDate)
-        );
-    }
-
-    isInside(date: NgbDate) {
-        return date.after(this.fromDateSelected) && date.before(this.toDateSelected);
-    }
-
-    isRange(date: NgbDate) {
-        return date.equals(this.fromDateSelected) || date.equals(this.toDateSelected) || this.isInside(date) || this.isHovered(date);
-    }
-
-    getAllCitiesForSelectedDate() {
-        this.findAirPollutionDataBySelectedDate();
-        this.airPollutionDailyDataFound.forEach(data => {
-            this.addCityForCoordinates(data.longitude, data.latitude);
-        });
+        if (this.fromDateSelected && this.toDateSelected) {
+            this.getAllCitiesForSelectedDateRange();
+        }
     }
 
     async findAirPollutionDataBySelectedCity() {
         this.airPollutionDailyDataFoundByCity = [];
         this.isAirPollutionCityDataFound = false;
+        this.trendLinePm10Checked = false;
+        this.trendLinePm25Checked = false;
 
         for (const data of this.airPollutionDailyDataFound) {
             const response = <any>await this.getCityByCoordinates(data.longitude, data.latitude);
@@ -188,12 +202,83 @@ export class AnalysisComponent implements OnInit {
         });
     }
 
+    getAllCitiesForSelectedDateRange() {
+        this.findAirPollutionDataBySelectedDateRange();
+        if (this.isAirPollutionMonthlyDataFound) {
+            this.airPollutionMonthlyDataFound.forEach(data => {
+                this.addMonthCityForCoordinates(data.longitude, data.latitude);
+            });
+        }
+    }
+
+    findAirPollutionDataBySelectedDateRange() {
+        if (this.fromDateSelected && this.toDateSelected) {
+            const from = this.datePipe.transform(
+                new Date(this.fromDateSelected.year, this.fromDateSelected.month - 1, this.fromDateSelected.day),
+                'yyyy-MM-dd'
+            );
+            const to = this.datePipe.transform(
+                new Date(this.toDateSelected.year, this.toDateSelected.month - 1, this.toDateSelected.day),
+                'yyyy-MM-dd'
+            );
+
+            this.airPollutionMonthlyDataFound = this.airPollutionData.filter(
+                (data: IAirPollutionData) =>
+                    this.datePipe.transform(data.date.toDate(), 'yyyy-MM-dd') >= from &&
+                    this.datePipe.transform(data.date.toDate(), 'yyyy-MM-dd') <= to
+            );
+
+            this.isAirPollutionMonthlyDataFound = this.airPollutionMonthlyDataFound.length > 0;
+
+            if (!this.isAirPollutionMonthlyDataFound) {
+                this.monthlyCities = [];
+                this.isMonthlyCityFound = false;
+            }
+            // this.isAirPollutionMonthlyCityDataFound = false;
+            // this.selectedCityMonthly = null;
+        }
+    }
+
+    async findMonthlyAirPollutionDataBySelectedCity() {
+        this.airPollutionMonthlyDataFoundByCity = [];
+        this.isAirPollutionMonthlyCityDataFound = false;
+        this.trendLinePm10Checked = false;
+        this.trendLinePm25Checked = false;
+
+        console.log(this.selectedCityMonthly);
+
+        for (const data of this.airPollutionMonthlyDataFound) {
+            const response = <any>await this.getCityByCoordinates(data.longitude, data.latitude);
+            const city = response.features[0].text;
+            if (city === this.monthlyCities[this.selectedCityMonthly].name) {
+                this.airPollutionMonthlyDataFoundByCity.push(data);
+            }
+        }
+
+        this.isAirPollutionMonthlyCityDataFound = this.airPollutionMonthlyDataFoundByCity.length > 0;
+    }
+
+    private addMonthCityForCoordinates(longitude: number, latitude: number) {
+        this.httpClient.get(this.getMapboxReverseGeocodingUrl(longitude, latitude)).subscribe((response: any) => {
+            const cityName = response.features[0].text;
+            if (!this.isMonthlyCityAlreadyFound(cityName)) {
+                this.monthlyCities.push(new CityModel(this.monthlyCities.length.toString(), cityName));
+                this.isMonthlyCityFound = true;
+                console.log(this.monthlyCities);
+            }
+        });
+    }
+
     private getMapboxReverseGeocodingUrl(longitude: number, latitude: number) {
         return this.mapboxBaseUrl + longitude + ',' + latitude + '.json?' + 'types=place&' + 'access_token=' + this.mapboxAccessToken;
     }
 
     private isCityAlreadyFound(cityName: string): boolean {
         return this.cities.filter(city => city.name === cityName).length > 0;
+    }
+
+    private isMonthlyCityAlreadyFound(cityName: string): boolean {
+        return this.monthlyCities.filter(city => city.name === cityName).length > 0;
     }
 
     onPm25CheckboxSelect() {
@@ -206,13 +291,21 @@ export class AnalysisComponent implements OnInit {
 
     onTypeOfAnalysisChanged() {
         this.cities = [];
+        this.monthlyCities = [];
         this.trendLinePm25Checked = false;
         this.trendLinePm10Checked = false;
         this.selectedCity = null;
+        this.selectedCityMonthly = null;
         this.airPollutionDailyDataFoundByCity = [];
-        this.airPollutionDailyDataFound = [];
+        this.airPollutionMonthlyDataFoundByCity = [];
+        this.airPollutionMonthlyDataFound = [];
         this.dailyTypeDateSelected = null;
+        this.monthlyTypeDateSelected = null;
         this.isAirPollutionCityDataFound = false;
+        this.isAirPollutionMonthlyCityDataFound = false;
         this.isAirPollutionDataFound = false;
+        this.isAirPollutionMonthlyDataFound = false;
+        this.fromDateSelected = null;
+        this.toDateSelected = null;
     }
 }
