@@ -1,6 +1,8 @@
 package com.agh.smoganalyzer.config;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Bean;
 
 /**
  * Properties specific to Smog Analyzer.
@@ -10,5 +12,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  */
 @ConfigurationProperties(prefix = "application", ignoreUnknownFields = false)
 public class ApplicationProperties {
-
+    @Bean
+    ModelMapper modelMapper() {
+        return new ModelMapper();
+    }
 }

@@ -45,19 +45,19 @@
                             <span jhiTranslate="global.menu.entities.airPollutionData">Air Pollution Data</span>
                         </a>
                     </li>
-                    <li>
+                    <li *jhiHasAnyAuthority="'ROLE_ADMIN'">
                         <a class="dropdown-item" routerLink="weather-data" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
                             <span jhiTranslate="global.menu.entities.weatherData">Weather Data</span>
                         </a>
                     </li>
-                    <li>
+                    <li *jhiHasAnyAuthority="'ROLE_ADMIN'">
                         <a class="dropdown-item" routerLink="place-of-measurement" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
                             <span jhiTranslate="global.menu.entities.placeOfMeasurement">Place Of Measurement</span>
                         </a>
                     </li>
-                    <li>
+                    <li *jhiHasAnyAuthority="'ROLE_ADMIN'">
                         <a class="dropdown-item" routerLink="airly-data" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
                             <span jhiTranslate="global.menu.entities.airlyData">Airly Data</span>

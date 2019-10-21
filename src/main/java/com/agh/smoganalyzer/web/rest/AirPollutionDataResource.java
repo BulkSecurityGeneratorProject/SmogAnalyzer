@@ -1,16 +1,22 @@
 package com.agh.smoganalyzer.web.rest;
+
+import com.agh.smoganalyzer.domain.AirPollutionData;
+import com.agh.smoganalyzer.repository.AirPollutionDataRepository;
 import com.agh.smoganalyzer.service.AirPollutionDataService;
+import com.agh.smoganalyzer.service.dto.AirPollutionDataDTO;
 import com.agh.smoganalyzer.web.rest.errors.BadRequestAlertException;
 import com.agh.smoganalyzer.web.rest.util.HeaderUtil;
 import com.agh.smoganalyzer.web.rest.util.PaginationUtil;
-import com.agh.smoganalyzer.service.dto.AirPollutionDataDTO;
+import com.google.common.base.Converter;
 import io.github.jhipster.web.util.ResponseUtil;
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,9 +24,9 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
-
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * REST controller for managing AirPollutionData.
@@ -35,8 +41,11 @@ public class AirPollutionDataResource {
 
     private final AirPollutionDataService airPollutionDataService;
 
-    public AirPollutionDataResource(AirPollutionDataService airPollutionDataService) {
+    private AirPollutionDataRepository airPollutionDataRepository;
+
+    public AirPollutionDataResource(AirPollutionDataService airPollutionDataService, AirPollutionDataRepository airPollutionDataRepository) {
         this.airPollutionDataService = airPollutionDataService;
+        this.airPollutionDataRepository = airPollutionDataRepository;
     }
 
     /**
@@ -88,9 +97,32 @@ public class AirPollutionDataResource {
     @GetMapping("/air-pollution-data")
     public ResponseEntity<List<AirPollutionDataDTO>> getAllAirPollutionData(Pageable pageable) {
         log.debug("REST request to get a page of AirPollutionData");
-        Page<AirPollutionDataDTO> page = airPollutionDataService.findAll(pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/air-pollution-data");
-        return ResponseEntity.ok().headers(headers).body(page.getContent());
+
+        Page<AirPollutionData> page = airPollutionDataRepository.findByOwnerIsCurrentUser(pageable);
+        Page<AirPollutionDataDTO> dtoPage = new PageImpl<>(page.stream().map(airPollutionData -> {
+           AirPollutionDataDTO airPollutionDataDTO = new AirPollutionDataDTO();
+           airPollutionDataDTO.setId(airPollutionData.getId());
+           airPollutionDataDTO.setDate(airPollutionData.getDate());
+           if (airPollutionData.getAirlyData() != null) {
+               airPollutionDataDTO.setAirlyDataId(airPollutionData.getAirlyData().getId());
+           }
+           airPollutionDataDTO.setHumidity(airPollutionData.getHumidity());
+           airPollutionDataDTO.setLatitude(airPollutionData.getLatitude());
+           airPollutionDataDTO.setLongitude(airPollutionData.getLongitude());
+           airPollutionDataDTO.setOwnerId(airPollutionData.getOwner().getId());
+           airPollutionDataDTO.setOwnerLogin(airPollutionData.getOwner().getLogin());
+           airPollutionDataDTO.setPlaceOfMeasurementId(airPollutionData.getPlaceOfMeasurement().getId());
+           airPollutionDataDTO.setPlaceOfMeasurementName(airPollutionData.getPlaceOfMeasurement().getName());
+           airPollutionDataDTO.setPm10(airPollutionData.getPm10());
+           airPollutionDataDTO.setPm25(airPollutionData.getPm25());
+           airPollutionDataDTO.setTemperature(airPollutionData.getTemperature());
+
+           return airPollutionDataDTO;
+        }).collect(Collectors.toList()));
+
+
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(dtoPage, "/api/air-pollution-data");
+        return ResponseEntity.ok().headers(headers).body(dtoPage.getContent());
     }
 
     @GetMapping("/air-pollution-data/all")
@@ -132,5 +164,10 @@ public class AirPollutionDataResource {
         return ResponseEntity.ok().headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME,
             "File successfully saved in database!")).build();
 
+    }
+
+    private AirPollutionDataDTO convertToDto(AirPollutionData airPollutionData) {
+        ModelMapper modelMapper = new ModelMapper();
+        return modelMapper.map(airPollutionData, AirPollutionDataDTO.class);
     }
 }
