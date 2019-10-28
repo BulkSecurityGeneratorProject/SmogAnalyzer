@@ -1,9 +1,12 @@
 {
     "analysis": {
-        "title": "[en] Analysis",
+        "title": "Analysis",
         "typeOfAnalysis": "Type of analysis",
         "selectDate": "Select date",
+        "selectCity": "Select city",
+        "selectPlaceOfMeasurement": "Select place of measurement",
         "noMeasurementsFound": "No measurements found on selected date",
+        "noMeasurementsFoundOnSelectedProperties": "No measurements found with selected properties",
         "airPollution": "Air Pollution",
         "chartTitle": "Air pollution chart",
         "selectDateFrame": "Select date frame",

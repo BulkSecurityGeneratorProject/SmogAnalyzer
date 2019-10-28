@@ -9,6 +9,7 @@ import { AnalysisTypeModel } from 'app/shared/model/analysisType.model';
 import { DatePipe } from '@angular/common';
 import { NgbCalendar, NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { CityModel } from 'app/shared/model/city.model';
+import { IPlaceOfMeasurement } from 'app/shared/model/place-of-measurement.model';
 
 @Component({
     selector: 'jhi-analysis',
@@ -20,6 +21,7 @@ export class AnalysisComponent implements OnInit {
     private mapboxBaseUrl = 'https://api.mapbox.com/geocoding/v5/mapbox.places/';
 
     typesOfAnalysis: AnalysisTypeModel[] = [{ id: '0', name: 'Daily' }, { id: '1', name: 'Time frame' }];
+    places: IPlaceOfMeasurement[] = [{ id: 1102, name: 'Outside' }, { id: 1101, name: 'Inside' }];
     cities: CityModel[] = [];
     monthlyCities: CityModel[] = [];
     airPollutionData: IAirPollutionData[];
@@ -30,10 +32,31 @@ export class AnalysisComponent implements OnInit {
     airPollutionMonthlyDataFoundByCity: IAirPollutionData[] = [];
 
     selectedType: string;
+    selectedPlace: string;
     selectedCity: string;
     selectedCityMonthly: string;
     dailyTypeDateSelected: string;
     monthlyTypeDateSelected: string;
+
+    maxPm25: number;
+    maxPm10: number;
+    maxTemperature: number;
+    maxHumidity: number;
+
+    minPm25: number;
+    minPm10: number;
+    minTemperature: number;
+    minHumidity: number;
+
+    averagePm25: number;
+    averagePm10: number;
+    averageTemperature: number;
+    averageHumidity: number;
+
+    stdPm25: number;
+    stdPm10: number;
+    stdTemperature: number;
+    stdHumidity: number;
 
     dateDp: any;
 
@@ -180,12 +203,14 @@ export class AnalysisComponent implements OnInit {
         for (const data of this.airPollutionDailyDataFound) {
             const response = <any>await this.getCityByCoordinates(data.longitude, data.latitude);
             const city = response.features[0].text;
-            if (city === this.cities[this.selectedCity].name) {
+            if (city === this.cities[this.selectedCity].name && data.placeOfMeasurementName === this.selectedPlace) {
                 this.airPollutionDailyDataFoundByCity.push(data);
+                console.log('hula');
             }
         }
 
         this.isAirPollutionCityDataFound = this.airPollutionDailyDataFoundByCity.length > 0;
+        this.countDataAnalysisVariables();
     }
 
     private getCityByCoordinates(longitude: number, latitude: number) {
@@ -250,7 +275,7 @@ export class AnalysisComponent implements OnInit {
         for (const data of this.airPollutionMonthlyDataFound) {
             const response = <any>await this.getCityByCoordinates(data.longitude, data.latitude);
             const city = response.features[0].text;
-            if (city === this.monthlyCities[this.selectedCityMonthly].name) {
+            if (city === this.monthlyCities[this.selectedCityMonthly].name && this.selectedPlace === data.placeOfMeasurementName) {
                 this.airPollutionMonthlyDataFoundByCity.push(data);
             }
         }
@@ -295,6 +320,7 @@ export class AnalysisComponent implements OnInit {
         this.trendLinePm25Checked = false;
         this.trendLinePm10Checked = false;
         this.selectedCity = null;
+        this.selectedPlace = null;
         this.selectedCityMonthly = null;
         this.airPollutionDailyDataFoundByCity = [];
         this.airPollutionMonthlyDataFoundByCity = [];
@@ -307,5 +333,42 @@ export class AnalysisComponent implements OnInit {
         this.isAirPollutionMonthlyDataFound = false;
         this.fromDateSelected = null;
         this.toDateSelected = null;
+    }
+
+    onPlaceChanged() {
+        if (this.selectedPlace && this.selectedCity) {
+            this.findAirPollutionDataBySelectedCity();
+        }
+    }
+
+    onPlaceMonthlyChanged() {
+        if (this.selectedPlace && this.selectedCityMonthly) {
+            this.findMonthlyAirPollutionDataBySelectedCity();
+        }
+    }
+
+    private countDataAnalysisVariables() {
+        this.maxPm25 = Math.max(...this.airPollutionDailyDataFoundByCity.map(data => data.pm25), 0);
+        this.maxPm10 = Math.max(...this.airPollutionDailyDataFoundByCity.map(data => data.pm10), 0);
+        this.maxTemperature = Math.max(...this.airPollutionDailyDataFoundByCity.map(data => data.temperature), 0);
+        this.maxHumidity = Math.max(...this.airPollutionDailyDataFoundByCity.map(data => data.humidity), 0);
+
+        this.minPm25 = Math.min(...this.airPollutionDailyDataFoundByCity.map(data => data.pm25), 999);
+        this.minPm10 = Math.min(...this.airPollutionDailyDataFoundByCity.map(data => data.pm10), 999);
+        this.minTemperature = Math.min(...this.airPollutionDailyDataFoundByCity.map(data => data.temperature), 999);
+        this.minHumidity = Math.min(...this.airPollutionDailyDataFoundByCity.map(data => data.humidity), 999);
+
+        const sumPm25 = this.airPollutionDailyDataFoundByCity.reduce((previous, current) => (current.pm25 += previous), 0);
+        this.averagePm25 = sumPm25 / this.airPollutionDailyDataFoundByCity.length;
+        const sumPm10 = this.airPollutionDailyDataFoundByCity.reduce((previous, current) => (current.pm10 += previous), 0);
+        this.averagePm10 = sumPm10 / this.airPollutionDailyDataFoundByCity.length;
+        const sumTemperature = this.airPollutionDailyDataFoundByCity.reduce((previous, current) => (current.temperature += previous), 0);
+        this.averageTemperature = sumTemperature / this.airPollutionDailyDataFoundByCity.length;
+        const sumHumidity = this.airPollutionDailyDataFoundByCity.reduce((previous, current) => (current.humidity += previous), 0);
+        this.averageHumidity = sumHumidity / this.airPollutionDailyDataFoundByCity.length;
+
+        // this.averagePm10 = Math.min(...this.airPollutionDailyDataFoundByCity.map(data => data.pm10), 0);
+        // this.averageTemperature = Math.min(...this.airPollutionDailyDataFoundByCity.map(data => data.temperature), 0);
+        // this.averageHumidity = Math.min(...this.airPollutionDailyDataFoundByCity.map(data => data.humidity), 0);
     }
 }

@@ -48,28 +48,65 @@
                         </small>
                         <br/>
                         <div *ngIf="isCityFound" style="width: 250px">
-                            <label class="form-control-label" for="cities">Select city</label>
-                            <select id="cities" name="citiesSelect" [(ngModel)]="selectedCity" class="form-control" (ngModelChange)="findAirPollutionDataBySelectedCity()">
-                                <option *ngFor="let city of cities" [value]="city.id">
-                                    {{city.name}}
+                            <label class="form-control-label" for="places" jhiTranslate="analysis.selectPlaceOfMeasurement">Select place of measurement</label>
+                            <select id="places" name="placesSelect" [(ngModel)]="selectedPlace" class="form-control" (ngModelChange)="onPlaceChanged()">
+                                <option *ngFor="let place of places" [value]="place.name">
+                                    {{place.name}}
                                 </option>
                             </select>
+                            <div *ngIf="selectedPlace">
+                                <label class="form-control-label" for="cities" jhiTranslate="analysis.selectCity">Select city</label>
+                                <select id="cities" name="citiesSelect" [(ngModel)]="selectedCity" class="form-control" (ngModelChange)="findAirPollutionDataBySelectedCity()">
+                                    <option *ngFor="let city of cities" [value]="city.id">
+                                        {{city.name}}
+                                    </option>
+                                </select>
+                            </div>
+                            <small class="form-text text-danger" *ngIf="!isAirPollutionCityDataFound && selectedCity && selectedPlace"
+                                   jhiTranslate="analysis.noMeasurementsFoundOnSelectedProperties">
+                                No measuremenets found with selected properties
+                            </small>
                         </div>
                         <div *ngIf="isAirPollutionCityDataFound" class="form-check">
                             <label class="form-check-label" for="trendLinePm25">
                                 <input class="form-check-input" type="checkbox" id="trendLinePm25" name="trendLinePm25" (change)="onPm25CheckboxSelect()">
                                 <span jhiTranslate="analysis.trendLinePm25">Pm2.5 trend line</span>
                             </label>
+                            <br/>
                             <label class="form-check-label" for="trendLinePm10">
                                 <input class="form-check-input" type="checkbox" id="trendLinePm10" name="trendLinePm10" (change)="onPm10CheckboxSelect()">
                                 <span jhiTranslate="analysis.trendLinePm10">Pm10 trend line</span>
                             </label>
                         </div>
-                        <jhi-daily-charts *ngIf="isAirPollutionCityDataFound"
-                                          [dailyData]="airPollutionDailyDataFoundByCity"
-                                          [trendLinePm25Checked] = "trendLinePm25Checked"
-                                          [trendLinePm10Checked] = "trendLinePm10Checked"
-                        ></jhi-daily-charts>
+                        <div>
+                            <jhi-daily-charts *ngIf="isAirPollutionCityDataFound"
+                                              [dailyData]="airPollutionDailyDataFoundByCity"
+                                              [trendLinePm25Checked] = "trendLinePm25Checked"
+                                              [trendLinePm10Checked] = "trendLinePm10Checked"
+                            ></jhi-daily-charts>
+                            <br/>
+                            <hr>
+                            <br/>
+                            <br/>
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Maximum</th>
+                                    <th scope="col">Minimum</th>
+                                    <th scope="col">Average</th>
+                                    <th scope="col">Standard deviation</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    <th scope="row">Pm2.5</th>
+                                    <td>{{maxPm25}}</td>
+                                    <td>{{minPm25}}</td>
+                                    <td>{{averagePm25}}</td>
+                                    <td>{{stdPm25}}</td>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
                 <div class="form-group col-md-6" *ngIf="monthlyTypeDateSelected">
@@ -79,12 +116,24 @@
                     </small>
                     <br/>
                     <div *ngIf="isMonthlyCityFound && toDateSelected && fromDateSelected">
-                        <label class="form-control-label" for="monthlyCities">Select city</label>
-                        <select id="monthlyCities" name="monthlyCitiesSelect" [(ngModel)]="selectedCityMonthly" class="form-control" (ngModelChange)="findMonthlyAirPollutionDataBySelectedCity()">
-                            <option *ngFor="let city of monthlyCities" [value]="city.id">
-                                {{city.name}}
+                        <label class="form-control-label" for="placesMonthly" jhiTranslate="analysis.selectPlaceOfMeasurement">Select place of measurement</label>
+                        <select id="placesMonthly" name="placesSelect" [(ngModel)]="selectedPlace" class="form-control" (ngModelChange)="onPlaceMonthlyChanged()">
+                            <option *ngFor="let place of places" [value]="place.name">
+                                {{place.name}}
                             </option>
                         </select>
+                        <div *ngIf="selectedPlace">
+                            <label class="form-control-label" for="monthlyCities">Select city</label>
+                            <select id="monthlyCities" name="monthlyCitiesSelect" [(ngModel)]="selectedCityMonthly" class="form-control" (ngModelChange)="findMonthlyAirPollutionDataBySelectedCity()">
+                                <option *ngFor="let city of monthlyCities" [value]="city.id">
+                                    {{city.name}}
+                                </option>
+                            </select>
+                        </div>
+                        <small class="form-text text-danger" *ngIf="!isAirPollutionMonthlyCityDataFound && selectedCityMonthly && selectedPlace"
+                               jhiTranslate="analysis.noMeasurementsFoundOnSelectedProperties">
+                            No measuremenets found with selected properties
+                        </small>
                     </div>
                     <div *ngIf="isAirPollutionMonthlyCityDataFound" class="form-check">
                         <label class="form-check-label" for="trendLinePm25">
