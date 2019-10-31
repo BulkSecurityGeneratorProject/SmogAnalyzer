@@ -210,7 +210,7 @@ export class AnalysisComponent implements OnInit {
         }
 
         this.isAirPollutionCityDataFound = this.airPollutionDailyDataFoundByCity.length > 0;
-        this.countDataAnalysisVariables();
+        this.countDataAnalysisVariables(this.airPollutionDailyDataFoundByCity);
     }
 
     private getCityByCoordinates(longitude: number, latitude: number) {
@@ -281,6 +281,7 @@ export class AnalysisComponent implements OnInit {
         }
 
         this.isAirPollutionMonthlyCityDataFound = this.airPollutionMonthlyDataFoundByCity.length > 0;
+        this.countDataAnalysisVariables(this.airPollutionMonthlyDataFoundByCity);
     }
 
     private addMonthCityForCoordinates(longitude: number, latitude: number) {
@@ -347,28 +348,57 @@ export class AnalysisComponent implements OnInit {
         }
     }
 
-    private countDataAnalysisVariables() {
-        this.maxPm25 = Math.max(...this.airPollutionDailyDataFoundByCity.map(data => data.pm25), 0);
-        this.maxPm10 = Math.max(...this.airPollutionDailyDataFoundByCity.map(data => data.pm10), 0);
-        this.maxTemperature = Math.max(...this.airPollutionDailyDataFoundByCity.map(data => data.temperature), 0);
-        this.maxHumidity = Math.max(...this.airPollutionDailyDataFoundByCity.map(data => data.humidity), 0);
+    private countDataAnalysisVariables(dataFoundByCity: IAirPollutionData[]) {
+        this.maxPm25 = Math.max(...dataFoundByCity.map(data => data.pm25), 0);
+        this.maxPm10 = Math.max(...dataFoundByCity.map(data => data.pm10), 0);
+        this.maxTemperature = Math.max(...dataFoundByCity.map(data => data.temperature), 0);
+        this.maxHumidity = Math.max(...dataFoundByCity.map(data => data.humidity), 0);
 
-        this.minPm25 = Math.min(...this.airPollutionDailyDataFoundByCity.map(data => data.pm25), 999);
-        this.minPm10 = Math.min(...this.airPollutionDailyDataFoundByCity.map(data => data.pm10), 999);
-        this.minTemperature = Math.min(...this.airPollutionDailyDataFoundByCity.map(data => data.temperature), 999);
-        this.minHumidity = Math.min(...this.airPollutionDailyDataFoundByCity.map(data => data.humidity), 999);
+        this.minPm25 = Math.min(...dataFoundByCity.map(data => data.pm25), 999);
+        this.minPm10 = Math.min(...dataFoundByCity.map(data => data.pm10), 999);
+        this.minTemperature = Math.min(...dataFoundByCity.map(data => data.temperature), 999);
+        this.minHumidity = Math.min(...dataFoundByCity.map(data => data.humidity), 999);
 
-        const sumPm25 = this.airPollutionDailyDataFoundByCity.reduce((previous, current) => (current.pm25 += previous), 0);
-        this.averagePm25 = sumPm25 / this.airPollutionDailyDataFoundByCity.length;
-        const sumPm10 = this.airPollutionDailyDataFoundByCity.reduce((previous, current) => (current.pm10 += previous), 0);
-        this.averagePm10 = sumPm10 / this.airPollutionDailyDataFoundByCity.length;
-        const sumTemperature = this.airPollutionDailyDataFoundByCity.reduce((previous, current) => (current.temperature += previous), 0);
-        this.averageTemperature = sumTemperature / this.airPollutionDailyDataFoundByCity.length;
-        const sumHumidity = this.airPollutionDailyDataFoundByCity.reduce((previous, current) => (current.humidity += previous), 0);
-        this.averageHumidity = sumHumidity / this.airPollutionDailyDataFoundByCity.length;
+        let sumPm25 = 0;
+        let sumPm10 = 0;
+        let sumTemperature = 0;
+        let sumHumidity = 0;
 
-        // this.averagePm10 = Math.min(...this.airPollutionDailyDataFoundByCity.map(data => data.pm10), 0);
-        // this.averageTemperature = Math.min(...this.airPollutionDailyDataFoundByCity.map(data => data.temperature), 0);
-        // this.averageHumidity = Math.min(...this.airPollutionDailyDataFoundByCity.map(data => data.humidity), 0);
+        dataFoundByCity.forEach(data => {
+            sumPm25 = sumPm25 + data.pm25;
+            sumPm10 = sumPm10 + data.pm10;
+            sumTemperature = sumTemperature + data.temperature;
+            sumHumidity = sumHumidity + data.humidity;
+        });
+        this.averagePm25 = sumPm25 / dataFoundByCity.length;
+        this.averagePm10 = sumPm10 / dataFoundByCity.length;
+        this.averageTemperature = sumTemperature / dataFoundByCity.length;
+        this.averageHumidity = sumHumidity / dataFoundByCity.length;
+
+        let sumDiffPm25 = 0;
+        let sumDiffPm10 = 0;
+        let sumDiffTemperature = 0;
+        let sumDiffHumidity = 0;
+        dataFoundByCity.forEach(data => {
+            const diffPm25 = data.pm25 - this.averagePm25;
+            const diffPm10 = data.pm10 - this.averagePm10;
+            const diffTemperature = data.temperature - this.averageTemperature;
+            const diffHumidity = data.humidity - this.averageHumidity;
+
+            sumDiffPm25 = sumDiffPm25 + diffPm25 * diffPm25;
+            sumDiffPm10 = sumDiffPm10 + diffPm10 * diffPm10;
+            sumDiffTemperature = sumDiffTemperature + diffTemperature * diffTemperature;
+            sumDiffHumidity = sumDiffHumidity + diffHumidity * diffHumidity;
+        });
+
+        const avgSquareDiffPm25 = sumDiffPm25 / dataFoundByCity.length;
+        const avgSquareDiffPm10 = sumDiffPm10 / dataFoundByCity.length;
+        const avqSquareDiffTemperature = sumDiffTemperature / dataFoundByCity.length;
+        const avqSquareDiffHumidity = sumDiffHumidity / dataFoundByCity.length;
+
+        this.stdPm25 = Math.sqrt(avgSquareDiffPm25);
+        this.stdPm10 = Math.sqrt(avgSquareDiffPm10);
+        this.stdTemperature = Math.sqrt(avqSquareDiffTemperature);
+        this.stdHumidity = Math.sqrt(avqSquareDiffHumidity);
     }
 }
