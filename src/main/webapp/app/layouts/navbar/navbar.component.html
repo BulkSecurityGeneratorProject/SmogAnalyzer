@@ -22,6 +22,14 @@
                     <span jhiTranslate="global.menu.analysis">Analysis</span>
                 </a>
             </li>
+            
+            <li *jhiHasAnyAuthority="'ROLE_USER'" class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                <a class="nav-link" routerLink="map" (click)="collapseNavbar()">
+                    <i class="fa fa-hand-spock-o" aria-hidden="true"></i>
+                    <fa-icon icon="map-signs"></fa-icon>
+                    <span jhiTranslate="global.menu.map">Map</span>
+                </a>
+            </li>
             <!-- jhipster-needle-add-element-to-menu - JHipster will add new menu items here -->
             <li *ngSwitchCase="true" ngbDropdown class="nav-item dropdown pointer" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
                 <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="entity-menu">

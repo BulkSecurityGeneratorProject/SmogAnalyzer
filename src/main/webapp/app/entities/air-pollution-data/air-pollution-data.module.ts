@@ -27,6 +27,7 @@ const ENTITY_STATES = [...airPollutionDataRoute, ...airPollutionDataPopupRoute];
         AirPollutionDataDeletePopupComponent,
         MapPopupComponent
     ],
+    exports: [MapPopupComponent],
     entryComponents: [
         AirPollutionDataComponent,
         AirPollutionDataUpdateComponent,

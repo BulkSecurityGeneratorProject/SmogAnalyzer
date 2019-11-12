@@ -75,6 +75,12 @@
         <div class="col-4">
             <h2><span jhiTranslate="smogAnalyzerApp.airPollutionData.detail.subtitle">Airly Data</span></h2>
             <hr>
+            <button type="submit"
+                    (click)="getDataFromAirly()"
+                    class="btn btn-primary"
+                    *ngIf="checkAirPollutionDataDate() && !airlyData">
+                <span jhiTranslate="smogAnalyzerApp.airPollutionData.getDataAutomatically">Get data automatically</span>
+            </button>
             <div *ngIf="airlyData">
                 <dl class="row-md jh-entity-details">
                     <dt><span jhiTranslate="smogAnalyzerApp.airPollutionData.pm25">Pm 25</span></dt>
@@ -98,12 +104,6 @@
                         <span>{{airlyData.date}}</span>
                     </dd>
                 </dl>
-                <button type="submit"
-                        (click)="getDataFromAirly()"
-                        class="btn btn-primary"
-                        *ngIf="checkAirPollutionDataDate() && !airlyData">
-                    <span jhiTranslate="smogAnalyzerApp.airPollutionData.getDataAutomatically">Get data automatically</span>
-                </button>
             </div>
         </div>
     </div>
