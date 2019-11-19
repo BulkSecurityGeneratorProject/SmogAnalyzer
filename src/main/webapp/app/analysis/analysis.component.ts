@@ -29,6 +29,7 @@ export class AnalysisComponent implements OnInit {
     airPollutionDailyDataFound: IAirPollutionData[];
     airPollutionMonthlyDataFound: IAirPollutionData[];
     airPollutionDailyDataFoundByCity: IAirPollutionData[] = [];
+    airPollutionDailyDataFoundByCityInside: IAirPollutionData[] = [];
     airPollutionMonthlyDataFoundByCity: IAirPollutionData[] = [];
 
     selectedType: string;
@@ -58,11 +59,32 @@ export class AnalysisComponent implements OnInit {
     stdTemperature: number;
     stdHumidity: number;
 
+    maxPm25Inside: number;
+    maxPm10Inside: number;
+    maxTemperatureInside: number;
+    maxHumidityInside: number;
+
+    minPm25Inside: number;
+    minPm10Inside: number;
+    minTemperatureInside: number;
+    minHumidityInside: number;
+
+    averagePm25Inside: number;
+    averagePm10Inside: number;
+    averageTemperatureInside: number;
+    averageHumidityInside: number;
+
+    stdPm25Inside: number;
+    stdPm10Inside: number;
+    stdTemperatureInside: number;
+    stdHumidityInside: number;
+
     dateDp: any;
 
     isAirPollutionDataFound: boolean;
     isAirPollutionMonthlyDataFound: boolean;
     isAirPollutionCityDataFound: boolean;
+    isAirPollutionCityDataFoundInside: boolean;
     isAirPollutionMonthlyCityDataFound: boolean;
     isCityFound: boolean;
     isMonthlyCityFound: boolean;
@@ -196,6 +218,7 @@ export class AnalysisComponent implements OnInit {
 
     async findAirPollutionDataBySelectedCity() {
         this.airPollutionDailyDataFoundByCity = [];
+        this.airPollutionDailyDataFoundByCityInside = [];
         this.isAirPollutionCityDataFound = false;
         this.trendLinePm10Checked = false;
         this.trendLinePm25Checked = false;
@@ -203,14 +226,17 @@ export class AnalysisComponent implements OnInit {
         for (const data of this.airPollutionDailyDataFound) {
             const response = <any>await this.getCityByCoordinates(data.longitude, data.latitude);
             const city = response.features[0].text;
-            if (city === this.cities[this.selectedCity].name && data.placeOfMeasurementName === this.selectedPlace) {
+            if (city === this.cities[this.selectedCity].name && data.placeOfMeasurementName === 'Outside') {
                 this.airPollutionDailyDataFoundByCity.push(data);
-                console.log('hula');
+            } else if (city === this.cities[this.selectedCity].name && data.placeOfMeasurementName === 'Inside') {
+                this.airPollutionDailyDataFoundByCityInside.push(data);
             }
         }
 
         this.isAirPollutionCityDataFound = this.airPollutionDailyDataFoundByCity.length > 0;
+        this.isAirPollutionCityDataFoundInside = this.airPollutionDailyDataFoundByCityInside.length > 0;
         this.countDataAnalysisVariables(this.airPollutionDailyDataFoundByCity);
+        this.countDataAnalysisVariablesInside(this.airPollutionDailyDataFoundByCityInside);
     }
 
     private getCityByCoordinates(longitude: number, latitude: number) {
@@ -400,5 +426,59 @@ export class AnalysisComponent implements OnInit {
         this.stdPm10 = Math.sqrt(avgSquareDiffPm10);
         this.stdTemperature = Math.sqrt(avqSquareDiffTemperature);
         this.stdHumidity = Math.sqrt(avqSquareDiffHumidity);
+    }
+
+    private countDataAnalysisVariablesInside(dataFoundByCity: IAirPollutionData[]) {
+        this.maxPm25Inside = Math.max(...dataFoundByCity.map(data => data.pm25), 0);
+        this.maxPm10Inside = Math.max(...dataFoundByCity.map(data => data.pm10), 0);
+        this.maxTemperatureInside = Math.max(...dataFoundByCity.map(data => data.temperature), 0);
+        this.maxHumidityInside = Math.max(...dataFoundByCity.map(data => data.humidity), 0);
+
+        this.minPm25Inside = Math.min(...dataFoundByCity.map(data => data.pm25), 999);
+        this.minPm10Inside = Math.min(...dataFoundByCity.map(data => data.pm10), 999);
+        this.minTemperatureInside = Math.min(...dataFoundByCity.map(data => data.temperature), 999);
+        this.minHumidityInside = Math.min(...dataFoundByCity.map(data => data.humidity), 999);
+
+        let sumPm25 = 0;
+        let sumPm10 = 0;
+        let sumTemperature = 0;
+        let sumHumidity = 0;
+
+        dataFoundByCity.forEach(data => {
+            sumPm25 = sumPm25 + data.pm25;
+            sumPm10 = sumPm10 + data.pm10;
+            sumTemperature = sumTemperature + data.temperature;
+            sumHumidity = sumHumidity + data.humidity;
+        });
+        this.averagePm25Inside = sumPm25 / dataFoundByCity.length;
+        this.averagePm10Inside = sumPm10 / dataFoundByCity.length;
+        this.averageTemperatureInside = sumTemperature / dataFoundByCity.length;
+        this.averageHumidityInside = sumHumidity / dataFoundByCity.length;
+
+        let sumDiffPm25 = 0;
+        let sumDiffPm10 = 0;
+        let sumDiffTemperature = 0;
+        let sumDiffHumidity = 0;
+        dataFoundByCity.forEach(data => {
+            const diffPm25 = data.pm25 - this.averagePm25Inside;
+            const diffPm10 = data.pm10 - this.averagePm10Inside;
+            const diffTemperature = data.temperature - this.averageTemperatureInside;
+            const diffHumidity = data.humidity - this.averageHumidityInside;
+
+            sumDiffPm25 = sumDiffPm25 + diffPm25 * diffPm25;
+            sumDiffPm10 = sumDiffPm10 + diffPm10 * diffPm10;
+            sumDiffTemperature = sumDiffTemperature + diffTemperature * diffTemperature;
+            sumDiffHumidity = sumDiffHumidity + diffHumidity * diffHumidity;
+        });
+
+        const avgSquareDiffPm25 = sumDiffPm25 / dataFoundByCity.length;
+        const avgSquareDiffPm10 = sumDiffPm10 / dataFoundByCity.length;
+        const avqSquareDiffTemperature = sumDiffTemperature / dataFoundByCity.length;
+        const avqSquareDiffHumidity = sumDiffHumidity / dataFoundByCity.length;
+
+        this.stdPm25Inside = Math.sqrt(avgSquareDiffPm25);
+        this.stdPm10Inside = Math.sqrt(avgSquareDiffPm10);
+        this.stdTemperatureInside = Math.sqrt(avqSquareDiffTemperature);
+        this.stdHumidityInside = Math.sqrt(avqSquareDiffHumidity);
     }
 }

@@ -48,13 +48,13 @@
                         </small>
                         <br/>
                         <div *ngIf="isCityFound" style="width: 250px">
-                            <label class="form-control-label" for="places" jhiTranslate="analysis.selectPlaceOfMeasurement">Select place of measurement</label>
-                            <select id="places" name="placesSelect" [(ngModel)]="selectedPlace" class="form-control" (ngModelChange)="onPlaceChanged()">
-                                <option *ngFor="let place of places" [value]="place.name">
-                                    {{place.name}}
-                                </option>
-                            </select>
-                            <div *ngIf="selectedPlace">
+<!--                            <label class="form-control-label" for="places" jhiTranslate="analysis.selectPlaceOfMeasurement">Select place of measurement</label>-->
+<!--                            <select id="places" name="placesSelect" [(ngModel)]="selectedPlace" class="form-control" (ngModelChange)="onPlaceChanged()">-->
+<!--                                <option *ngFor="let place of places" [value]="place.name">-->
+<!--                                    {{place.name}}-->
+<!--                                </option>-->
+<!--                            </select>-->
+                            <div>
                                 <label class="form-control-label" for="cities" jhiTranslate="analysis.selectCity">Select city</label>
                                 <select id="cities" name="citiesSelect" [(ngModel)]="selectedCity" class="form-control" (ngModelChange)="findAirPollutionDataBySelectedCity()">
                                     <option *ngFor="let city of cities" [value]="city.id">
@@ -83,7 +83,24 @@
                                               [dailyData]="airPollutionDailyDataFoundByCity"
                                               [trendLinePm25Checked] = "trendLinePm25Checked"
                                               [trendLinePm10Checked] = "trendLinePm10Checked"
+                                              [chartTitle]="' [Outside]'"
                             ></jhi-daily-charts>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <jhi-daily-charts *ngIf="isAirPollutionCityDataFoundInside"
+                                [dailyData]="airPollutionDailyDataFoundByCityInside"
+                                [trendLinePm25Checked] = "trendLinePm25Checked"
+                                [trendLinePm10Checked] = "trendLinePm10Checked"
+                                [chartTitle]="' [Inside]'"
+                            ></jhi-daily-charts>
+                            <div class="row justify-content-md-center">
+                                <h5 class="form-text text-danger" *ngIf="!isAirPollutionCityDataFoundInside"
+                                       jhiTranslate="analysis.noMeasurementsFoundInside">
+                                    No measurements found INSIDE
+                                </h5>
+                            </div>
+
                             <br/>
                             <br/>
                             <br/>
@@ -91,40 +108,40 @@
                                 <thead>
                                 <tr>
                                     <th scope="col">#</th>
-                                    <th scope="col">Maximum</th>
-                                    <th scope="col">Minimum</th>
-                                    <th scope="col">Average</th>
-                                    <th scope="col">Standard deviation</th>
+                                    <th scope="col">Maximum(Outside | Inside)</th>
+                                    <th scope="col">Minimum(Outside | Inside)</th>
+                                    <th scope="col">Average(Outside | Inside)</th>
+                                    <th scope="col">Standard deviation(Outside | Inside)</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <th scope="row">Pm2.5</th>
-                                        <td>{{maxPm25}}</td>
-                                        <td>{{minPm25}}</td>
-                                        <td>{{averagePm25}}</td>
-                                        <td>{{stdPm25}}</td>
+                                        <th scope="row">Pm2.5 [µg/m³]</th>
+                                        <td>{{maxPm25}} | {{maxPm25Inside}}</td>
+                                        <td>{{minPm25}} | {{minPm25Inside}}</td>
+                                        <td>{{averagePm25}} | {{averagePm25Inside}}</td>
+                                        <td>{{stdPm25}} | {{stdPm25Inside}}</td>
                                     </tr>
                                     <tr>
-                                        <th scope="row">Pm10</th>
-                                        <td>{{maxPm10}}</td>
-                                        <td>{{minPm10}}</td>
-                                        <td>{{averagePm10}}</td>
-                                        <td>{{averagePm10}}</td>
+                                        <th scope="row">Pm10 [µg/m³]</th>
+                                        <td>{{maxPm10}} | {{maxPm10Inside}}</td>
+                                        <td>{{minPm10}} | {{minPm10Inside}}</td>
+                                        <td>{{averagePm10}} | {{averagePm10Inside}}</td>
+                                        <td>{{stdPm10}} | {{stdPm10Inside}}</td>
                                     </tr>
                                     <tr>
-                                        <th scope="row">Temp</th>
-                                        <td>{{maxTemperature}}</td>
-                                        <td>{{minTemperature}}</td>
-                                        <td>{{averageTemperature}}</td>
-                                        <td>{{stdTemperature}}</td>
+                                        <th scope="row">Temp [°C]</th>
+                                        <td>{{maxTemperature}} | {{maxTemperatureInside}}</td>
+                                        <td>{{minTemperature}} | {{minTemperatureInside}}</td>
+                                        <td>{{averageTemperature}} | {{averageTemperatureInside}}</td>
+                                        <td>{{stdTemperature}} | {{stdTemperatureInside}}</td>
                                     </tr>
                                     <tr>
-                                        <th scope="row">Humidity</th>
-                                        <td>{{maxHumidity}}</td>
-                                        <td>{{minHumidity}}</td>
-                                        <td>{{averageHumidity}}</td>
-                                        <td>{{stdHumidity}}</td>
+                                        <th scope="row">Humidity [%]</th>
+                                        <td>{{maxHumidity}} | {{maxHumidityInside}}</td>
+                                        <td>{{minHumidity}} | {{minHumidityInside}}</td>
+                                        <td>{{averageHumidity}} | {{averageHumidityInside}}</td>
+                                        <td>{{stdHumidity}} | {{stdHumidityInside}}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -181,36 +198,36 @@
                             <thead>
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col">Maximum</th>
-                                <th scope="col">Minimum</th>
-                                <th scope="col">Average</th>
-                                <th scope="col">Standard deviation</th>
+                                <th scope="col">Maximum(Outside | Inside)</th>
+                                <th scope="col">Minimum(Outside | Inside)</th>
+                                <th scope="col">Average(Outside | Inside)</th>
+                                <th scope="col">Standard deviation(Outside | Inside)</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr>
-                                <th scope="row">Pm2.5</th>
+                                <th scope="row">Pm2.5 [µg/m³]</th>
                                 <td>{{maxPm25}}</td>
                                 <td>{{minPm25}}</td>
                                 <td>{{averagePm25}}</td>
                                 <td>{{stdPm25}}</td>
                             </tr>
                             <tr>
-                                <th scope="row">Pm10</th>
+                                <th scope="row">Pm10 [µg/m³]</th>
                                 <td>{{maxPm10}}</td>
                                 <td>{{minPm10}}</td>
                                 <td>{{averagePm10}}</td>
                                 <td>{{averagePm10}}</td>
                             </tr>
                             <tr>
-                                <th scope="row">Temp</th>
+                                <th scope="row">Temp [°C]</th>
                                 <td>{{maxTemperature}}</td>
                                 <td>{{minTemperature}}</td>
                                 <td>{{averageTemperature}}</td>
                                 <td>{{stdTemperature}}</td>
                             </tr>
                             <tr>
-                                <th scope="row">Humidity</th>
+                                <th scope="row">Humidity [%]</th>
                                 <td>{{maxHumidity}}</td>
                                 <td>{{minHumidity}}</td>
                                 <td>{{averageHumidity}}</td>

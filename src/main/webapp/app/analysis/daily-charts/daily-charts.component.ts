@@ -12,6 +12,7 @@ import moment = require('moment');
 export class DailyChartsComponent implements OnInit {
     _trendLinePm25Checked: boolean;
     _trendLinePm10Checked: boolean;
+    _chartTitle: string;
 
     data: [Date, number, number][] = [];
     title: string;
@@ -28,6 +29,10 @@ export class DailyChartsComponent implements OnInit {
     @Input() set trendLinePm10Checked(trendLinePm10Checked: boolean) {
         this._trendLinePm10Checked = trendLinePm10Checked;
         this.trendlineCheckboxChanged();
+    }
+
+    @Input() set chartTitle(chartTitle: string) {
+        this._chartTitle = chartTitle;
     }
 
     @Input() dailyData: IAirPollutionData[];
@@ -55,7 +60,7 @@ export class DailyChartsComponent implements OnInit {
     }
 
     prepareDataToDraw() {
-        this.title = this.translateService.instant('analysis.chartTitle');
+        this.title = this.translateService.instant('analysis.chartTitle') + this._chartTitle;
         const selectedDate = this.datePipe.transform(new Date(this.dailyData[0].date.toDate()), 'yyyy-MM-dd');
         this.options = {
             hAxis: {
